@@ -1,9 +1,9 @@
-# VISIONA - Application de Gestion de Cabinet Optique
+# EasyRent - Plateforme de Gestion de Location de Voitures
 
 ## 📁 Documentation du Projet
 
 ### 📄 Cahier des Charges
-[![Google Docs](https://img.shields.io/badge/📋_Cahier_des_Charges-View-blue?style=for-the-badge&logo=googledocs)](https://docs.google.com/document/d/1w9TNFzQMC8LWn9QEDfkfngqkBo7OFde5X_3WOdD7Fao/edit?tab=t.0)
+[![Google Docs](https://img.shields.io/badge/📋_Cahier_des_Charges-View-blue?style=for-the-badge&logo=googledocs)](https://docs.google.com/document/d/1w9TNFzQMC8LWn9QEDfkfngqkBo7OFde5X_3WOdD7Fao/edit?usp=sharing)
 
 ### 🗓️ Planification Jira
 [![Jira](https://img.shields.io/badge/🗓️_Planification_Jira-View-blue?style=for-the-badge&logo=jira)](https://afkirchaimaa36.atlassian.net/jira/software/projects/VIS/boards/34/timeline?selectedIssue=VIS-3&atlOrigin=eyJpIjoiNzMwMDJkOGRlYTQ2NGM3MWIwMmY5MjYyMDM5NmJjY2QiLCJwIjoiaiJ9)
@@ -16,11 +16,10 @@
 
 
 ## 🎯 Objectif
-Développer une application web complète pour la gestion d'un cabinet optique avec prise de rendez-vous en ligne, gestion des dossiers patients et ordonnances.
+Développer une plateforme web complète pour digitaliser et optimiser la gestion d'une agence de location de voitures.
 
 ## 👥 Rôles
-- Patient
-- Opticien  
+- Client  
 - Administrateur
 
 ## 🛠️ Stack Technique
