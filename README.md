@@ -1,7 +1,6 @@
 
 # 🚗 EasyRent - Plateforme de Gestion de Location de Voitures
 
-![EasyRent Banner](https://via.placeholder.com/1200x400/3B82F6/FFFFFF?text=EasyRent+-+Location+de+Voitures+Simplifiée)
 
 Application web full-stack moderne pour la gestion d'agence de location de voitures, développée avec React.js et Laravel.
 
