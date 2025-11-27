@@ -4,44 +4,6 @@
 
 Application web full-stack moderne pour la gestion d'agence de location de voitures, développée avec React.js et Laravel.
 
-## ✨ Fonctionnalités
-
-### 👥 Système Multi-Rôles
-- **Clients** - Consulter le catalogue, réserver en ligne, gérer leurs locations
-- **Administrateurs** - Contrôle complet du système, analytics, gestion utilisateurs
-
-### 🚗 Gestion du Parc Auto
-- Catalogue complet de véhicules avec filtres
-- Suivi en temps réel de la disponibilité
-- Galeries photos et spécifications détaillées
-- Planification de la maintenance
-
-### 📅 Système de Réservation
-- Réservation en ligne avec sélection de dates
-- Vérification instantanée de disponibilité
-- Confirmations automatiques par email
-- Historique et suivi des réservations
-
-### 💳 Intégration de Paiement
-- Paiements en ligne sécurisés
-- Génération de factures
-- Historique des transactions
-
-## 🛠 Stack Technique
-
-### Frontend
-- **React 18** - Framework UI moderne
-- **Vite** - Outil de build rapide
-- **TailwindCSS** - CSS utility-first
-- **Redux Toolkit** - Gestion d'état
-- **React Router DOM** - Navigation
-- **Axios** - Client HTTP
-
-### Backend
-- **Laravel 10** - Framework PHP
-- **MySQL** - Base de données
-- **Laravel Sanctum** - Authentification API
-- **Laratrust** - Gestion des rôles
 
 ## 📁 Documentation du Projet
 
@@ -59,3 +21,4 @@ Application web full-stack moderne pour la gestion d'agence de location de voitu
 
 ### 🖼️ Figma Design
 [![Figma](https://img.shields.io/badge/🎨_Maquettes_Figma-View-blue?style=for-the-badge&logo=figma)](https://www.figma.com/design/B6AscaU5tvsmEzfQEWwt9X/EasyRent?node-id=0-1&t=fgvs9ewpIUUPhsAk-1)
+
