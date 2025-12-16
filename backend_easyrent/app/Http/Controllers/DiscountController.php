@@ -13,7 +13,11 @@ class DiscountController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            return Discount::with('vehicule')->get();
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'Erreur lors de la récupération des réductions: ' . $th->getMessage()], 500);
+        }
     }
 
     /**

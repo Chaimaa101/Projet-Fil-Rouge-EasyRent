@@ -17,7 +17,11 @@ class DiscountFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+         'vehicule_id' => \App\Models\Vehicule::factory(),
+         'nom' => fake()->word(),
+         'montant_reduction' => fake()->numberBetween(10, 50),
+         'statut' => fake()->randomElement(['active', 'inactive']),
+         'date_limit' => fake()->dateTimeBetween('now', '+1 month'),
         ];
     }
 }

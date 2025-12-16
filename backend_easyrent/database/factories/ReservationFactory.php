@@ -17,7 +17,13 @@ class ReservationFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+          'user_id' => \App\Models\User::factory(),
+            'vehicule_id' => \App\Models\Vehicule::factory(),
+            'start_date' => fake()->dateTimeBetween('now', '+1 month'),
+            'end_date' => fake()->dateTimeBetween('+1 month', '+2 months'),
+            'total_price' => fake()->randomFloat(2, 100, 1000),
+            'status' => fake()->randomElement(['pending', 'confirmed', 'cancelled']),
+            'frait_retard' => fake()->randomFloat(2, 0, 50),
         ];
     }
 }

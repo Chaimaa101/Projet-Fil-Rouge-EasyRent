@@ -3,7 +3,17 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Avis;
+use App\Models\Marque;
+use App\Models\Notification;
+use App\Models\Payment;
+use App\Models\Reservation;
+use App\Models\User;
+use App\Models\UserDetails;
+use App\Models\Vehicule;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,11 +22,44 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        $users = User::factory(10)->create()->each(function ($user) {
+            UserDetails::factory()->create([
+                'user_id' => $user->id,
+            ]); 
+            Notification::factory(1)->create([
+                'user_id' => $user->id,
+            ]);
+        });
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+       $marques = Marque::factory(5)->create(); 
+            $vehicules =Vehicule::factory(3)->create([
+                'marque_id' => $marques->random()->id,
+            ]);
+       
+
+       
+   $reservations = Reservation::factory(20)->create([
+            'user_id' => $users->random()->id,
+            'vehicule_id' => $vehicules->random()->id,
+        ]);
+
+        Avis::factory(30)->create([
+            'user_id' => $users->random()->id,
+            'vehicule_id' => $vehicules->random()->id,
+        ]);
+
+          Payment::factory()->create([
+        'reservation_id' => $reservations->random()->id,
+    ]);   
+
+        User::factory()->create([
+            'nom' => 'Admin ',
+            'prenom' => 'chaimaa',
+            'email' => 'admin@gmal.com',
+            'password' => Hash::make('password'),
+            'role' => 'admin',
+        ]);
+
     }
+
 }

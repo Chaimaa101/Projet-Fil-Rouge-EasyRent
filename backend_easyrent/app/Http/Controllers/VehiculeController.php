@@ -13,23 +13,29 @@ class VehiculeController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $vehicules = Vehicule::with('marque')->paginate(10);
+            return response()->json($vehicules, 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to retrieve vehicles'], 500);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
+    
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreVehiculeRequest $request)
     {
-        //
+        try {
+           $data = $request->validated();
+              $vehicule = Vehicule::create($data);
+                return response()->json('created', 201);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to create vehicle'], 500);
+            
+        }
     }
 
     /**
@@ -37,15 +43,11 @@ class VehiculeController extends Controller
      */
     public function show(Vehicule $vehicule)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Vehicule $vehicule)
-    {
-        //
+        try {
+            return response()->json($vehicule->load('marque'), 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to retrieve vehicle'], 500);
+        }
     }
 
     /**
@@ -53,7 +55,13 @@ class VehiculeController extends Controller
      */
     public function update(UpdateVehiculeRequest $request, Vehicule $vehicule)
     {
-        //
+        try {
+            $data = $request->validated();
+            $vehicule->update($data);
+            return response()->json('updated', 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to update vehicle'], 500);
+        }
     }
 
     /**
@@ -61,6 +69,11 @@ class VehiculeController extends Controller
      */
     public function destroy(Vehicule $vehicule)
     {
-        //
+        try {
+            $vehicule->delete();
+            return response()->json('deleted', 204);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to delete vehicle'], 500);
+        }
     }
 }

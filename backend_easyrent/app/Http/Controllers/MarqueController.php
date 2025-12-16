@@ -13,23 +13,29 @@ class MarqueController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $marques = Marque::all();
+            return response()->json($marques, 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to retrieve marques'], 500);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreMarqueRequest $request)
     {
-        //
+        try {
+           $data = $request->validated();
+              $marque = Marque::create($data);
+                return response()->json('created', 201);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to create marque'], 500);
+            
+        }
     }
 
     /**
@@ -37,15 +43,11 @@ class MarqueController extends Controller
      */
     public function show(Marque $marque)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Marque $marque)
-    {
-        //
+        try {
+            return response()->json($marque, 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to retrieve marque'], 500);
+        }
     }
 
     /**
@@ -53,7 +55,13 @@ class MarqueController extends Controller
      */
     public function update(UpdateMarqueRequest $request, Marque $marque)
     {
-        //
+        try {
+            $data = $request->validated();
+            $marque->update($data);
+            return response()->json('updated', 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to update marque'], 500);
+        }
     }
 
     /**
@@ -61,6 +69,11 @@ class MarqueController extends Controller
      */
     public function destroy(Marque $marque)
     {
-        //
+        try {
+            $marque->delete();
+            return response()->json('deleted', 204);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to delete marque'], 500);
+        }
     }
 }

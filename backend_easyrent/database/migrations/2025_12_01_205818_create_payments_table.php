@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('reservation_id')->constrained()->onDelete('cascade');
             $table->decimal('amount', 10, 2);
             $table->enum('payment_method',['credit_card', 'cash', 'paypal']);
-            $table->enum('statut' ,['en_attente','paye','annule']);
+            $table->enum('statut' ,['completed', 'pending', 'failed']);
             $table->timestamps();
         });
     }

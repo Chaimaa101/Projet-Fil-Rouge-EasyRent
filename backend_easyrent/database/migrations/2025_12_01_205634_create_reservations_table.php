@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->decimal('total_price', 10, 2);
-            $table->enum('status',['en attente','confirme','annule'])->default('en attente');
+            $table->enum('status',['pending', 'confirmed', 'cancelled'])->default('pending');
             $table->decimal('frait_retard', 10, 2)->nullable();
             $table->timestamps();
         });

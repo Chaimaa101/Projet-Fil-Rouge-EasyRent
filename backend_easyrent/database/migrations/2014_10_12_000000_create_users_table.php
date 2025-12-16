@@ -16,16 +16,9 @@ return new class extends Migration
             $table->string('nom');
             $table->string('prenom');
             $table->string('email')->unique();
-            $table->string('adresse')->nullable();
-            $table->string('CNI');
-            $table->string('tel');
-            $table->string('photo_profil')->nullable();
-            $table->string('permi_licence');
-            $table->string('role')->default('client');
-            $table->string('genre');
-            $table->date('date_naissance');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('role')->default('client');
             $table->rememberToken();
             $table->timestamps();
         });

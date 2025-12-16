@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -21,15 +22,8 @@ class User extends Authenticatable
     'nom',
     'prenom',
     'email',
-    'adresse',
-    'CNI',
-    'tel',
-    'photo_profil',
-    'permi_licence',
-    'role',
-    'genre',
-    'date_naissance',
     'password',
+    'role'
 ];
 
 
@@ -50,6 +44,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'password' => 'hashed',
     ];
 
      public function reservations() {
@@ -58,6 +53,10 @@ class User extends Authenticatable
 
     public function avis() {
         return $this->hasMany(Avis::class);
+    }
+
+     public function details() {
+        return $this->hasOne(UserDetails::class);
     }
 
     public function notifications() {
