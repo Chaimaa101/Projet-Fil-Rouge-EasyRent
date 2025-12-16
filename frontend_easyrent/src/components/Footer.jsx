@@ -1,85 +1,114 @@
 import React from "react";
-// import Logo from "../../assets/logo.png";
-// import { FaPhone } from "react-icons/fa6";
-// import { LuMessageSquare } from "react-icons/lu";
-// import { motion } from "framer-motion";
+import {
+  FaFacebook,
+  FaInstagram,
+  FaLinkedin,
+  FaLocationArrow,
+  FaMobileAlt,
+} from "react-icons/fa";
 
-
+const FooterLinks = [
+  {
+    title: "Home",
+    link: "/#",
+  },
+  {
+    title: "About",
+    link: "/#about",
+  },
+  {
+    title: "Contact",
+    link: "/#contact",
+  },
+  {
+    title: "Blog",
+    link: "/#blog",
+  },
+];
 const Footer = () => {
   return (
-    <h1>footer</h1>
-    // <footer
-    // >
-    //   {/* <div className="container py-11">
-    //     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-    //       {/* Company info section */}
-    //       <div className="space-y-4 font-semibold">
-    //         <div className="flex items-center space-x-3">
-    //           {/* <img src={Logo} alt="" className="w-6" /> */}
-    //           <p className="text-xl font-semibold">Interior</p>
-    //         </div>
-    //         <p>Greater Noida, Uttar Pradesh, India</p>
-    //         <p>@ 2024 TCJ All rights reserved</p>
-    //       </div>
-    //       {/* Footer Link */}
-    //       <div className="grid grid-cols-2 gap-3">
-    //         <div className="space-y-4">
-    //           <h1 className="text-xl font-semibold">About us</h1>
-    //           <ul className="text-sm space-y-4">
-    //             <li>
-    //               <a href="#">Our Story</a>
-    //             </li>
-    //             <li>
-    //               <a href="#">Designer</a>
-    //             </li>
-    //             <li>
-    //               <a href="#">Craftmanship</a>
-    //             </li>
-    //             <li>
-    //               <a href="#">Sustainability</a>
-    //             </li>
-    //           </ul>
-    //         </div>
-    //         <div className="space-y-4">
-    //           <h1 className="text-xl font-semibold">Support</h1>
-    //           <ul className="text-sm space-y-4">
-    //             <li>
-    //               <a href="#">FAQ's</a>
-    //             </li>
-    //             <li>
-    //               <a href="#">Shipping & Returns</a>
-    //             </li>
-    //             <li>
-    //               <a href="#">Care Guide</a>
-    //             </li>
-    //             <li>
-    //               <a href="#">Guaranty</a>
-    //             </li>
-    //           </ul>
-    //         </div>
-    //       </div>
-    //       {/* Contact section */}
-    //       <div className="space-y-4">
-    //         <h1 className="text-xl font-semibold">Contact us</h1>
-    //         <ul className="text-base font-semibold space-y-4">
-    //           <li className="flex items-center space-x-3">
-    //             <FaPhone />
-    //             <a href="#">+91 123456789</a>
-    //           </li>
-    //           <li className="flex items-center space-x-3">
-    //             <LuMessageSquare />
-    //             <a href="mailto:contact.thecodingjourney@gmail.com">Email</a>
-    //           </li>
-    //         </ul>
-    //       </div>
-    //     </div>
+    <div className="mt-14 rounded-t-3xl">
+      <section className="container">
+        <div className=" grid md:grid-cols-3 py-5">
 
-    //     {/* bottom section */}
-    //     <p className="text-center text-sm font-semibold  border-t-2 pt-5 mt-5">
-    //       &copy; 2023 TCJ. All rights reserved
-    //     </p>
-    //   </div> */}
-    // </footer>
+          <div className=" py-8 px-4 ">
+            <h1 className="logo sm:text-3xl text-xl font-bold sm:text-left text-justify mb-3 flex items-center gap-3 font-serif">
+              EasyRent
+            </h1>
+          
+            <div className="flex items-center gap-3">
+              <FaLocationArrow />
+              <p>Noida, Uttar Pradesh</p>
+            </div>
+            <div className="flex items-center gap-3 mt-3">
+              <FaMobileAlt />
+              <p>+91 123456789</p>
+            </div>
+            {/* Social Handle */}
+            <div className="flex items-center gap-3 mt-6">
+              <a href="#">
+                <FaInstagram className="text-3xl hover:text-primary duration-300" />
+              </a>
+              <a href="#">
+                <FaFacebook className="text-3xl hover:text-primary duration-300" />
+              </a>
+              <a href="#">
+                <FaLinkedin className="text-3xl hover:text-primary duration-300" />
+              </a>
+            </div>
+          </div>
+          {/* Links */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 col-span-2 md:pl-10 ">
+            <div className="">
+              <div className="py-8 px-4 ">
+                <h1 className="sm:text-xl text-xl font-bold sm:text-left text-justify mb-3">
+                  Important Links
+                </h1>
+                <ul className={`flex flex-col gap-3`}>
+                  {FooterLinks.map((link) => (
+                    <li className="cursor-pointer hover:translate-x-1 duration-300 hover:text-cyan-400 space-x-1 text-gray-500 dark:text-gray-200">
+                      <span>&#11162;</span>
+                      <span>{link.title}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <div className="">
+              <div className="py-8 px-4 ">
+                <h1 className="sm:text-xl text-xl font-bold sm:text-left text-justify mb-3">
+                  Links
+                </h1>
+                <ul className="flex flex-col gap-3">
+                  {FooterLinks.map((link) => (
+                    <li className="cursor-pointer hover:translate-x-1 duration-300 hover:text-cyan-400 space-x-1 text-gray-500 dark:text-gray-200">
+                      <span>&#11162;</span>
+                      <span>{link.title}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <div className="">
+              <div className="py-8 px-4 ">
+                <h1 className="sm:text-xl text-xl font-bold sm:text-left text-justify mb-3">
+                  Location
+                </h1>
+                {/* <ul className="list-disc list-inside"> */}
+                <ul className="flex flex-col gap-3">
+                  {FooterLinks.map((link) => (
+                    <li className="cursor-pointer hover:translate-x-1 duration-300 hover:text-cyan-400 space-x-1 text-gray-500 dark:text-gray-200">
+                      <span>&#11162;</span>
+                      <span>{link.title}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 };
 

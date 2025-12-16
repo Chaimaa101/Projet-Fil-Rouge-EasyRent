@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
     }
     try {
       const { data } = await api.get("/user");
-      setUser(data);
+      console.log(data);
       localStorage.setItem("user", JSON.stringify(data));
     } catch (error) {
       logout();
@@ -34,8 +34,6 @@ export const AuthProvider = ({ children }) => {
  
   const login = async (formData) => {
     try {
-      setLoading(true);
-      setErrors(null);
 
       const { data } = await api.post("/login", formData);
 
@@ -44,7 +42,7 @@ export const AuthProvider = ({ children }) => {
 
       setUser(data.user);
       setSuccessMessage(data.message || "Login successful");
-
+getUser()
       return { success: true };
     } catch (error) {
       setErrors(error.response?.data?.errors || { message: "Login failed" });
@@ -57,9 +55,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (formData) => {
     try {
-      setLoading(true);
-      setErrors(null);
-
+  
       const { data } = await api.post("/register", formData);
 
       localStorage.setItem("token", data.token);
@@ -111,9 +107,7 @@ export const AuthProvider = ({ children }) => {
  
   const changePassword = async (formData) => {
     try {
-      setLoading(true);
-      setErrors(null);
-
+     
       const { data } = await api.post("/change-password", formData);
       setSuccessMessage(data.message || "Password changed");
 

@@ -27,7 +27,7 @@ export default function Login() {
 
       if (result?.success && successMessage) {
         toast.success(successMessage);
-        navigate("/"); 
+        navigate("/client/profile"); 
       } 
 
   };

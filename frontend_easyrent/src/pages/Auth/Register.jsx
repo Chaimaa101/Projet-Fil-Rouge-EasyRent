@@ -29,7 +29,8 @@ export default function Register() {
 
     if (result?.success && successMessage) {
       toast.success(successMessage);
-      navigate("/"); 
+    navigate("/client/profile"); 
+
     } 
   };
 
