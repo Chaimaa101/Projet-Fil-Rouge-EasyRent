@@ -20,6 +20,6 @@ Application web full-stack moderne pour la gestion d'agence de location de voitu
 [![Lucidchart](https://img.shields.io/badge/📊_Diagramme_use_case-View-blue?style=for-the-badge&logo=lucidchart)](https://lucid.app/lucidchart/47e2a05e-8cfc-4c5e-a0ad-8d2fd46e0a79/edit?view_items=R-4._viS7Oe5&page=.Q4MUjXso07N&invitationId=inv_aedabdaa-81be-48b7-8532-a3773f0123b1)
 
 ### 🖼️ Figma Design
-[![Figma](https://img.shields.io/badge/🎨_Maquettes_Figma-View-blue?style=for-the-badge&logo=figma)]([https://www.figma.com/design/B6AscaU5tvsmEzfQEWwt9X/EasyRent?node-id=0-1&t=fgvs9ewpIUUPhsAk-1](https://www.figma.com/design/Ccjn2w0FwamP4CDS5EyC04/FillRouge-EasyRent?t=ZUUNBqNUfE3AwodG-1)
+[![Figma](https://img.shields.io/badge/🎨_Maquettes_Figma-View-blue?style=for-the-badge&logo=figma)](https://www.figma.com/design/Ccjn2w0FwamP4CDS5EyC04/FillRouge-EasyRent?t=ZUUNBqNUfE3AwodG-1)
 )
 
