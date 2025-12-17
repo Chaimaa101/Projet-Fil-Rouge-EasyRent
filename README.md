@@ -21,5 +21,5 @@ Application web full-stack moderne pour la gestion d'agence de location de voitu
 
 ### 🖼️ Figma Design
 [![Figma](https://img.shields.io/badge/🎨_Maquettes_Figma-View-blue?style=for-the-badge&logo=figma)](https://www.figma.com/design/Ccjn2w0FwamP4CDS5EyC04/FillRouge-EasyRent?t=ZUUNBqNUfE3AwodG-1)
-)
+
 
