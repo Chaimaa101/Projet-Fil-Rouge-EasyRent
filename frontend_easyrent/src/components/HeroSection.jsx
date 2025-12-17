@@ -21,13 +21,13 @@ function HeroSection() {
           </p>
           <div className="mt-8 flex gap-4">
             <Link to="/vehicles" className="px-6 py-3 bg-blue-600 rounded-xl">
-              Book Now
+              Reserver maintenant
             </Link>
             <Link
               to="/contact"
               className="px-6 py-3 border border-blue-500 rounded-xl"
             >
-              Contact Us
+              Contact Nous
             </Link>
           </div>
         </motion.div><div className="relative">

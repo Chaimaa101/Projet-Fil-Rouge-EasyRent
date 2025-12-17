@@ -11,6 +11,7 @@ import ListVehicules from "./pages/ListVehicules";
 import Layout from "./components/Layout";
 import ReserveForm from "./pages/Client/ReserveForm";
 import Profile from "./pages/Client/Profile";
+import ConfirmRegestration from "./pages/Auth/ConfirmRegestration";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/client/reserveForm" element={<ReserveForm />} />
         <Route path="/client/profile" element={<Profile />} />
+        <Route path="/confirm/:nom" element={<ConfirmRegestration />} />
 
         </Route>
       </Routes>

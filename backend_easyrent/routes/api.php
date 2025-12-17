@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MarqueController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\UserController;

@@ -4,6 +4,9 @@ namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use App\Models\User;
+use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -23,6 +26,16 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+          Gate::define('is-owner', function (User $user, $model) {
+
+   
+    if (property_exists($model, 'user_id') && $model->user_id === $user->id) {
+        return Response::allow();
+    }
+
+    return Response::deny("Vous n'êtes pas le propriétaire de cette ressource.");
+});
+
+    
     }
 }
