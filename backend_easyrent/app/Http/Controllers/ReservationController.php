@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Reservation;
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
+use App\Models\Vehicule;
 
 class ReservationController extends Controller
 {
@@ -17,22 +18,23 @@ class ReservationController extends Controller
             $reservations = Reservation::with(['vehicule', 'client'])->paginate(10);
             return response()->json($reservations, 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to retrieve reservations'], 500);
+            return response()->json(['error' => $e->getMessage()]);
         }
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreReservationRequest $request)
+    public function store(StoreReservationRequest $request,Vehicule $vehicule)
     {
         try {
-           $data = $request->validated();
-              $reservation = Reservation::create($data);
+           $data['vehicule_id'] = $vehicule->id;
+              $request->user()->resers()->create($data);
+
                 return response()->json('created', 201);
 
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to create reservation'], 500);
+            return response()->json(['error' => $e->getMessage() ], 500);
             
         }
     }
@@ -45,7 +47,7 @@ class ReservationController extends Controller
         try {
             return response()->json($reservation->load(['vehicule', 'client']), 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to retrieve reservation'], 500);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
@@ -60,7 +62,7 @@ class ReservationController extends Controller
             $reservation->update($data);
             return response()->json('updated', 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to update reservation'], 500);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
@@ -73,7 +75,7 @@ class ReservationController extends Controller
             $reservation->delete();
             return response()->json('deleted', 204);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to delete reservation'], 500);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 }

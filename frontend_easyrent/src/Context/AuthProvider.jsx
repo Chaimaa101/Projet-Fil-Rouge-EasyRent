@@ -4,28 +4,31 @@ import api from "../Services/api";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
-
+const [user, setUser] = useState(() => {
+  const storedUser = localStorage.getItem("user");
+  return storedUser ? JSON.parse(storedUser) : null;
+});
  
   const getUser = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setLoading(false);
-      return;
-    }
-    try {
-      const { data } = await api.get("/user");
-      console.log(data);
-      localStorage.setItem("user", JSON.stringify(data));
-    } catch (error) {
-      logout();
-    } finally {
-      setLoading(false);
-    }
-  };
+  const token = localStorage.getItem("token");
+  if (!token) {
+    setLoading(false);
+    return;
+  }
+  try {
+    const { data } = await api.get("/user");
+    setUser(data)
+    localStorage.setItem("user", JSON.stringify(data));
+  } catch (error) {
+    logout();
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   useEffect(() => {
     getUser();

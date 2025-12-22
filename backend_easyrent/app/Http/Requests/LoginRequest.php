@@ -28,7 +28,7 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Messages de validation personnalisés
+     * Messages de validation personnalisé
      */
     public function messages(): array
     {

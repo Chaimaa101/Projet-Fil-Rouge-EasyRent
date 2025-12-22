@@ -13,7 +13,7 @@ export default function Register() {
     password_confirmation: "",
   });
 
-  const { register, loading, errors,successMessage } = useContext(AuthContext);
+  const { register, loading,errors  } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -27,11 +27,6 @@ export default function Register() {
     e.preventDefault();
     const result = await register(formData);
 
-    if (result?.success && successMessage) {
-      toast.success(successMessage);
-    navigate("/client/profile"); 
-
-    } 
   };
 
   return (
@@ -128,6 +123,7 @@ export default function Register() {
             </p>
           )}
         </div>
+
 
         <button
           disabled={loading}

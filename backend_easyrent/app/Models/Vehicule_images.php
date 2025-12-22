@@ -11,8 +11,8 @@ class Vehicule_images extends Model
 
     protected $fillable = [
         'vehicule_id',
-        'images',
-        'image_count',
+        'path',
+        'public_id',
     ];
 
     public function vehicule()

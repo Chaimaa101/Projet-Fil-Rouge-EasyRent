@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion"
 import { Link } from "react-router-dom";
+import SearchBar from "./SearchBar";
 
 function HeroSection() {
   return (
@@ -33,7 +34,7 @@ function HeroSection() {
         </motion.div><div className="relative">
 
   <motion.img
-    src="src/assets/hero.png"
+    src="/hero.png"
     alt="car"
     initial={{ opacity: 0, scale: 0.8 }}
     animate={{ opacity: 1, scale: 1 }}
@@ -71,6 +72,7 @@ function HeroSection() {
     transition={{ duration: 1, repeat: Infinity, delay: 0.3 }}
   ></motion.span>
 </div>
+
 
       </section>
     </>

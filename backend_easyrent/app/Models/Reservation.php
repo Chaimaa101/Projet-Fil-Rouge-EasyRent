@@ -19,7 +19,7 @@ class Reservation extends Model
         'frait_retard',
     ];
 
-    public function user()
+    public function client()
     {
         return $this->belongsTo(User::class);
     }

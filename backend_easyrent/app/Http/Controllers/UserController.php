@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateProfileRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,8 @@ class UserController extends Controller
             $users = User::paginate(10);
             return response()->json($users, 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to retrieve users'], 500);
+                      return response()->json(['error' => $e->getMessage()]);
+
         }
     }
 
@@ -31,7 +33,8 @@ class UserController extends Controller
                 return response()->json('created', 201);
 
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to create user'], 500);
+                       return response()->json(['error' => $e->getMessage()]);
+
             
         }
     }
@@ -44,7 +47,8 @@ class UserController extends Controller
         try {
             return response()->json($user, 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to retrieve user'], 500);
+                       return response()->json(['error' => $e->getMessage()]);
+
         }
     }
 
@@ -55,11 +59,15 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         try {
-            $data = $request->validated();
+              $data = $request->validate(
+               ['role' => 'required|in:admin,client']
+
+            );
             $user->update($data);
             return response()->json('updated', 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to update user'], 500);
+                      return response()->json(['error' => $e->getMessage()]);
+
         }
     }
 
@@ -72,7 +80,8 @@ class UserController extends Controller
             $user->delete();
             return response()->json('deleted', 204);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to delete user'], 500);
+                       return response()->json(['error' => $e->getMessage()]);
+
         }
     }
 }

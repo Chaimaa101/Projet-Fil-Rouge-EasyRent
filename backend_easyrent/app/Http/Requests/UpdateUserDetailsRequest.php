@@ -11,18 +11,30 @@ class UpdateUserDetailsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            //
+            'user_id'=> 'sometimes|exists:users,id',
+            'adresse' => 'sometimes|string|max:255',
+            'CNI' => 'sometimes|string|max:100|unique:user_details,CNI',
+            'tel' => 'sometimes|string|max:20',
+            'photo_profil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'permi_licence' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'genre' => 'sometimes|string|in:male,female,other',
+            'date_naissance' => 'sometimes|date|before:today',
         ];
+    }
+
+    public function messages()
+    {
+        return [
+            'user.exists' => "L'utilisateur spécifié n'existe pas.",
+            'CNI.unique' => "Ce CNI est déjà utilisé.",
+            'genre.in' => "Le genre doit être l'un des suivants : male, female, other.",
+            'date_naissance.before' => "La date de naissance doit être une date passée.",
+        ];  
     }
 }

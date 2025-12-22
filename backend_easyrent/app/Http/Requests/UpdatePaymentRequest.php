@@ -6,23 +6,27 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdatePaymentRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return false;
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            //
+            'reservation_id' => 'sometimes|exists:reservations,id',
+            'amount' => 'sometimes|numeric|min:0',
+            'payment_method' => 'sometimes|in:credit_card,cash,paypal',
+            'statut' => 'sometimes|in:completed,pending,failed',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'reservation_id.exists' => 'Cette réservation n\'existe pas.',
+
+            'amount.numeric' => 'Le montant doit être un nombre valide.',
+            'amount.min' => 'Le montant doit être supérieur à 0.',
+
+            'payment_method.in' => 'Mode de paiement invalide.',
+
+            'statut.in' => 'Statut invalide.',
         ];
     }
 }

@@ -16,7 +16,7 @@ class UserDetailsController extends Controller
         try {
             return UserDetails::with('user')->get();
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Erreur lors de la récupération des détails utilisateur: ' . $th->getMessage()], 500);
+            return response()->json(['error' => $th->getMessage()], 500);
         }
     }
 
@@ -30,7 +30,7 @@ class UserDetailsController extends Controller
             $userDetails = UserDetails::create($data);
             return response()->json('created', 201);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Erreur lors de la création des détails utilisateur: ' . $th->getMessage()], 500);
+            return response()->json(['error' =>  $th->getMessage()], 500);
         }
     }
 
@@ -42,7 +42,7 @@ class UserDetailsController extends Controller
         try {
             return response()->json($userDetails->load('user'), 200);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Erreur lors de la récupération des détails utilisateur: ' . $th->getMessage()], 500);
+            return response()->json(['error' =>$th->getMessage()], 500);
         }
     }
 
@@ -56,7 +56,7 @@ class UserDetailsController extends Controller
             $userDetails->update($data);
             return response()->json('updated', 200);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Erreur lors de la mise à jour des détails utilisateur: ' . $th->getMessage()], 500);
+            return response()->json(['error' => $th->getMessage()], 500);
         }
     }
 
@@ -69,7 +69,7 @@ class UserDetailsController extends Controller
             $userDetails->delete();
             return response()->json('deleted', 200);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Erreur lors de la suppression des détails utilisateur: ' . $th->getMessage()], 500);
+            return response()->json(['error' =>  $th->getMessage()], 500);
         }
     }
 }

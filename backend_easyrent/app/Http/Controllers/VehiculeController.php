@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Vehicule;
 use App\Http\Requests\StoreVehiculeRequest;
 use App\Http\Requests\UpdateVehiculeRequest;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Support\Facades\DB;
 
 class VehiculeController extends Controller
 {
@@ -14,10 +16,10 @@ class VehiculeController extends Controller
     public function index()
     {
         try {
-            $vehicules = Vehicule::with('marque')->paginate(10);
+            $vehicules = Vehicule::with('marque','images')->paginate(10);
             return response()->json($vehicules, 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to retrieve vehicles'], 500);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
@@ -25,18 +27,43 @@ class VehiculeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreVehiculeRequest $request)
-    {
-        try {
-           $data = $request->validated();
-              $vehicule = Vehicule::create($data);
-                return response()->json('created', 201);
+ 
+public function store(StoreVehiculeRequest $request)
+{
+    DB::beginTransaction();
 
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to create vehicle'], 500);
-            
+    try {
+        $vehicule = Vehicule::create(
+            $request->except('images')
+        );
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+
+                $uploaded = Cloudinary::upload(
+                    $image->getRealPath(),
+                    ['folder' => 'vehicules']
+                );
+
+                $vehicule->images()->create([
+                    'path' => $uploaded->getSecurePath(),
+                    'public_id' => $uploaded->getPublicId(),
+                ]);
+            }
         }
+
+        DB::commit();
+
+        return response()->json([
+            'message' => 'Vehicule created',
+            'vehicule' => $vehicule->load('images')
+        ], 201);
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return response()->json(['error' => $e->getMessage()], 500);
     }
+}
 
     /**
      * Display the specified resource.
@@ -44,9 +71,10 @@ class VehiculeController extends Controller
     public function show(Vehicule $vehicule)
     {
         try {
-            return response()->json($vehicule->load('marque'), 200);
+            
+            return response()->json($vehicule->load('marque','images'), 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to retrieve vehicle'], 500);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
@@ -60,7 +88,7 @@ class VehiculeController extends Controller
             $vehicule->update($data);
             return response()->json('updated', 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to update vehicle'], 500);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
@@ -73,7 +101,7 @@ class VehiculeController extends Controller
             $vehicule->delete();
             return response()->json('deleted', 204);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to delete vehicle'], 500);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Marque;
 use App\Http\Requests\StoreMarqueRequest;
 use App\Http\Requests\UpdateMarqueRequest;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class MarqueController extends Controller
 {
@@ -15,9 +16,9 @@ class MarqueController extends Controller
     {
         try {
             $marques = Marque::all();
-            return response()->json($marques, 200);
+            return ['marques' =>  $marques];
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to retrieve marques'], 500);
+            return ['error'=>$e->getMessage()];
         }
     }
 
@@ -29,11 +30,17 @@ class MarqueController extends Controller
     {
         try {
            $data = $request->validated();
+
+            
+        if ($request->hasFile('image')) {
+            $cloudinary = Cloudinary::upload($request->file('image')->getRealPath());
+            $data['image'] = $cloudinary->getSecurePath(); 
+        }
               $marque = Marque::create($data);
-                return response()->json('created', 201);
+                return ['message' =>'created','marque' =>$marque ];
 
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to create marque'], 500);
+            return response()->json(['error' => $e->getMessage()], 500);
             
         }
     }
@@ -44,9 +51,9 @@ class MarqueController extends Controller
     public function show(Marque $marque)
     {
         try {
-            return response()->json($marque, 200);
+            return $marque;
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to retrieve marque'], 500);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
@@ -58,9 +65,9 @@ class MarqueController extends Controller
         try {
             $data = $request->validated();
             $marque->update($data);
-            return response()->json('updated', 200);
+          return ['message' =>'updated','marque' =>$marque ];
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to update marque'], 500);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
@@ -71,9 +78,9 @@ class MarqueController extends Controller
     {
         try {
             $marque->delete();
-            return response()->json('deleted', 204);
+            return ['message' =>'deleted'];
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to delete marque'], 500);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 }

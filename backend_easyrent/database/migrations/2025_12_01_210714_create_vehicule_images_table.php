@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('vehicule_images', function (Blueprint $table) {
             $table->id();
             $table->foreignId('vehicule_id')->constrained()->onDelete('cascade');
-            $table->json('images')->nullable();
-            $table->unsignedTinyInteger('image_count')->default(0);
+            $table->string('path');
+            $table->string('public_id');
             $table->timestamps();
         });
     }

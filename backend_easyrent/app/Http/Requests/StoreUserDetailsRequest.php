@@ -22,7 +22,7 @@ class StoreUserDetailsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user'=> 'required|exists:users,id',
+            'user_id'=> 'required|exists:users,id',
             'adresse' => 'required|string|max:255',
             'CNI' => 'required|string|max:100|unique:user_details,CNI',
             'tel' => 'required|string|max:20',

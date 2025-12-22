@@ -12,7 +12,7 @@ export default function Navbar() {
 
       <div className="absolute top-1/2 left-1/2 h-10 flex justify-center -translate-x-1/2 -translate-y-1/2 ">
         <motion.img
-          src="/src/assets/logo.png"
+          src="/logo.png"
           className="h-10"
           initial={{ x: "50%" }}           
           animate={{ x: ["-50%", "50%", "50%"] }} 

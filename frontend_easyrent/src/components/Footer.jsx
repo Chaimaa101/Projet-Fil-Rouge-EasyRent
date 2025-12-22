@@ -9,20 +9,20 @@ import {
 
 const FooterLinks = [
   {
-    title: "Home",
-    link: "/#",
+    title: "Accueil",
+    link: "/",
   },
   {
-    title: "About",
-    link: "/#about",
+    title: "A propos",
+    link: "/apropos",
   },
   {
     title: "Contact",
-    link: "/#contact",
+    link: "/contact",
   },
   {
-    title: "Blog",
-    link: "/#blog",
+    title: "Vehicules",
+    link: "/listVehicules",
   },
 ];
 const Footer = () => {
@@ -38,11 +38,11 @@ const Footer = () => {
           
             <div className="flex items-center gap-3">
               <FaLocationArrow />
-              <p>Noida, Uttar Pradesh</p>
+              <p>Caasablanca, Maroc</p>
             </div>
             <div className="flex items-center gap-3 mt-3">
               <FaMobileAlt />
-              <p>+91 123456789</p>
+              <p>+212 </p>
             </div>
             {/* Social Handle */}
             <div className="flex items-center gap-3 mt-6">
@@ -62,7 +62,7 @@ const Footer = () => {
             <div className="">
               <div className="py-8 px-4 ">
                 <h1 className="sm:text-xl text-xl font-bold sm:text-left text-justify mb-3">
-                  Important Links
+                 Important Links
                 </h1>
                 <ul className={`flex flex-col gap-3`}>
                   {FooterLinks.map((link) => (

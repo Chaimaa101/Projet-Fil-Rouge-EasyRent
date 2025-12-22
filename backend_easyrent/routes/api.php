@@ -21,8 +21,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
-    Route::post('logout', [AuthController::class, 'logout']);
 });
+Route::post('logout', [AuthController::class, 'logout']);
 
 
 
@@ -32,5 +32,6 @@ Route::post('login', [AuthController::class, 'login']);
 
 Route::apiResource('users',UserController::class);
 Route::apiResource('vehicules',VehiculeController::class);
-Route::apiResource('reservations',ReservationController::class);
-Route::apiResource('marques',MarqueController::class);
+Route::apiResource('reservations',ReservationController::class)->except('store');
+Route::post('reservations/{vehicule}',[ReservationController::class,'store']);
+Route::apiResource('brands',MarqueController::class);
