@@ -5,19 +5,19 @@ import "swiper/css/navigation";
 
 const Instagram = () => {
   const slides = [
-    { id: 1, image: "/hero.png" },
+    { id: 1, image: "/hero2.jpg" },
 
-    { id: 3, image: "/hero.png" },
-    { id: 4, image: "/hero.png" },
-    { id: 5, image: "/hero.png" },
+    { id: 3, image: "/hero4.jpg" },
+    { id: 4, image: "/hero3.jpg" },
+    { id: 5, image: "/hero1.jpg" },
 
-    { id: 8, image: "/hero.png" },
-    { id: 9, image: "/hero.png" },
-    { id: 10, image: "/hero.png" },
-    { id: 11, image: "/hero.png" },
-    { id: 13, image: "/hero.png" },
-    { id: 14, image: "/hero.png" },
-    { id: 15, image: "/hero.png" },
+    { id: 8, image: "/hero2.jpg" },
+    { id: 9, image: "/hero3.jpg" },
+    { id: 10, image: "/hero3.jpg" },
+    { id: 11, image: "/hero3.jpg" },
+    { id: 13, image: "/hero3.jpg" },
+    { id: 14, image: "/hero3.jpg" },
+    { id: 15, image: "/hero3.jpg" },
   ];
 
   return (

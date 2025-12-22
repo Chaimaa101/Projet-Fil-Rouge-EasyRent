@@ -14,6 +14,9 @@ import ConfirmRegestration from "./pages/Auth/ConfirmRegestration";
 import SingleVehicule from "./components/vehiculesListComponents/SingleVehicule";
 import ToastMessage from "./components/ToastMessage";
 import Dashboard from "./pages/Admin/Dashboard";
+import Vehicules from "./pages/Admin/Vehicules";
+import Reservations from "./pages/Admin/Reservations";
+import Brands from "./pages/Admin/Brands";
 
 function App() {
   return (
@@ -34,6 +37,11 @@ function App() {
         <Route path="/confirm/:nom" element={<ConfirmRegestration />} />
         <Route path="/VehiculeDetails/:id" element={<SingleVehicule />} />
         <Route path="/admin/dashboard" element={<Dashboard />} />
+        <Route path="/admin/vehicules" element={<Vehicules />} />
+        <Route path="/admin/reservation" element={<Reservations />} />
+        <Route path="/admin/brands" element={<Brands />} />
+        <Route path="/admin/vehicules" element={<Vehicules />} />
+
 
         </Route>
       </Routes>

@@ -16,7 +16,7 @@ export const VehiculeProvider = ({ children }) => {
     setErrors(null);
     try {
       const res = await api.get("/vehicules");
-      setVehicules(res.data);
+      setVehicules(res.data.data);
     } catch (error) {
       setErrors(error.response?.data || "Error fetching vehicles");
     } finally {

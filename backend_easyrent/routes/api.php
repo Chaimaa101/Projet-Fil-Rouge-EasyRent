@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AvisController;
 use App\Http\Controllers\MarqueController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\UserController;
@@ -35,3 +36,4 @@ Route::apiResource('vehicules',VehiculeController::class);
 Route::apiResource('reservations',ReservationController::class)->except('store');
 Route::post('reservations/{vehicule}',[ReservationController::class,'store']);
 Route::apiResource('brands',MarqueController::class);
+Route::apiResource('avis',AvisController::class);

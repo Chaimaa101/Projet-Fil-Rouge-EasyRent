@@ -22,7 +22,7 @@ export default function Navbar() {
 
       <div className="space-x-6">
         <Link to="/listVehicule" className="hover:text-blue-400">Vehicules</Link>
-        <Link to="/login" className="px-4 py-2 bg-blue-600 rounded-lg">Login</Link>
+        <Link to="/login" className="px-4 py-2 bg-indigo-600 rounded-lg">Login</Link>
       </div>
     </nav>
   );

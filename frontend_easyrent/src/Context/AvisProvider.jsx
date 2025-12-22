@@ -16,7 +16,7 @@ export const AvisProvider = ({ children }) => {
     setErrors(null);
     try {
       const res = await api.get("/avis");
-      setAvis(res.data);
+      setAvis(res.data.data);
     } catch (error) {
       setErrors(error.response?.data || "Error fetching avis");
     } finally {

@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules"; 
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { motion } from "framer-motion";
+import { AvisContext } from "../../Context/AvisProvider";
+
 
 const testimonials = [
   {
@@ -47,6 +49,11 @@ const testimonials = [
 ];
 
 export default function Testimonials() {
+
+  const {avis , getAvis} = useContext(AvisContext)
+  useEffect(() =>{
+    getAvis()
+  },[])
   return (
     <div className="max-w-4xl mx-auto p-6">
       <Swiper
@@ -57,20 +64,21 @@ export default function Testimonials() {
         pagination={{ clickable: true }}
         loop={true}
       >
-        {testimonials.map((testi, index) => (
+        {avis.map((testi, index) => (
           <SwiperSlide key={index}>
             <motion.div
+            key={testi.id}
               whileHover={{ scale: 1.05 }}
-              className="bg-white/10 backdrop-blur-xl p-6 rounded-2xl shadow-lg flex flex-col items-center text-center transition-transform duration-300"
+              className="bg-white/10 backdrop-blur-xl p-6 rounded-2xl mb-4 shadow-lg flex flex-col items-center text-center transition-transform duration-300"
             >
               <img
-                src={testi.avatar}
-                alt={testi.name}
+                src="/profile.png"
+                alt={testi.user.nom}
                 className="w-20 h-20 rounded-full mb-4 object-cover border-2 border-blue-500"
               />
-              <p className="text-white mb-3 italic">"{testi.message}"</p>
-              <h3 className="text-lg font-bold text-white">{testi.name}</h3>
-              <span className="text-sm text-gray-300">{testi.role}</span>
+              <p className="text-white mb-3 italic">"{testi.avis}"</p>
+              <h3 className="text-lg font-bold text-white">{testi.user.nom} {testi.user.prenom}</h3>
+              <span className="text-sm text-gray-300">{testi.user.role}</span>
             </motion.div>
           </SwiperSlide>
         ))}

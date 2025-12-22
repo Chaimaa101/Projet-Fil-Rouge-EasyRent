@@ -29,7 +29,7 @@ class ReservationController extends Controller
     {
         try {
            $data['vehicule_id'] = $vehicule->id;
-              $request->user()->resers()->create($data);
+              $request->user()->reservations()->create($data);
 
                 return response()->json('created', 201);
 

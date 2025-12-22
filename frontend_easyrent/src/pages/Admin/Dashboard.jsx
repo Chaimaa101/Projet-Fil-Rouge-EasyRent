@@ -57,7 +57,12 @@ function Dashboard() {
               <PoductesSelling />
             </div> */}
           </div>
+
+          <motion.div className="w-full h-1/2 bg-gray-400">
+
+            </motion.div>
         </main>
+            
       </>
   );
 }

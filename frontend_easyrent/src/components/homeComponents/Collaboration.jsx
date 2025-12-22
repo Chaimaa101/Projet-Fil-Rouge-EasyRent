@@ -7,10 +7,10 @@ const Collaboration = () => {
       <div className="container px-4 mx-auto my-10 text-stick flex justify-center items-center gap-5 flex-wrap">
         {[
          
-          { image: "/hero.png" },
-          { image: "/hero.png" },
-          { image: "/hero.png" },
-          { image: "/hero.png" },
+          { image: "/hero1.jpg" },
+          { image: "/hero1.jpg" },
+          { image: "/hero1.jpg" },
+          { image: "/hero1.jpg" },
           {
             image: "/hero.png",
           },

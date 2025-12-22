@@ -1,41 +1,37 @@
-import Header from "./common/Header";
+
 import { BiTrash } from "react-icons/bi";
 import { motion } from "framer-motion";
-import AdminLayout from './AdminLayout'
-import { router } from "@inertiajs/react";
+import { ReservationsContext } from "../../Context/ReservationProvider";
+
+function Reservations() {
+
+  const {reservations ,getReservations, loading,errors} = useContext( ReservationsContext)
 
 
-function Orders({orders}) {
-
-  // Function to handle order deletion
-  const handleDeleteOrder = (id) => {
+  const handleDeletereservations = (id) => {
     const confirmDelete = window.confirm(
-      "Are you sure you want to delete this order?"
+      "Are you sure you want to delete this reservations?"
     );
-    if (confirmDelete) {
-       router.delete(`/orders/${id}`)
-    }
+
   };
 
   return (
     <>
       <div className="flex-1 relative overflow-auto z-10">
-        <Header title={"Orders"} />
-        <main className="container max-w-7xl mx-auto px-4 mt-8">
+     <main className="container max-w-7xl mx-auto px-4 mt-8">
           <div className="bg-white p-6 rounded-lg shadow-md">
-            {/* Order Count and Title */}
-            <motion.div
+                    <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               className="flex justify-between items-center mb-4"
             >
-              <h2 className="text-xl font-bold text-gray-900">Order Details</h2>
+              <h2 className="text-xl font-bold text-gray-900">Reservations</h2>
               <p className="text-lg font-medium text-gray-700">
-                Total Orders: <span className="">{orders.length}</span>
+                Total reservations: <span className="">{reservations.length}</span>
               </p>
             </motion.div>
-            {/* Responsive Table Container */}
+           
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -67,24 +63,22 @@ function Orders({orders}) {
                   </tr>
                 </thead>
                 <tbody>
-                  {orders.map((order, index) => (
+                  {reservations.map((reserv, index) => (
                     <motion.tr
-                      key={order.id}
+                      key={reserv.id}
                       initial={{ opacity: 0, x: -50 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.5, delay: index * 0.1 }}
-                      className="bg-white border-b hover:bg-gray-50 transition-colors duration-200"
+                      className="bg-white breserv-b hover:bg-gray-50 transition-colors duration-200"
                     >
                       
-                      <td className="px-6 py-4">{order?.user?.firstname} {order?.user?.lastname}</td>
-                      <td className="px-6 py-4 truncate">{order.total_price}DH</td>
-                      <td className="px-6 py-4 truncate">{order.status}</td>
+                      <td className="px-6 py-4">{reserv?.user?.nom} {reserv?.user?.prenom}</td>
+                      <td className="px-6 py-4 truncate">{reserv.total_price}DH</td>
+                      <td className="px-6 py-4 truncate">{reserv.status}</td>
 
-                      <td className="px-6 py-4 truncate">{order.address.city}</td>
-                      <td className="px-6 py-4 truncate">{order.address.phone}</td>
+                      <td className="px-6 py-4 truncate">{reserv.user.details.phone}</td>
                       <td className="px-6 py-4 ">
                         <motion.button
-                          onClick={() => handleDeleteOrder(order.id)}
                           className="text-center text-red-500 hover:text-red-700 transition-colors duration-200"
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
@@ -104,6 +98,5 @@ function Orders({orders}) {
   );
 }
 
-Orders.layout = page => <AdminLayout>{page}</AdminLayout>;
 
-export default Orders;
+export default Reservations;

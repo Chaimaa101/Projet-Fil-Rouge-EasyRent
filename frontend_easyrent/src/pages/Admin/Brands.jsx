@@ -1,47 +1,28 @@
-import { motion, AnimatePresence } from "framer-motion"; // Import Framer Motion
-import Header from "./common/Header";
-import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion"; 
+import { useContext, useEffect, useState } from "react";
 import { GoTrash } from "react-icons/go";
 import { MdOutlineEmail, MdOutlinePhone } from "react-icons/md";
 import { FaExclamationCircle } from "react-icons/fa";
 import { HiOutlineSearch } from "react-icons/hi";
-import AdminLayout from './AdminLayout'
-import { router } from "@inertiajs/react";
+import { BrandContext } from "../../Context/BrandProvider";
+import PageHeader from "../../components/PageHeader";
 
+export default function Brands() {
 
-
-export default function Messages({ messages }) {
+  const Brands= [message => "hello"]
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Handle archive action
   const handleArchive = (id) => {
-    setMessages(messages.filter((msg) => msg.id !== id));
+
   };
 
-  // Handle spam action
   const handleSpam = (id) => {
-    if (confirm("Are you sure you want to delete this message?")) {
-      router.delete(`/messages/${id}`, {
-        preserveScroll: true,
-      });
-    }
-
+  
   };
-
-  // Search logic
-  const filteredMessages = messages.filter((msg) => {
-    const searchLower = searchQuery.toLowerCase();
-    return (
-      msg.title.toLowerCase().includes(searchLower) ||
-      msg.message.toLowerCase().includes(searchLower) ||
-      msg.user.name.toLowerCase().includes(searchLower) ||
-      msg.use.email.toLowerCase().includes(searchLower)
-    );
-  });
 
   return (
-    <div className="flex-1 relative overflow-auto z-5 text-black">
-      <Header title="Messages" />
+    <div className="flex-1 relative overflow-auto z-5 text-white">
+      <PageHeader title="Gestion des marques" subtitle="gestionnnnn"/>
 
       {/* Search Bar */}
       <motion.div
@@ -69,7 +50,7 @@ export default function Messages({ messages }) {
       {/* Messages Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 p-6">
         <AnimatePresence>
-          {filteredMessages.map((msg) => (
+          {Brands.map((msg) => (
             <motion.div
               key={msg.id}
               initial={{ opacity: 0, y: 20 }}
@@ -149,5 +130,4 @@ export default function Messages({ messages }) {
     </div>
   );
 }
-Messages.layout = page => <AdminLayout>{page}</AdminLayout>;
 

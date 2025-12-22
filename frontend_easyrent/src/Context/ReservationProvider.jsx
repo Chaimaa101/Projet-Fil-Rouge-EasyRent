@@ -1,104 +1,104 @@
 import { createContext, useState } from "react";
 import api from "../Services/api";
 
-export const AvisContext = createContext();
+export const ReservationsContext = createContext();
 
-export const AvisProvider = ({ children }) => {
-  const [avis, setAvis] = useState([]);
-  const [singleAvis, setSingleAvis] = useState(null);
+export const ReservationsProvider = ({ children }) => {
+  const [reservations, setreservations] = useState([]);
+  const [singlereservations, setSinglereservations] = useState(null);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
 
 
-  const getAvis = async () => {
+  const getreservations = async () => {
     setLoading(true);
     setErrors(null);
     try {
-      const res = await api.get("/avis");
-      setAvis(res.data);
+      const res = await api.get("/reservations");
+      setreservations(res.data);
     } catch (error) {
-      setErrors(error.response?.data || "Error fetching avis");
+      setErrors(error.response?.data || "Error fetching reservations");
     } finally {
       setLoading(false);
     }
   };
 
-  const getSingleAvis = async (id) => {
+  const getSinglereservations = async (id) => {
     setLoading(true);
     setErrors(null);
     try {
-      const res = await api.get(`/avis/${id}`);
-      setSingleAvis(res.data);
+      const res = await api.get(`/reservations/${id}`);
+      setSinglereservations(res.data);
     } catch (error) {
-      setErrors(error.response?.data || "Error fetching avis");
+      setErrors(error.response?.data || "Error fetching reservations");
     } finally {
       setLoading(false);
     }
   };
 
-  const createAvis = async (data) => {
+  const createreservations = async (data) => {
     setLoading(true);
     setErrors(null);
     try {
-      const res = await api.post("/avis", data);
-      setAvis((prev) => [...prev, res.data]);
-      setSuccessMessage("Avis ajouté avec succès");
+      const res = await api.post("/reservations", data);
+      setreservations((prev) => [...prev, res.data]);
+      setSuccessMessage("reservations ajouté avec succès");
     } catch (error) {
-      setErrors(error.response?.data || "Error creating avis");
+      setErrors(error.response?.data || "Error creating reservations");
     } finally {
       setLoading(false);
     }
   };
 
-  const updateAvis = async (id, data) => {
+  const updatereservations = async (id, data) => {
     setLoading(true);
     setErrors(null);
     try {
-      const res = await api.put(`/avis/${id}`, data);
-      setAvis((prev) =>
+      const res = await api.put(`/reservations/${id}`, data);
+      setreservations((prev) =>
         prev.map((a) => (a.id === id ? res.data : a))
       );
-      setSuccessMessage("Avis mis à jour avec succès");
+      setSuccessMessage("reservations mis à jour avec succès");
     } catch (error) {
-      setErrors(error.response?.data || "Error updating avis");
+      setErrors(error.response?.data || "Error updating reservations");
     } finally {
       setLoading(false);
     }
   };
 
-  const deleteAvis = async (id) => {
+  const deletereservations = async (id) => {
     setLoading(true);
     setErrors(null);
     try {
-      await api.delete(`/avis/${id}`);
-      setAvis((prev) => prev.filter((a) => a.id !== id));
-      setSuccessMessage("Avis supprimé avec succès");
+      await api.delete(`/reservations/${id}`);
+      setreservations((prev) => prev.filter((a) => a.id !== id));
+      setSuccessMessage("reservations supprimé avec succès");
     } catch (error) {
-      setErrors(error.response?.data || "Error deleting avis");
+      setErrors(error.response?.data || "Error deleting reservations");
     } finally {
       setLoading(false);
     }
   };
 
   const values = {
-    avis,
-    singleAvis,
+    reservations,
+    singlereservations,
     loading,
     errors,
     successMessage,
-    getAvis,
-    getSingleAvis,
-    createAvis,
-    updateAvis,
-    deleteAvis,
+    getreservations,
+    getSinglereservations,
+    createreservations,
+    updatereservations,
+    deletereservations,
     setErrors,
     setSuccessMessage,
   };
 
   return (
-    <AvisContext.Provider value={values}>
+    <ReservationsContext.Provider value={values}>
       {children}
-    </AvisContext.Provider>
+    </ReservationsContext.Provider>
   );
 };
