@@ -8,6 +8,8 @@ export const ReservationsProvider = ({ children }) => {
   const [singlereservations, setSinglereservations] = useState(null);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
+  const [total, setTotal] = useState(0);
+
   const [successMessage, setSuccessMessage] = useState("");
 
 
@@ -16,7 +18,8 @@ export const ReservationsProvider = ({ children }) => {
     setErrors(null);
     try {
       const res = await api.get("/reservations");
-      setreservations(res.data);
+      setreservations(res.data.data);
+      setTotal(res.data.total)
     } catch (error) {
       setErrors(error.response?.data || "Error fetching reservations");
     } finally {
@@ -87,6 +90,7 @@ export const ReservationsProvider = ({ children }) => {
     loading,
     errors,
     successMessage,
+    total,
     getreservations,
     getSinglereservations,
     createreservations,

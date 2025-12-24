@@ -2,10 +2,11 @@
 import { BiTrash } from "react-icons/bi";
 import { motion } from "framer-motion";
 import { ReservationsContext } from "../../Context/ReservationProvider";
+import PageHeader from "../../components/PageHeader";
 
 function Reservations() {
 
-  const {reservations ,getReservations, loading,errors} = useContext( ReservationsContext)
+  const {reservations ,getReservations, loading,errors,total} = useContext( ReservationsContext)
 
 
   const handleDeletereservations = (id) => {
@@ -18,6 +19,8 @@ function Reservations() {
   return (
     <>
       <div className="flex-1 relative overflow-auto z-10">
+                   <PageHeader title = "Gestion des reservations" subtitle="gesfvnsfjvjksfjk svjsjnvsjkrvsw" num={total} />
+       
      <main className="container max-w-7xl mx-auto px-4 mt-8">
           <div className="bg-white p-6 rounded-lg shadow-md">
                     <motion.div
@@ -26,10 +29,7 @@ function Reservations() {
               transition={{ duration: 0.5 }}
               className="flex justify-between items-center mb-4"
             >
-              <h2 className="text-xl font-bold text-gray-900">Reservations</h2>
-              <p className="text-lg font-medium text-gray-700">
-                Total reservations: <span className="">{reservations.length}</span>
-              </p>
+           
             </motion.div>
            
             <motion.div

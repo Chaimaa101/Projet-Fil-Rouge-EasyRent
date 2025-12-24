@@ -9,14 +9,25 @@ export const VehiculeProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
+  const [total, setTotal] = useState(0);
+  const [pagination, setPagination] = useState({
+  currentPage: 1,
+  lastPage: 1,
+});
+
 
 //   get  all 
-  const getVehicules = async () => {
+  const getVehicules = async (page = 1) => {
     setLoading(true);
     setErrors(null);
     try {
-      const res = await api.get("/vehicules");
+      const res = await api.get(`/vehicules/?page=${page}`);
       setVehicules(res.data.data);
+      setTotal(res.data.total)
+      setPagination({
+  currentPage: response.data.current_page,
+  lastPage: response.data.last_page,
+});
     } catch (error) {
       setErrors(error.response?.data || "Error fetching vehicles");
     } finally {
@@ -91,7 +102,9 @@ export const VehiculeProvider = ({ children }) => {
     vehicule,
     loading,
     errors,
+    pagination,
     successMessage,
+    total,
     getVehicules,
     getVehicule,
     createVehicule,

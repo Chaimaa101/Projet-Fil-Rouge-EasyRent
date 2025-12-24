@@ -4,18 +4,21 @@ import api from "../Services/api";
 export const BrandContext = createContext();
 
 export const BrandProvider = ({ children }) => {
-  const [Brands, setBrands] = useState([]);
-  const [Brand, setBrand] = useState(null);
+  const [brands, setBrands] = useState([]);
+  const [brand, setBrand] = useState(null);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
+    const [total, setTotal] = useState(0);
+
 
   const getBrands = async () => {
     setLoading(true);
     setErrors(null);
     try {
       const res = await api.get("/brands");
-      setBrands(res.data);
+      setBrands(res.data.marques);
+      setTotal(res.data.total)
     } catch (error) {
       setErrors(error.response?.data || "Error fetching Brands");
     } finally {
@@ -81,11 +84,12 @@ export const BrandProvider = ({ children }) => {
   };
 
   const values = {
-    Brands,
-    Brand,
+    brands,
+    brand,
     loading,
     errors,
     successMessage,
+    total,
     getBrands,
     getBrand,
     createBrand,

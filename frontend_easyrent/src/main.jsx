@@ -7,6 +7,10 @@ import { VehiculeProvider } from './Context/VehiculeProvider.jsx'
 import { BrandProvider } from './Context/BrandProvider.jsx'
 import { ReservationsProvider } from './Context/ReservationProvider.jsx'
 import { AvisProvider } from './Context/AvisProvider.jsx'
+import { UserProvider } from './Context/UsersContext.jsx'
+import { AdminProvider } from './Context/AdminProvider.jsx'
+import { Elements } from '@stripe/react-stripe-js'
+import { stripePromise } from './Services/StripePromise.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -14,9 +18,15 @@ createRoot(document.getElementById('root')).render(
     <VehiculeProvider>
     <BrandProvider>
     <AvisProvider>
+    <UserProvider>
+    <AdminProvider>
     <ReservationsProvider>
+       <Elements stripe={stripePromise}>
       <App />
+      </Elements>
     </ReservationsProvider>
+    </AdminProvider>
+    </UserProvider>
     </AvisProvider>
     </BrandProvider>
     </VehiculeProvider>

@@ -15,7 +15,7 @@ class MarqueController extends Controller
     public function index()
     {
         try {
-            $marques = Marque::all();
+            $marques = Marque::with('vehicules')->get();
             return ['marques' =>  $marques];
         } catch (\Exception $e) {
             return ['error'=>$e->getMessage()];

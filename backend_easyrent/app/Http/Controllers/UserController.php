@@ -15,7 +15,7 @@ class UserController extends Controller
     {
         try {
             $users = User::paginate(10);
-            return response()->json($users, 200);
+            return $users;
         } catch (\Exception $e) {
                       return response()->json(['error' => $e->getMessage()]);
 

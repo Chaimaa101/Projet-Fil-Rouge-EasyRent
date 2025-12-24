@@ -9,6 +9,8 @@ export const AvisProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
+  const [total, setTotal] = useState(0);
+
 
 
   const getAvis = async () => {
@@ -17,6 +19,7 @@ export const AvisProvider = ({ children }) => {
     try {
       const res = await api.get("/avis");
       setAvis(res.data.data);
+      setTotal(res.data.total)
     } catch (error) {
       setErrors(error.response?.data || "Error fetching avis");
     } finally {
@@ -89,6 +92,7 @@ export const AvisProvider = ({ children }) => {
     loading,
     errors,
     successMessage,
+    total,
     getAvis,
     getSingleAvis,
     createAvis,

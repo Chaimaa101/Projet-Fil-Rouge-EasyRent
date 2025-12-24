@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AvisController;
 use App\Http\Controllers\MarqueController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehiculeController;
@@ -37,3 +38,5 @@ Route::apiResource('reservations',ReservationController::class)->except('store')
 Route::post('reservations/{vehicule}',[ReservationController::class,'store']);
 Route::apiResource('brands',MarqueController::class);
 Route::apiResource('avis',AvisController::class);
+
+Route::post('/create-payment-intent', [PaymentController::class, 'createPaymentIntent']);

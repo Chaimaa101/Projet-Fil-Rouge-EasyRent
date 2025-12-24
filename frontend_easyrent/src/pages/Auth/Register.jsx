@@ -30,7 +30,7 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-blue-900 to-black">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-400 via-zink-200 to-neutral-300">
       <motion.form
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
@@ -58,7 +58,7 @@ export default function Register() {
 
           <div>
             <input
-              className={`w-full p-3 rounded bg-black/40 focus:outline-none ${
+              className={`w-full p-3 rounded bg-black/10 focus:outline-none ${
                 errors?.prenom ? "border border-red-500" : ""
               }`}
               placeholder="Prenom"
@@ -75,7 +75,7 @@ export default function Register() {
         {/* Email */}
         <div className="mb-4">
           <input
-            className={`w-full p-3 rounded bg-black/40 focus:outline-none ${
+            className={`w-full p-3 rounded bg-black/10 focus:outline-none ${
               errors?.email ? "border border-red-500" : ""
             }`}
             placeholder="Email"
@@ -91,7 +91,7 @@ export default function Register() {
         {/* Password */}
         <div className="mb-4">
           <input
-            className={`w-full p-3 rounded bg-black/40 focus:outline-none ${
+            className={`w-full p-3 rounded bg-black/10 focus:outline-none ${
               errors?.password ? "border border-red-500" : ""
             }`}
             placeholder="Mot de passe"
@@ -108,7 +108,7 @@ export default function Register() {
         {/* Confirm Password */}
         <div className="mb-6">
           <input
-            className={`w-full p-3 rounded bg-black/40 focus:outline-none ${
+            className={`w-full p-3 rounded bg-black/10 focus:outline-none ${
               errors?.password_confirmation ? "border border-red-500" : ""
             }`}
             placeholder="Confirmation du mot de passe"

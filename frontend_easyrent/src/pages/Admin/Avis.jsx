@@ -1,17 +1,16 @@
 import { motion, AnimatePresence } from "framer-motion"; // Import Framer Motion
-import Header from "./common/Header";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GoTrash } from "react-icons/go";
 import { MdOutlineEmail, MdOutlinePhone } from "react-icons/md";
 import { FaExclamationCircle } from "react-icons/fa";
 import { HiOutlineSearch } from "react-icons/hi";
-import AdminLayout from './AdminLayout'
-import { router } from "@inertiajs/react";
-
-
+import { AvisContext } from "../../Context/AvisProvider";
+import GlobalLoader from "../../components/common/GlobalLoader";
+import PageHeader from "../../components/PageHeader";
 
 export default function Avis() {
   const [searchQuery, setSearchQuery] = useState("");
+  const { avis, getAvis, loading } = useContext(AvisContext);
 
   const handleSpam = (id) => {
     if (confirm("Are you sure you want to delete this message?")) {
@@ -19,23 +18,26 @@ export default function Avis() {
         preserveScroll: true,
       });
     }
-
   };
+  useEffect(() => {
+    getAvis();
+  }, []);
 
   // Search logic
-  const filteredMessages = messages.filter((msg) => {
+  const filteredMessages = avis.filter((msg) => {
     const searchLower = searchQuery.toLowerCase();
     return (
-      msg.title.toLowerCase().includes(searchLower) ||
-      msg.message.toLowerCase().includes(searchLower) ||
-      msg.user.name.toLowerCase().includes(searchLower) ||
-      msg.use.email.toLowerCase().includes(searchLower)
+      msg.user.nom.toLowerCase().includes(searchLower) ||
+      msg.user.email.toLowerCase().includes(searchLower) ||
+      msg.avis.toLowerCase().includes(searchLower) ||
+      msg.user.prenom.toLowerCase().includes(searchLower)
     );
   });
 
   return (
-    <div className="flex-1 relative overflow-auto z-5 text-black">
-      <Header title="Messages" />
+    <div className="flex-1 relative overflow-auto z-5 bg-gray-100 text-black">
+            <PageHeader title = "Gestion des avis" subtitle="gesfvnsfjvjksfjk svjsjnvsjkrvsw" num={avis.length} />
+      
 
       {/* Search Bar */}
       <motion.div
@@ -62,59 +64,40 @@ export default function Avis() {
 
       {/* Messages Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 p-6">
+        {loading && <GlobalLoader />}
         <AnimatePresence>
-          {filteredMessages.map((msg) => (
+          {filteredMessages.map((msg,index) => (
             <motion.div
               key={msg.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-              className={`p-6 border rounded-xl shadow-sm transition-all hover:shadow-md ${msg.priority === "High"
-                  ? "bg-red-50 border-red-200"
-                  : msg.priority === "Medium"
-                    ? "bg-yellow-50 border-yellow-200"
-                    : "bg-green-50 border-green-200"
-                }`}
+              initial={{ opacity: 0, x: -50 }}
+                whileHover={{ scale: 1.02 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.05 }}
+              className="bg-blue-50 p-6 rounded-2xl shadow-2xl"
             >
               {/* Header Section */}
               <div className="flex justify-between items-center">
                 <h3 className="text-xl font-semibold text-gray-800">
-                  {msg.title}
+                  {msg.avis}
                 </h3>
-                <span
-                  className={`flex items-center gap-1 text-xs font-medium px-3 py-1 rounded-full ${msg.priority === "High"
-                      ? "bg-red-500 text-white"
-                      : msg.priority === "Medium"
-                        ? "bg-yellow-500 text-white"
-                        : "bg-green-500 text-white"
-                    }`}
-                >
-                  <FaExclamationCircle size={12} />
-                  {msg.priority}
-                </span>
               </div>
 
               {/* Contact Info */}
               <div className="mt-3 text-gray-600 text-sm flex flex-wrap gap-3">
                 <span className="flex items-center gap-2">
                   <MdOutlineEmail size={18} className="text-gray-500" />
-                  {msg.email}
+                  {msg.user.email}
                 </span>
                 <span className="flex items-center gap-2">
                   <MdOutlinePhone size={18} className="text-gray-500" />
-                  {msg.phone}
+                  {msg.user.nom} {msg.user.prenom}
                 </span>
               </div>
 
               {/* Timestamp */}
               <p className="mt-2 text-xs text-gray-500">
-                Received: {msg.timestamp}
+                Received: {msg.rating}
               </p>
-
-              {/* Subject & Message */}
-              <p className="mt-4 text-gray-800 font-medium">{msg.subject}</p>
-              <p className="mt-2 text-gray-600">{msg.message}</p>
 
               {/* Action Buttons */}
               <div className="mt-5 flex gap-3">
@@ -124,7 +107,7 @@ export default function Avis() {
                   onClick={() => handleArchive(msg.id)}
                   className="flex items-center gap-2 px-4 py-2 text-sm bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-all"
                 >
-                  Archive
+                  Ratter
                 </motion.button>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -133,7 +116,7 @@ export default function Avis() {
                   className="flex items-center gap-2 px-4 py-2 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all"
                 >
                   <GoTrash size={16} />
-                  Spam
+                  Supprimer
                 </motion.button>
               </div>
             </motion.div>
@@ -143,5 +126,3 @@ export default function Avis() {
     </div>
   );
 }
-Messages.layout = page => <AdminLayout>{page}</AdminLayout>;
-

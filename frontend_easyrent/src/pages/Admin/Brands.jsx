@@ -1,126 +1,107 @@
-import { motion, AnimatePresence } from "framer-motion"; 
+import { motion, AnimatePresence } from "framer-motion";
 import { useContext, useEffect, useState } from "react";
 import { GoTrash } from "react-icons/go";
-import { MdOutlineEmail, MdOutlinePhone } from "react-icons/md";
-import { FaExclamationCircle } from "react-icons/fa";
 import { HiOutlineSearch } from "react-icons/hi";
-import { BrandContext } from "../../Context/BrandProvider";
+import GlobalLoader from "../../components/common/GlobalLoader";
 import PageHeader from "../../components/PageHeader";
+import { BrandContext } from "../../Context/BrandProvider";
 
 export default function Brands() {
-
-  const Brands= [message => "hello"]
   const [searchQuery, setSearchQuery] = useState("");
+  const { brands = [], getBrands, loading, deleteBrand } =
+    useContext(BrandContext);
 
-  const handleArchive = (id) => {
+  useEffect(() => {
+    getBrands();
+  }, []);
 
+  const handleDelete = (id) => {
+    if (window.confirm("Voulez-vous vraiment supprimer cette marque ?")) {
+      deleteBrand(id);
+    }
   };
 
-  const handleSpam = (id) => {
-  
-  };
+  // Search
+  const filteredBrands = brands.filter((brand) =>
+    brand.nom?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
-    <div className="flex-1 relative overflow-auto z-5 text-white">
-      <PageHeader title="Gestion des marques" subtitle="gestionnnnn"/>
+    <div className="flex-1 relative overflow-auto bg-gray-100 text-black">
+      <PageHeader
+        title="Gestion des Marques"
+        subtitle="Liste et gestion des marques"
+        num={brands.length}
+      />
 
-      {/* Search Bar */}
+      {/* Search */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="flex flex-col md:flex-row gap-4 mt-4 mb-4 p-6"
+        className="p-6"
       >
-        <div className="relative flex-1">
+        <div className="relative max-w-md">
           <input
             type="text"
-            placeholder="Search messages by name, email, or subject..."
+            placeholder="Rechercher une marque..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 hover:border-blue-400"
-            aria-label="Search messages"
+            className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
           />
           <HiOutlineSearch
             size={20}
-            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
           />
         </div>
       </motion.div>
 
-      {/* Messages Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 p-6">
+      {/* Loader */}
+      {loading && <GlobalLoader />}
+
+      {/* Brands Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-6">
         <AnimatePresence>
-          {Brands.map((msg) => (
+          {filteredBrands.map((brand, index) => (
             <motion.div
-              key={msg.id}
-              initial={{ opacity: 0, y: 20 }}
+              key={brand.id}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-              className={`p-6 border rounded-xl shadow-sm transition-all hover:shadow-md ${msg.priority === "High"
-                  ? "bg-red-50 border-red-200"
-                  : msg.priority === "Medium"
-                    ? "bg-yellow-50 border-yellow-200"
-                    : "bg-green-50 border-green-200"
-                }`}
+              exit={{ opacity: 0 }}
+              transition={{ delay: index * 0.05 }}
+              whileHover={{ scale: 1.02 }}
+              className="bg-white p-6 rounded-2xl shadow-lg"
             >
-              {/* Header Section */}
-              <div className="flex justify-between items-center">
-                <h3 className="text-xl font-semibold text-gray-800">
-                  {msg.title}
-                </h3>
-                <span
-                  className={`flex items-center gap-1 text-xs font-medium px-3 py-1 rounded-full ${msg.priority === "High"
-                      ? "bg-red-500 text-white"
-                      : msg.priority === "Medium"
-                        ? "bg-yellow-500 text-white"
-                        : "bg-green-500 text-white"
-                    }`}
-                >
-                  <FaExclamationCircle size={12} />
-                  {msg.priority}
-                </span>
-              </div>
+              {/* Image */}
+              <img
+                src={brand.image || "/placeholder.png"}
+                alt={brand.nom}
+                className="w-full h-30 object-cover rounded-lg mb-4"
+              />
 
-              {/* Contact Info */}
-              <div className="mt-3 text-gray-600 text-sm flex flex-wrap gap-3">
-                <span className="flex items-center gap-2">
-                  <MdOutlineEmail size={18} className="text-gray-500" />
-                  {msg.email}
-                </span>
-                <span className="flex items-center gap-2">
-                  <MdOutlinePhone size={18} className="text-gray-500" />
-                  {msg.phone}
-                </span>
-              </div>
+              {/* Title */}
+              <h3 className="text-xl font-semibold">{brand.nom}</h3>
 
-              {/* Timestamp */}
-              <p className="mt-2 text-xs text-gray-500">
-                Received: {msg.timestamp}
+              {/* Vehicules count */}
+              <p className="text-sm text-gray-500 mt-1">
+                Véhicules : {brand.vehicules?.length || 0}
               </p>
 
-              {/* Subject & Message */}
-              <p className="mt-4 text-gray-800 font-medium">{msg.subject}</p>
-              <p className="mt-2 text-gray-600">{msg.message}</p>
-
-              {/* Action Buttons */}
-              <div className="mt-5 flex gap-3">
+              {/* Actions */}
+              <div className="mt-4 flex gap-3">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => handleArchive(msg.id)}
-                  className="flex items-center gap-2 px-4 py-2 text-sm bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-all"
+                  className="px-4 py-2 text-sm bg-blue-500 text-white rounded-lg"
                 >
-                  Archive
+                  Modifier
                 </motion.button>
+
                 <motion.button
                   whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => handleSpam(msg.id)}
-                  className="flex items-center gap-2 px-4 py-2 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all"
+                  onClick={() => handleDelete(brand.id)}
+                  className="px-4 py-2 text-sm bg-red-500 text-white rounded-lg flex items-center gap-2"
                 >
                   <GoTrash size={16} />
-                  Spam
+                  Supprimer
                 </motion.button>
               </div>
             </motion.div>
@@ -130,4 +111,3 @@ export default function Brands() {
     </div>
   );
 }
-

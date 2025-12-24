@@ -4,8 +4,11 @@ import { BiSolidCollection } from "react-icons/bi";
 import { FaShoppingCart, FaUsers } from "react-icons/fa";
 import { LuChartNoAxesCombined } from "react-icons/lu";
 import StatCard from "./common/StatBar";
+import { useContext } from "react";
+import { AdminContext } from "../../Context/AdminProvider";
 
 function Dashboard() {
+  const {state,} = useContext(AdminContext)
 
   return (
   <>

@@ -16,7 +16,7 @@ class ReservationController extends Controller
     {
         try {
             $reservations = Reservation::with(['vehicule', 'client'])->paginate(10);
-            return response()->json($reservations, 200);
+            return [$reservations];
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()]);
         }
