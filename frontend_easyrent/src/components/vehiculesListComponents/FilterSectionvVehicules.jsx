@@ -2,8 +2,8 @@
 const FilterSection = ({
   searchQuery,
   setSearchQuery,
-  categoryFilter,
-  setCategoryFilter,
+  brandFilter,
+  setbrandFilter,
   colorFilter,
   setColorFilter,
   priceRange,
@@ -47,7 +47,7 @@ const FilterSection = ({
             id="search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search products.."
+            placeholder="Search Vehicules.."
             className="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
           />
           <span className="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -68,19 +68,19 @@ const FilterSection = ({
         </div>
       </div>
 
-      {/* Category Filter */}
+      {/* brand Filter */}
       <div className="mb-6">
         <label
-          htmlFor="category"
+          htmlFor="brand"
           className="block text-sm font-medium text-gray-700 mb-2"
         >
           Shapes
         </label>
         <div className="relative">
           <select
-            id="category"
-            value={categoryFilter}
-            onChange={(e) => setCategoryFilter(e.target.value)}
+            id="brand"
+            value={brandFilter}
+            onChange={(e) => setbrandFilter(e.target.value)}
             className="w-full p-3 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all cursor-pointer"
           >
             <option value="">All Chapes</option>

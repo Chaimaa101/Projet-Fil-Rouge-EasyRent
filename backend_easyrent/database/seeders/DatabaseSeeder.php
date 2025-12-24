@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $users = User::factory(10)->create()->each(function ($user) {
-            UserDetails::factory()->create([
+            UserDetails::factory(1)->create([
                 'user_id' => $user->id,
             ]); 
             Notification::factory(1)->create([
@@ -31,8 +31,8 @@ class DatabaseSeeder extends Seeder
             ]);
         });
 
-       $marques = Marque::factory(5)->create(); 
-            $vehicules =Vehicule::factory(3)->create([
+       $marques = Marque::factory(10)->create(); 
+            $vehicules =Vehicule::factory(12)->create([
                 'marque_id' => $marques->random()->id,
             ]);
        

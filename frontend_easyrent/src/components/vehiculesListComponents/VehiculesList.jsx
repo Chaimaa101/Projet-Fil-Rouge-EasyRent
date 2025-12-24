@@ -1,20 +1,17 @@
-/* eslint-disable react/prop-types */
-import Cards from "../cartProducts/Cards";
-import AppLayout from '@/Pages/AppLayout';
+import VehicleCard from "./VehiculeCard";
 
-// eslint-disable-next-line react/prop-types
-const ProductList = ({
-  filteredProducts,
+const VehiculeList = ({
+  filteredVehicules,
   sortOption,
   setSortOption,
-  category,
+  brand,
 }) => {
   return (
     <div className="lg:w-3/4">
       <div className="flex justify-between items-center mb-6">
         <p className="text-lg font-medium text-gray-700">
-          {filteredProducts.length}
-          {filteredProducts.length === 1 ? " Product" : " Products"}
+          {filteredVehicules.length} 
+          {filteredVehicules.length === 1 ? " Vehicule" : " Vehicules"} 
         </p>
         {/* Sort Dropdown */}
         <div className="flex items-center gap-3">
@@ -52,10 +49,13 @@ const ProductList = ({
           </div>
         </div>
       </div>
-      <Cards filteredItems={filteredProducts} category={category} />
+       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto text-center">
+      {filteredVehicules.map((item) => (
+      <VehicleCard vehicule={item} key= {item.id} />
+      ))}
+      </div>
     </div>
   );
 };
 
-ProductList.layout = page => <AppLayout>{page}</AppLayout>;
-export default ProductList;
+export default VehiculeList;

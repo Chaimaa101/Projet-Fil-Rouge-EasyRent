@@ -1,5 +1,16 @@
 import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
+import api from "./api";
 
-export const stripePromise = loadStripe(
-  // STRIPE_PUBLIC_KEY
-);
+let stripePromise;
+
+export const getStripe = async () => {
+  if (!stripePromise) {
+    const { data } = await api.get("/stripe/public-key");
+    stripePromise = loadStripe(data.key);
+    console.log(stripePromise
+
+    )
+  }
+  return stripePromise;
+};

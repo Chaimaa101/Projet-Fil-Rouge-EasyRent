@@ -7,12 +7,7 @@ import { TbEdit } from "react-icons/tb";
 import { VehiculeContext } from "../../Context/VehiculeProvider";
 import Pagination from "../../components/Pagination";
 import PageHeader from "../../components/PageHeader";
-
-const LoadingSpinner = () => (
-  <div className="flex justify-center items-center h-64">
-    <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-neutral-500"></div>
-  </div>
-);
+import GlobalLoader from "../../components/common/GlobalLoader";
 
 function Vehicules() {
   const { pagination, vehicules, getVehicules, loading,total } =
@@ -75,7 +70,7 @@ function Vehicules() {
           </motion.div>
 
           {/* Loading */}
-          {loading && <LoadingSpinner />}
+          {loading && <GlobalLoader />}
 
           {/* Vehicule Table */}
           <motion.div

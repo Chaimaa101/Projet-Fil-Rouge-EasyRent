@@ -1,66 +1,51 @@
-import { FaCogs, FaSnowflake, FaGasPump } from "react-icons/fa";
-import { motion } from "framer-motion";
+import { usePageInView } from "framer-motion";
+import { FaUsers, FaCogs, FaGasPump } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
-export default function VehiculeCard() {
-   
+export default function vehiculeCard({ vehicule }) {
+  console.log(vehicule?.images
+  )
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 40, scale: 0.95 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.2, ease: "easeOut" }}
-      whileHover={{ scale: 1.04 }}
-      className="max-w-sm bg-white rounded-2xl shadow-lg overflow-hidden p-6"
-    >
-      
+    <div className="bg-white max-w-80 rounded-xl shadow-md p-5 hover:shadow-lg transition">
       {/* Image */}
-      <div
-        className="bg-gray-100 rounded-xl h-40 flex items-center justify-center"
-      >
+      <div className="h-32 flex items-center justify-center mb-4">
         <img
-          src="/car-placeholder.png"
-          alt="Mercedes"
-          className="opacity-60"
+          src={vehicule?.images[0]?.path}
+          alt={vehicule?.marque?.nom}
+          className="object-contain h-full"
         />
       </div>
 
       {/* Title & Price */}
-      <div className="flex justify-between items-start mt-4">
-        <div>
-          <h2 className="text-xl font-bold text-gray-900">Mercedes</h2>
-          <p className="text-gray-500 text-sm">Sedan</p>
-        </div>
-        <div className="text-right">
-          <p className="text-xl font-bold text-blue-600">$25</p>
-          <p className="text-gray-500 text-sm">per day</p>
-        </div>
+      <div className="flex justify-between items-center mb-2">
+        <h3 className="font-semibold text-gray-800">
+          {vehicule?.marque?.nom}
+        </h3>
+        <span className="text-teal-500 font-bold">
+          ${vehicule?.prix_day}
+          <span className="text-sm font-normal text-gray-400">
+            /day
+          </span>
+        </span>
       </div>
 
       {/* Features */}
-      <div className="flex justify-between text-gray-600 text-sm mt-6">
-        <div className="flex items-center gap-2">
-          <FaCogs /> <span>Automatic</span>
+      <div className="flex justify-between text-gray-500 text-sm my-4">
+        <div className="flex items-center gap-1">
+          <FaUsers /> {vehicule?.seats}
         </div>
-
-        <div className="flex items-center gap-2">
-          <FaGasPump /> <span>PB 95</span>
+        <div className="flex items-center gap-1">
+          <FaGasPump /> {vehicule?.carburant}
         </div>
-
-        <div className="flex items-center gap-2">
-          <FaSnowflake /> <span>AC</span>
+        <div className="flex items-center gap-1">
+          <FaCogs /> {vehicule?.transmission}
         </div>
       </div>
 
       {/* Button */}
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className="mt-6 w-full py-3 rounded-xl text-white font-semibold
-        bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700
-        hover:from-blue-600 hover:to-blue-800
-        transition-all duration-300 shadow-md"
-      >
+      <Link to={`vehicule/${vehicule?.id}`} className=" bg-teal-500 text-white p-3 mt-2 rounded-lg hover:bg-teal-600 transition ">
         View Details
-      </motion.button>
-    </motion.div>
+      </Link>
+    </div>
   );
 }

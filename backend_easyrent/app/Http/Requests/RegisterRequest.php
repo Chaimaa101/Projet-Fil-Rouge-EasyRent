@@ -36,7 +36,7 @@ class RegisterRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'nom.required' => 'Le prénom est .',
+            'nom.required' => 'Le prénom est obligatoire.',
             'nom.max' => 'Le prénom ne doit pas dépasser 255 caractères.',
             'prenom.required' => 'Le nom est obligatoire.',
             'prenom.max' => 'Le nom ne doit pas dépasser 255 caractères.',

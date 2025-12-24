@@ -27,14 +27,12 @@ const FooterLinks = [
 ];
 const Footer = () => {
   return (
-    <div className="mt-14 rounded-t-3xl  bg-neutral-100">
+    <div className="mt-14 rounded-t-3xl bg-teal-400">
       <section className="container">
         <div className=" grid md:grid-cols-3 py-5">
 
-          <div className=" py-8 px-4 ">
-            <h1 className="logo sm:text-3xl text-xl font-bold sm:text-left text-justify mb-3 flex items-center gap-3 font-serif">
-              EasyRent
-            </h1>
+          <div className=" py-2 px-4 ">
+           <img src="/logo.png" alt="" className="w-35 h-25" />
           
             <div className="flex items-center gap-3">
               <FaLocationArrow />
@@ -42,7 +40,7 @@ const Footer = () => {
             </div>
             <div className="flex items-center gap-3 mt-3">
               <FaMobileAlt />
-              <p>+212 </p>
+              <p>+212 604035</p>
             </div>
             {/* Social Handle */}
             <div className="flex items-center gap-3 mt-6">
@@ -66,7 +64,7 @@ const Footer = () => {
                 </h1>
                 <ul className={`flex flex-col gap-3`}>
                   {FooterLinks.map((link) => (
-                    <li key={link.id} className="cursor-pointer hover:translate-x-1 duration-300 hover:text-cyan-400 space-x-1 text-gray-500 dark:text-gray-200">
+                    <li key={link.id} className="cursor-pointer hover:translate-x-1 duration-300 hover:text-cyan-900 space-x-1 text-gray900 ">
                       <span>&#11162;</span>
                       <span>{link.title}</span>
                     </li>
@@ -81,7 +79,7 @@ const Footer = () => {
                 </h1>
                 <ul className="flex flex-col gap-3">
                   {FooterLinks.map((link) => (
-                    <li key={link.id} className="cursor-pointer hover:translate-x-1 duration-300 hover:text-cyan-400 space-x-1 text-gray-500 dark:text-gray-200">
+                    <li key={link.id} className="cursor-pointer hover:translate-x-1 duration-300 hover:text-cyan-900 space-x-1 text-gray-900 ">
                       <span>&#11162;</span>
                       <span>{link.title}</span>
                     </li>
@@ -97,7 +95,7 @@ const Footer = () => {
                 {/* <ul className="list-disc list-inside"> */}
                 <ul className="flex flex-col gap-3">
                   {FooterLinks.map((link) => (
-                    <li key={link.id} className="cursor-pointer hover:translate-x-1 duration-300 hover:text-cyan-400 space-x-1 text-gray-500 dark:text-gray-200">
+                    <li key={link.id} className="cursor-pointer hover:translate-x-1 duration-300 hover:text-cyan-900 space-x-1 text-gray-900">
                       <span>&#11162;</span>
                       <span>{link.title}</span>
                     </li>

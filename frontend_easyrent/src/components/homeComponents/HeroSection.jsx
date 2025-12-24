@@ -9,7 +9,7 @@ function HeroSection() {
   const slides = ["/hero1.jpg", "/hero2.jpg", "/hero3.jpg", "/hero4.jpg"];
 
   return (
-    <section className="relative w-full h-[85vh] flex items-center justify-center overflow-hidden">
+    <section className=" w-full h-[70vh] flex items-center justify-center overflow-hidden mb-6">
       {/* Background Swiper */}
       <Swiper
         modules={[Navigation, A11y, Autoplay]}
@@ -30,29 +30,28 @@ function HeroSection() {
         ))}
       </Swiper>
 
-      {/* Overlay to darken the background */}
-      <div className="absolute top-0 left-0 w-full h-full bg-black/50"></div>
 
       {/* Foreground Content */}
       <motion.div
-        className="relative z-10 text-center lg:text-left px-10"
+        className=" relative z-10 text-center w-full h-full lg:text-left px-10 bg-gradient-to-b from-[#71C9CE] to-[#CBF1F5]"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <h1 className="text-5xl lg:text-6xl font-extrabold text-white leading-tight">
-          Enjoy your holidays with <span className="text-blue-500">our wheels</span>
+        <h1 className=" mt-10 text-5xl lg:text-6xl font-extrabold text-neutral-200 leading-tight">
+          Louez la voiture avec  <span className="text-teal-800">EasyRent</span>
         </h1>
-        <p className="mt-6 text-gray-200 max-w-xl mx-auto lg:mx-0">
-          Premium car rental service with comfort, safety, and unbeatable prices.
+        <p className="mt-6 text-gray-700 max-w-xl mx-auto lg:mx-0">
+          Des véhicules modernes, des prix compétitifs 
+Une réservation rapide en quelques clics.
         </p>
         <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-          <Link to="/vehicles" className="px-6 py-3 bg-blue-600 rounded-xl">
+          <Link to="/vehicles" className="px-6 py-3 bg-teal-700 rounded-xl text-white">
             Reserver maintenant
           </Link>
           <Link
             to="/contact"
-            className="px-6 py-3 border border-blue-500 rounded-xl text-white"
+            className="px-6 py-3 border border-teal-500 rounded-xl text-teal-500"
           >
             Contact Nous
           </Link>

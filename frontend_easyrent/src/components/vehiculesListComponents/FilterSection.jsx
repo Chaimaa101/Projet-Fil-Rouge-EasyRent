@@ -1,178 +1,214 @@
-/* eslint-disable react/prop-types */
+// FilterSection.jsx
+import React from 'react';
+
 const FilterSection = ({
   searchQuery,
   setSearchQuery,
-  categoryFilter,
-  setCategoryFilter,
+  brandFilter,
+  setBrandFilter,
   colorFilter,
   setColorFilter,
   priceRange,
   setPriceRange,
+  transmissionFilter,
+  setTransmissionFilter,
+  fuelFilter,
+  setFuelFilter,
+  typeFilter,
+  setTypeFilter,
+  yearFilter,
+  setYearFilter,
+  seatsFilter,
+  setSeatsFilter,
   resetFilters,
+  brands = [], 
+  colors = [], 
+  years = [], 
+  transmissions = ["Manuelle", "Automatique"],
+  fuels = ["Essence", "Diesel", "Électrique", "Hybride"],
+  types = ["Voiture", "SUV", "Camionnette", "Moto"],
+  seatsOptions = [2, 4, 5, 7, 9]
 }) => {
-  const getRingColor = (color) => {
-    switch (color.toLowerCase()) {
-      case "black":
-        return "#000000";
-      case "brown":
-        return "#964B00";
-      case "clear":
-        return "#F0F0F0";
-      case "green":
-        return "#008000";
-      case "blue":
-        return "#0000FF";
-      case "red":
-        return "#FF0000";
-      default:
-        return "#3B82F6"; // Default ring color
-    }
-  };
-
   return (
-    <div className="lg:w-1/4 bg-gray-100 p-6 rounded-xl shadow-lg lg:sticky lg:top-[5.5rem] lg:h-screen overflow-y-auto">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">Filters</h2>
-
-      {/* Search Input */}
+    <div className="lg:w-1/4 w-full bg-gray-50 p-4 rounded-lg shadow-md h-fit">
       <div className="mb-6">
-        <label
-          htmlFor="search"
-          className="block text-sm font-medium text-gray-700 mb-2"
-        >
-          Search
-        </label>
-        <div className="relative">
+        <h2 className="text-xl font-bold mb-4 text-gray-800">Filtres</h2>
+        
+        {/* Search */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Recherche
+          </label>
           <input
             type="text"
-            id="search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search products.."
-            className="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+            placeholder="Nom ou immatriculation..."
+            className="w-full p-2 border border-gray-300 rounded-md"
           />
-          <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-            <svg
-              className="w-5 h-5 text-gray-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
-          </span>
         </div>
-      </div>
 
-      {/* Category Filter */}
-      <div className="mb-6">
-        <label
-          htmlFor="category"
-          className="block text-sm font-medium text-gray-700 mb-2"
-        >
-          Category
-        </label>
-        <div className="relative">
+        {/* Brand Filter */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Marque
+          </label>
           <select
-            id="category"
-            value={categoryFilter}
-            onChange={(e) => setCategoryFilter(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all cursor-pointer"
+            value={brandFilter}
+            onChange={(e) => setBrandFilter(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded-md"
           >
-            <option value="">All Categories</option>
-            <option value="Case">Case</option>
-            <option value="Chain">Chain</option>
-            <option value="Face Accessory">Face Accessory</option>
-            <option value="Ear Grips">Ear Grips</option>
+            <option value="">Toutes les marques</option>
+            {brands.map((brand) => (
+              <option key={brand.id} value={brand.id}>
+                {brand.name}
+              </option>
+            ))}
           </select>
-          <span className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-            <svg
-              className="w-5 h-5 text-gray-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          </span>
         </div>
-      </div>
 
-      {/* Color Filter */}
-      <div className="mb-6">
-        <label
-          htmlFor="color"
-          className="block text-sm font-medium text-gray-700 mb-2"
+        {/* Color Filter */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Couleur
+          </label>
+          <select
+            value={colorFilter}
+            onChange={(e) => setColorFilter(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded-md"
+          >
+            <option value="">Toutes les couleurs</option>
+            {colors.map((color, index) => (
+              <option key={index} value={color}>
+                {color}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Type Filter */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Type de véhicule
+          </label>
+          <select
+            value={typeFilter}
+            onChange={(e) => setTypeFilter(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded-md"
+          >
+            <option value="">Tous les types</option>
+            {types.map((type, index) => (
+              <option key={index} value={type}>
+                {type}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Transmission Filter */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Transmission
+          </label>
+          <select
+            value={transmissionFilter}
+            onChange={(e) => setTransmissionFilter(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded-md"
+          >
+            <option value="">Toutes</option>
+            {transmissions.map((trans, index) => (
+              <option key={index} value={trans}>
+                {trans}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Fuel Type Filter */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Carburant
+          </label>
+          <select
+            value={fuelFilter}
+            onChange={(e) => setFuelFilter(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded-md"
+          >
+            <option value="">Tous</option>
+            {fuels.map((fuel, index) => (
+              <option key={index} value={fuel}>
+                {fuel}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Year Filter */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Année
+          </label>
+          <select
+            value={yearFilter}
+            onChange={(e) => setYearFilter(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded-md"
+          >
+            <option value="">Toutes les années</option>
+            {years.map((year, index) => (
+              <option key={index} value={year}>
+                {year}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Seats Filter */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Nombre de places
+          </label>
+          <select
+            value={seatsFilter}
+            onChange={(e) => setSeatsFilter(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded-md"
+          >
+            <option value="">Toutes</option>
+            {seatsOptions.map((seat, index) => (
+              <option key={index} value={seat}>
+                {seat} places
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Price Range */}
+        <div className="mb-6">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Prix max par jour: {priceRange}DH
+          </label>
+          <input
+            type="range"
+            min="50"
+            max="500"
+            step="10"
+            value={priceRange}
+            onChange={(e) => setPriceRange(parseInt(e.target.value))}
+            className="w-full"
+          />
+          <div className="flex justify-between text-xs text-gray-500 mt-1">
+            <span>50DH</span>
+            <span>500DH</span>
+          </div>
+        </div>
+
+        {/* Reset Filters Button */}
+        <button
+          onClick={resetFilters}
+          className="w-full bg-gray-200 text-gray-800 py-2 px-4 rounded-md hover:bg-gray-300 transition-colors"
         >
-          Color
-        </label>
-        <div className="grid grid-cols-3 gap-2">
-          {["Black", "Brown", "Clear", "Green", "Blue", "red"].map((color) => (
-            <button
-              key={color}
-              onClick={() => setColorFilter(color)}
-              className={`p-2 rounded-lg border transition-all ${
-                colorFilter === color
-                  ? "border-white"
-                  : "border-gray-300 hover:border-gray-400"
-              }`}
-              style={{
-                backgroundColor: color.toLowerCase(),
-                boxShadow:
-                  colorFilter === color
-                    ? `0 0 0 2px ${getRingColor(color)}`
-                    : "none",
-              }}
-              aria-label={`Select ${color}`}
-            />
-          ))}
-        </div>
+          Réinitialiser les filtres
+        </button>
       </div>
-
-      {/* Price Range Filter */}
-      <div className="mb-6">
-        <label
-          htmlFor="price-range"
-          className="block text-sm font-medium text-gray-700 mb-2"
-        >
-          Price Range
-        </label>
-        <input
-          type="range"
-          step="50"
-          min="0"
-          max="2000"
-          value={priceRange}
-          onChange={(e) => setPriceRange(parseInt(e.target.value))}
-          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range-sm"
-          style={{
-            background: `linear-gradient(to right, #3b82f6 ${
-              (priceRange / 2000) * 100
-            }%, #d1d5db ${(priceRange / 2000) * 100}%)`,
-          }}
-        />
-        <div className="flex justify-between items-center text-sm text-gray-600 mt-2">
-          <span className="font-medium">0dh</span>
-          <span className="font-semibold">{priceRange}dh</span>
-        </div>
-      </div>
-
-      {/* Reset Filters Button */}
-      <button
-        onClick={resetFilters}
-        className="w-full py-2 px-4 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all"
-      >
-        Reset Filters
-      </button>
     </div>
   );
 };

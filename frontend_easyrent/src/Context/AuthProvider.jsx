@@ -11,6 +11,20 @@ const [user, setUser] = useState(() => {
   const storedUser = localStorage.getItem("user");
   return storedUser ? JSON.parse(storedUser) : null;
 });
+
+const contact = async (datacontact) => {
+
+  try {
+    const { data } = await api.post("/contact",datacontact);
+      console.log(data.message || "Login successful");
+    
+  } catch (error) {
+   console.log(error)
+  } finally {
+    setLoading(false);
+  }
+};
+
  
   const getUser = async () => {
   const token = localStorage.getItem("token");
@@ -131,6 +145,7 @@ getUser()
         errors,
         successMessage,
         login,
+        contact,
         register,
         logout,
         updateProfile,

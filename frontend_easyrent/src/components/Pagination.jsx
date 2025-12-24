@@ -28,7 +28,7 @@ function Pagination({ currentPage, lastPage, onPageChange }) {
             className={`px-4 py-2 rounded-lg text-sm transition
               ${
                 currentPage === page
-                  ? "bg-blue-600 text-white shadow-md"
+                  ? "bg-teal-600 text-white shadow-md"
                   : "border hover:bg-gray-100"
               }`}
           >

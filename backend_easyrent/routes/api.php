@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AvisController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\MarqueController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReservationController;
@@ -31,6 +32,12 @@ Route::post('logout', [AuthController::class, 'logout']);
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
+Route::get('/stripe/public-key', function () {
+    return response()->json([
+        'key' => config('services.stripe.public'),
+    ]);
+});
+
 
 Route::apiResource('users',UserController::class);
 Route::apiResource('vehicules',VehiculeController::class);
@@ -39,4 +46,5 @@ Route::post('reservations/{vehicule}',[ReservationController::class,'store']);
 Route::apiResource('brands',MarqueController::class);
 Route::apiResource('avis',AvisController::class);
 
-Route::post('/create-payment-intent', [PaymentController::class, 'createPaymentIntent']);
+Route::post('/create-payment', [PaymentController::class, 'processPayment']);
+Route::post('/contact', [ContactController::class, 'contact']);

@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vehicule_images', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('vehicule_id')->constrained()->onDelete('cascade');
-            $table->string('path')->nullable();
-            $table->string('public_id');
-            $table->timestamps();
+        Schema::table('subscription_items', function (Blueprint $table) {
+            $table->string('meter_event_name')->nullable()->after('quantity');
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('vehicule_images');
+        Schema::table('subscription_items', function (Blueprint $table) {
+            $table->dropColumn('meter_event_name');
+        });
     }
 };

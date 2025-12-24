@@ -2,8 +2,8 @@ import { FaMapMarkerAlt, FaCalendarAlt, FaClock, FaSearch } from "react-icons/fa
 
 export default function SearchBar() {
   return (
-    <div className="w-full flex justify-center -mt-20 px-4">
-      <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-6xl">
+    <div className=" w-full flex justify-center px-4  mb-4">
+      <div className="bg-gray-50 rounded-2xl shadow-2xl p-6 w-full max-w-6xl">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
 
           {/* Pick-up Location */}
@@ -64,7 +64,7 @@ Heure de Retrait
           </div>
 
           {/* Search Button */}
-          <button className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-6 py-3 transition">
+          <button className="flex items-center justify-center gap-2 bg-teal-700 hover:bg-teal-900 text-white rounded-lg px-6 py-3 transition">
             <FaSearch />
            Recherche
           </button>

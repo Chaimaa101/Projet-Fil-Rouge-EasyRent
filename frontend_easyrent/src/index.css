@@ -60,3 +60,7 @@
   scrollbar-color: #3b82f6 transparent;
 }
 
+
+.dropdown-item {
+  @apply block px-3 py-2 rounded-md hover:bg-gray-100 transition;
+}

@@ -3,25 +3,31 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Stripe\Stripe;
 use Stripe\PaymentIntent;
+use Stripe\Stripe;
 
 class PaymentController extends Controller
 {
-    public function createPaymentIntent(Request $request)
+    // Process the payment
+    public function processPayment(Request $request)
     {
-        Stripe::setApiKey(config('services.stripe.secret'));
+        try {
+            
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        $amount = $request->amount * 100; // Convert to cents
 
         $paymentIntent = PaymentIntent::create([
-            'amount' => $request->amount * 100,
-            'currency' => 'eur',
-            'automatic_payment_methods' => [
-                'enabled' => true,
-            ],
+            'amount' => $amount,
+            'currency' => 'usd',
+            'payment_method_types' => ['card'],
         ]);
 
         return response()->json([
-            'clientSecret' => $paymentIntent->client_secret,
+            'clientSecret' => $paymentIntent->client_secret
         ]);
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
     }
 }

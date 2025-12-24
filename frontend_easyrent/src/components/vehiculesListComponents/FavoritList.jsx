@@ -1,7 +1,7 @@
 import { Heart } from "lucide-react";
 import { motion } from "framer-motion";
 
-export default function Favorites() {
+export default function FavoriList() {
   return (
     <div className="px-10 py-16 text-white">
       <h2 className="text-3xl font-bold mb-8">Your Favorites</h2>

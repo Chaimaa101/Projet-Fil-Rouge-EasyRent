@@ -6,7 +6,6 @@ import Register from "./pages/Auth/Register";
 import Home from "./pages/Home";
 import { Toaster } from "react-hot-toast";
 import Contact from "./components/homeComponents/Contact";
-import ListVehicules from "./pages/ListVehicules";
 import Layout from "./components/Layout";
 import ReserveForm from "./pages/Client/ReserveForm";
 import Profile from "./pages/Profile";
@@ -21,8 +20,9 @@ import GlobalLoader from "./components/common/GlobalLoader";
 import CompleteDetails from "./pages/Client/CompleteDetails";
 import Users from "./pages/Admin/Users";
 import Avis from "./pages/Admin/Avis";
-import CheckoutForm from "./pages/Client/CheckoutForm";
 import CheckoutPage from "./pages/Client/CheckoutePage";
+import ListVehicules from "./pages/ListVehicules";
+import FavoriList from "./components/vehiculesListComponents/FavoritList";
 
 function App() {
   const [appLoading,setAppLoading] = useState(true)
@@ -49,12 +49,12 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/listVehicule" element={<ListVehicules />} />
+        <Route path="/favoris" element={<FavoriList />} />
         <Route path="/register" element={<Register />} />
         <Route path="/client/reserveForm" element={<ReserveForm />} />
         <Route path="/client/completeProfile" element={<CompleteDetails />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/confirm/:nom" element={<ConfirmRegestration />} />
-        <Route path="/VehiculeDetails/:id" element={<SingleVehicule />} />
         <Route path="/admin/dashboard" element={<Dashboard />} />
         <Route path="/admin/vehicules" element={<Vehicules />} />
         <Route path="/admin/reservation" element={<Reservations />} />
@@ -62,8 +62,7 @@ function App() {
         <Route path="/admin/users" element={<Users />} />
         <Route path="/admin/avis" element={<Avis />} />
         <Route path="/client/checkout" element={<CheckoutPage />} />
-
-
+        <Route path="/vehicule/:id" element={<SingleVehicule />} />
         </Route>
       </Routes>
     </BrowserRouter>
