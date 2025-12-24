@@ -37,7 +37,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20'
-      - run: npm install                # Installer les dépendances
+      - run: cd frontend_easyrent
+             npm install               # Installer les dépendances
       - run: npm test                   # Lancer les tests
 
   deploy:
