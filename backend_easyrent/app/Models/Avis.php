@@ -12,7 +12,7 @@ class Avis extends Model
     protected $fillable = [
         'avis',
         'rating',
-        'vehicule_id',
+        'reservation_id',
         'user_id',
     ];
 

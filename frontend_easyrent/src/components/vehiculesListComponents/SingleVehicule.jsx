@@ -11,11 +11,11 @@ import { VehiculeContext } from "../../Context/VehiculeProvider";
 import { useParams } from "react-router-dom";
 
 export default function VehicleDetails() {
-    const id = useParams()
+  const {id} = useParams()
 
-  const { vehicule =[], getVehicule } = useContext(VehiculeContext);
+  const { vehicule, getVehicule } = useContext(VehiculeContext);
 useEffect(() => {
-    getVehicule();
+    getVehicule(id);
   }, []);
 
 
@@ -30,7 +30,7 @@ useEffect(() => {
         <div className="bg-white rounded-xl shadow-md p-8 grid grid-cols-1 md:grid-cols-2 gap-10">
           {/* LEFT SIDE */}
           <div>
-            <h2 className="text-lg font-semibold mb-1">{vehicule}</h2>
+            <h2 className="text-lg font-semibold mb-1">{vehicule?.marque?.nom}</h2>
             <p className="text-teal-500 font-bold mb-4">
               {vehicule?.prix_day}
               <span className="text-sm font-normal text-gray-500">/day</span>
@@ -38,18 +38,20 @@ useEffect(() => {
 
             {/* Car Image */}
             <div className="flex justify-center mb-6">
-              <img src={vehicule?.images} alt="BMW" className="h-40 object-contain" />
+              <img src={vehicule?.images[0]?.path} alt="BMW" className="h-40 object-contain" />
             </div>
 
             {/* Thumbnails */}
             <div className="flex gap-3 justify-center">
               {vehicule?.images.map((img) => (
                 <div
-                  key={img}
+                  key={img?.id}
                   className="w-16 h-12 bg-gray-200 rounded-md"
-                ></div>
+                >
+                  <img src={img?.path} alt="image" />
+                </div>
               ))}
-            </div>
+          </div>
           </div>
 
           {/* RIGHT SIDE */}
@@ -85,7 +87,7 @@ useEffect(() => {
               <Equipment text="Air Conditioner" />
             </div>
             <p>{vehicule?.description}</p>
-            <p>{vehicule?.status}</p>
+            <p>{vehicule?.statut}</p>
           </div>
         </div>
       </div>

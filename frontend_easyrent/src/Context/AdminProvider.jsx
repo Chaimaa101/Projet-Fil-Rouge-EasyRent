@@ -16,7 +16,7 @@ export const AdminProvider = ({ children }) => {
     setLoading(true);
     setErrors(null);
     try {
-      const res = await api.get("/admin/dashboard");
+      const res = await api.get("/");
       setStats(res.data);
     } catch (error) {
       setErrors(error.response?.data || "Error fetching dashboard stats");

@@ -43,7 +43,7 @@ export default function vehiculeCard({ vehicule }) {
       </div>
 
       {/* Button */}
-      <Link to={`vehicule/${vehicule?.id}`} className=" bg-teal-500 text-white p-3 mt-2 rounded-lg hover:bg-teal-600 transition ">
+      <Link to={`/vehicule/${vehicule?.id}`} className=" bg-teal-500 text-white p-3 mt-2 rounded-lg hover:bg-teal-600 transition ">
         View Details
       </Link>
     </div>

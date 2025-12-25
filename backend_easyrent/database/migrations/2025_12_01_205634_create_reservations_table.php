@@ -17,8 +17,10 @@ return new class extends Migration
             $table->foreignId('vehicule_id')->constrained()->onDelete('cascade');
             $table->date('start_date');
             $table->date('end_date');
+             $table->integer('days');
             $table->decimal('total_price', 10, 2);
-            $table->enum('status',['pending', 'confirmed', 'cancelled'])->default('pending');
+            $table->string('invoice_path')->nullable();
+            $table->enum('status',['pending', 'paid', 'cancelled'])->default('pending');
             $table->decimal('frait_retard', 10, 2)->nullable();
             $table->timestamps();
         });

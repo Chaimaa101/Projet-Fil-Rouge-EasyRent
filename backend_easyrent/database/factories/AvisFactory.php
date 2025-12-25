@@ -20,7 +20,7 @@ class AvisFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'vehicule_id' => \App\Models\Vehicule::factory(),
+            'reservation_id' => \App\Models\Reservation::factory(),
             'rating' => fake()->numberBetween(1, 5),
             'avis' => fake()->sentence(),
         ];

@@ -32,9 +32,9 @@ class UpdateVehiculeRequest extends FormRequest
             'seats' => 'sometimes|integer|min:1',
             'transmission' => 'sometimes|string|in:manuel,automatique',
             'carburant' => 'sometimes|string|in:essence,diesel,electronique,hybride',
-            'statut' => 'sometimes|string|in:disponible,loue,maintenance,indisponible',
+            'status' => 'sometimes|string|in:disponible,loue,maintenance,indisponible',
             'immatriculation' => 'sometimes|string|max:100|unique:vehicules,immatriculation',
-            'type' => 'sometimes|string|max:50', 
+            'category_id' =>'nullable|exists:categories,id',
         ];  
     }
 
@@ -50,7 +50,7 @@ class UpdateVehiculeRequest extends FormRequest
             'seats.min' => "Le nombre de sièges doit être au moins de 1.",
             'transmission.in' => "Le type de transmission doit être manuel ou automatique.",
             'carburant.in' => "Le type de carburant doit être petrol, diesel, electric ou hybrid.",
-            'statut.in' => "Le statut du véhicule doit être available, rented ou maintenance.",
+            'status.in' => "Le statut du véhicule doit être available, rented ou maintenance.",
             'immatriculation.unique' => "Cette immatriculation est déjà utilisée.",
         ];  
     }

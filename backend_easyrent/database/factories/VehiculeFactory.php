@@ -17,9 +17,9 @@ class VehiculeFactory extends Factory
     public function definition(): array
     {
         return [
+          'category_id' => \App\Models\Category::factory(),
           'marque_id' => \App\Models\Marque::factory(),
           'nom' => fake()->word(),
-            'type' => fake()->randomElement(['sedan', 'suv', 'hatchback', 'convertible']),
             'color' => fake()->safeColorName(),
             'annee' => fake()->year(),                  
             'prix_day' => fake()->numberBetween(50, 500),
@@ -28,7 +28,7 @@ class VehiculeFactory extends Factory
             'seats' => fake()->numberBetween(2, 7),
             'transmission' => fake()->randomElement(['manuelle','automatique']),
             'carburant' => fake()->randomElement(['essence','diesel','electronique','hybride']),    
-            'statut' => fake()->randomElement(['disponible','loue','maintenance','indisponible']),
+            'status' => fake()->randomElement(['disponible','loue','maintenance','indisponible']),
             'immatriculation' => strtoupper(fake()->bothify('??#-####-??')),    
 
         ];

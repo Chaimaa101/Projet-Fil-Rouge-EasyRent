@@ -28,17 +28,20 @@ class AdminController extends Controller
         );
     }
 
-    public function updateReservationStatus(Request $request, $id)
+    public function updateReservationStatus(Request $request,Reservation $reservation)
     {
-        $request->validate([
+        try {
+            $request->validate([
             'status' => 'required|in:pending,confirmed,cancelled'
         ]);
 
-        $reservation = Reservation::findOrFail($id);
         $reservation->update([
-            'status' => $request->status
+            'status' => $request->statut
         ]);
 
         return response()->json($reservation);
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
     }
 }

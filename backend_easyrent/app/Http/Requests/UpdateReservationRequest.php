@@ -27,7 +27,7 @@ class UpdateReservationRequest extends FormRequest
             'start_date' => 'sometimes|date',
             'end_date' => 'sometimes|date|after:start_date',
             'total_price' => 'sometimes|numeric|min:0',
-            'status' => 'sometimes|string|in:pending,confirmed,cancelled',
+            'status' => 'sometimes|string|in:pending,paid,cancelled',
             'frait_retard' => 'nullable|numeric|min:0',
         ];
     }

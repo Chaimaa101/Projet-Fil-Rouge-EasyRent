@@ -8,6 +8,7 @@ import { VehiculeContext } from "../../Context/VehiculeProvider";
 import Pagination from "../../components/Pagination";
 import PageHeader from "../../components/PageHeader";
 import GlobalLoader from "../../components/common/GlobalLoader";
+import { Link } from "react-router-dom";
 
 function Vehicules() {
   const { pagination, vehicules, getVehicules, loading,total } =
@@ -61,12 +62,15 @@ function Vehicules() {
               <MdSearch size={25} className="text-gray-500" />
             </div>
 
-            <motion.button
-              whileTap={{ scale: 0.95 }}
-              className="bg-neutral-600 hover:bg-neutral-700 text-white px-6 py-3 rounded-xl shadow-md transition-all duration-200 w-full sm:w-auto"
-            >
-              NEW Vehicule
-            </motion.button>
+         <Link to="/admin/addVehicule">
+  <motion.button
+    whileTap={{ scale: 0.95 }}
+    className="bg-neutral-600 hover:bg-neutral-700 text-white px-6 py-3 rounded-xl shadow-md transition-all duration-200 w-full sm:w-auto"
+  >
+    NEW Vehicule
+  </motion.button>
+</Link>
+
           </motion.div>
 
           {/* Loading */}
@@ -112,13 +116,13 @@ function Vehicules() {
                     </td>
                     <td className="px-6 py-4">{vehicule.prix_day} DH</td>
                     <td className="px-6 py-4 flex gap-2">
-                      <motion.button
+                      <Link to={`/admin/editVehicule/${vehicule.id}`}><motion.button
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         className="text-blue-500 hover:text-blue-700"
                       >
                         <TbEdit size={20} />
-                      </motion.button>
+                      </motion.button></Link>
                       <motion.button
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}

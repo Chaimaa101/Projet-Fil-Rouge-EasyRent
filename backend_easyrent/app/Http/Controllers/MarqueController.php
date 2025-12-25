@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Marque;
 use App\Http\Requests\StoreMarqueRequest;
 use App\Http\Requests\UpdateMarqueRequest;
+use App\Models\Category;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class MarqueController extends Controller
@@ -17,6 +18,16 @@ class MarqueController extends Controller
         try {
             $marques = Marque::with('vehicules')->get();
             return ['marques' =>  $marques];
+        } catch (\Exception $e) {
+            return ['error'=>$e->getMessage()];
+        }
+    }
+
+       public function getCategories()
+    {
+        try {
+            $categories =Category::all();
+            return ['categories' =>  $categories];
         } catch (\Exception $e) {
             return ['error'=>$e->getMessage()];
         }

@@ -28,7 +28,9 @@ class AuthServiceProvider extends ServiceProvider
 
           Gate::define('is-owner', function (User $user, $model) {
 
-   
+   if ($user->role === 'admin') {
+            return Response::allow();
+        }
     if (property_exists($model, 'user_id') && $model->user_id === $user->id) {
         return Response::allow();
     }

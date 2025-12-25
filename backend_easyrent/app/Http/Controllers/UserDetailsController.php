@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\UserDetails;
 use App\Http\Requests\StoreUserDetailsRequest;
 use App\Http\Requests\UpdateUserDetailsRequest;
+use Illuminate\Support\Facades\Gate; 
 
 class UserDetailsController extends Controller
 {
@@ -25,6 +26,7 @@ class UserDetailsController extends Controller
      */
     public function store(StoreUserDetailsRequest $request)
     {
+
         try {
             $data = $request->validated();
             $userDetails = UserDetails::create($data);
@@ -51,6 +53,8 @@ class UserDetailsController extends Controller
      */
     public function update(UpdateUserDetailsRequest $request, UserDetails $userDetails)
     {
+         Gate::authorize('is-owner', $userDetails);
+
         try {
             $data = $request->validated();
             $userDetails->update($data);
@@ -65,6 +69,8 @@ class UserDetailsController extends Controller
      */
     public function destroy(UserDetails $userDetails)
     {
+         Gate::authorize('is-owner', $userDetails);
+
         try {
             $userDetails->delete();
             return response()->json('deleted', 200);

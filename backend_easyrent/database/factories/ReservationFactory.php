@@ -22,7 +22,8 @@ class ReservationFactory extends Factory
             'start_date' => fake()->dateTimeBetween('now', '+1 month'),
             'end_date' => fake()->dateTimeBetween('+1 month', '+2 months'),
             'total_price' => fake()->randomFloat(2, 100, 1000),
-            'status' => fake()->randomElement(['pending', 'confirmed', 'cancelled']),
+            'days' => fake()->numberBetween(1,30),
+            'status' => fake()->randomElement(['pending', 'paid', 'cancelled']),
             'frait_retard' => fake()->randomFloat(2, 0, 50),
         ];
     }

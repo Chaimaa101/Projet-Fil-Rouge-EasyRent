@@ -56,10 +56,10 @@ export const VehiculeProvider = ({ children }) => {
     setErrors(null);
     try {
       const res = await api.post("/vehicules", data);
-      setVehicules((prev) => [...prev, res.data]);
       setSuccessMessage("Vehicle created successfully");
+      getVehicules
     } catch (error) {
-      setErrors(error.response?.data || "Error creating vehicle");
+      setErrors( error.response?.data?.errors || "Error creating vehicle");
     } finally {
       setLoading(false);
     }

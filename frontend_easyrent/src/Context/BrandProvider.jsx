@@ -5,6 +5,7 @@ export const BrandContext = createContext();
 
 export const BrandProvider = ({ children }) => {
   const [brands, setBrands] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [brand, setBrand] = useState(null);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
@@ -21,6 +22,19 @@ export const BrandProvider = ({ children }) => {
       setTotal(res.data.total)
     } catch (error) {
       setErrors(error.response?.data || "Error fetching Brands");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+   const getCategories = async () => {
+    setLoading(true);
+    setErrors(null);
+    try {
+      const res = await api.get("/categories");
+      setCategories(res.data.categories);
+    } catch (error) {
+      setErrors(error.response?.data || "Error fetching categories");
     } finally {
       setLoading(false);
     }
@@ -88,9 +102,11 @@ export const BrandProvider = ({ children }) => {
     brand,
     loading,
     errors,
+    categories,
     successMessage,
     total,
     getBrands,
+    getCategories,
     getBrand,
     createBrand,
     updateBrand,

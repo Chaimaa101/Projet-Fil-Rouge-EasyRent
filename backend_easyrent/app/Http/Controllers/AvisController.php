@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Avis;
 use App\Http\Requests\StoreAvisRequest;
 use App\Http\Requests\UpdateAvisRequest;
+use App\Models\Reservation;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class AvisController extends Controller
 {
@@ -22,10 +24,12 @@ class AvisController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreAvisRequest $request)
+    public function store(StoreAvisRequest $request, Reservation $reservation)
     {
         try {
+             Gate::authorize('is-owner', $reservation);
             $data = $request->validated();
+             $data['reservation_id'] = $reservation->id;
             $avis = $request->user()->avis()->create($data);
             return response()->json([
                 'message' => 'Avis créé avec succès.',
@@ -59,6 +63,7 @@ class AvisController extends Controller
      */
     public function update(UpdateAvisRequest $request, Avis $avis)
     {
+         Gate::authorize('is-owner', $avis);
         try {
             $data = $request->validated();
             $avis->update($data);
@@ -79,6 +84,7 @@ class AvisController extends Controller
     public function destroy(Avis $avis)
     {
         try {
+             Gate::authorize('is-owner', $avis);
             $avis->delete();
             return response()->json([
                 'message' => 'Avis supprimé avec succès.'

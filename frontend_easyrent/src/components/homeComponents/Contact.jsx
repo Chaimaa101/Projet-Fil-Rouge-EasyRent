@@ -36,13 +36,11 @@ function Contact() {
 </div>
       <div className="grid md:grid-cols-2 gap-10 items-start max-w-6xl mx-auto">
 
-
-        {/* FORM */}
         <motion.form
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="bg-gradient-to-b from-[#71C9CE] to-[#CBF1F5] p-10 rounded-2xl backdrop-blur-xl"
+          className="bg-gradient-to-b from-teal-400 to-teal-100 p-10 rounded-2xl backdrop-blur-xl"
           onSubmit={handleContact}
     
         >
@@ -77,7 +75,7 @@ function Contact() {
               name="message"
           />
 
-          <button className="mt-6 w-full bg-teal-700 hover:bg-teal-800 text-white py-3 rounded-xl transition">
+          <button className="mt-6 w-full cursor-pointer bg-teal-700 hover:bg-teal-800 text-white py-3 rounded-xl transition">
             Envoyer le message
           </button>
         </motion.form>

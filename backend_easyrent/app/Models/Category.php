@@ -5,20 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Discount extends Model
+class Category extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'vehicule_id',
         'nom',
-        'montant_reduction',
-        'statut',
-        'date_limit',
+        'description',
     ];
 
-    public function vehicule()
+     public function vehicules()
     {
-        return $this->belongsTo(Vehicule::class);
+        return $this->hasMany(Vehicule::class);
     }
 }

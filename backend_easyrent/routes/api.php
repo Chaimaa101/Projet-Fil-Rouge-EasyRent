@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AvisController;
 use App\Http\Controllers\ContactController;
@@ -13,24 +14,15 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| API Routes
+| Public Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
+| Routes that can be accessed without authentication
 |
 */
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-Route::post('logout', [AuthController::class, 'logout']);
-
-
-
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
+Route::post('/contact', [ContactController::class, 'contact']);
 
 Route::get('/stripe/public-key', function () {
     return response()->json([
@@ -38,13 +30,34 @@ Route::get('/stripe/public-key', function () {
     ]);
 });
 
+Route::get('vehicules', [VehiculeController::class, 'index']);
+Route::get('vehicules/{vehicule}', [VehiculeController::class, 'show']);
+Route::get('brands', [MarqueController::class, 'index']);
+Route::get('categories', [MarqueController::class,'getCategories']); 
 
-Route::apiResource('users',UserController::class);
-Route::apiResource('vehicules',VehiculeController::class);
-Route::apiResource('reservations',ReservationController::class)->except('store');
-Route::post('reservations/{vehicule}',[ReservationController::class,'store']);
-Route::apiResource('brands',MarqueController::class);
-Route::apiResource('avis',AvisController::class);
 
-Route::post('/create-payment', [PaymentController::class, 'processPayment']);
-Route::post('/contact', [ContactController::class, 'contact']);
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    Route::apiResource('reservations', ReservationController::class)->except('store');
+    Route::post('reservations/{vehicule}', [ReservationController::class, 'store']);
+
+    Route::post('/create-payment', [PaymentController::class, 'processPayment']);
+
+    Route::apiResource('avis', AvisController::class);
+});
+
+
+Route::middleware(['auth:sanctum', 'isAdmin'])->group(function () {
+    Route::apiResource('users', UserController::class);
+    Route::apiResource('brands', MarqueController::class)->except(['index']); 
+    Route::apiResource('avis', AvisController::class)->except(['index', 'store']); 
+    Route::apiResource('vehicules', VehiculeController::class)->except(['index', 'show']); 
+    Route::get('Allreservations', [AdminController::class,'reservations']); 
+    Route::get('dashboardStats', [AdminController::class,'dashboardStats']); 
+    Route::put('updateReservationStatus/{reservation}', [AdminController::class,'updateReservationStatus']); 
+});

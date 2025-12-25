@@ -25,7 +25,7 @@ class StoreReservationRequest extends FormRequest
             'start_date' => 'required|date|after_or_equal:today',
             'end_date' => 'required|date|after:start_date',
             'total_price' => 'required|numeric|min:0',
-            'status' => 'nullable|string|in:pending,confirmed,cancelled',
+            'status' => 'nullable|string|in:pending,paid,cancelled',
             'frait_retard' => 'nullable|numeric|min:0',
         ];
     }

@@ -13,7 +13,7 @@ class Payment extends Model
     'reservation_id',
     'amount',
     'payment_method',
-    'statut',
+    'status',
 ];
 
 

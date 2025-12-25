@@ -32,9 +32,9 @@ class StoreVehiculeRequest extends FormRequest
             'seats' => 'required|integer|min:1',
             'transmission' => 'required|string|in:manuel,automatique',
             'carburant' => 'required|string|in:essence,diesel,electronique,hybride',
-            'statut' => 'required|string|in:disponible,loue,maintenance,indisponible',
+            'status' => 'required|string|in:disponible,loue,maintenance,indisponible',
             'immatriculation' => 'required|string|max:100|unique:vehicules,immatriculation',
-            'type' => 'required|string|max:50', 
+            'category_id' =>  'nullable|exists:categories,id',
         ];  
     }
 
@@ -58,7 +58,7 @@ class StoreVehiculeRequest extends FormRequest
             'carburant.required' => "Le type de carburant est requis.",
             'carburant.in' => "Le type de carburant doit être petrol, diesel, electric ou hybrid.",
             'statut.required' => "Le statut du véhicule est requis.",
-            'statut.in' => "Le statut du véhicule doit être available, rented ou maintenance.",
+            'status.in' => "Le statut du véhicule doit être available, rented ou maintenance.",
             'immatriculation.required' => "L'immatriculation est requise.",
             'immatriculation.unique' => "Cette immatriculation est déjà utilisée.",
             'type.required' => "Le type de véhicule est requis.",

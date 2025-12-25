@@ -18,9 +18,9 @@ class Vehicule extends Model
         'seats',
         'transmission',
         'carburant',
-        'statut',
+        'status',
         'immatriculation',
-        'type',
+        'category_id',
         'marque_id',
     ];
 

@@ -6,6 +6,8 @@ use App\Models\Reservation;
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
 use App\Models\Vehicule;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class ReservationController extends Controller
 {
@@ -15,7 +17,7 @@ class ReservationController extends Controller
     public function index()
     {
         try {
-            $reservations = Reservation::with(['vehicule', 'client'])->paginate(10);
+            $reservations = Auth::user()->reservations()->with(['vehicule', 'client'])->paginate(10);
             return [$reservations];
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()]);
@@ -28,6 +30,7 @@ class ReservationController extends Controller
     public function store(StoreReservationRequest $request,Vehicule $vehicule)
     {
         try {
+            $data = $request->validated();
            $data['vehicule_id'] = $vehicule->id;
               $request->user()->reservations()->create($data);
 
@@ -58,6 +61,7 @@ class ReservationController extends Controller
     public function update(UpdateReservationRequest $request, Reservation $reservation)
     {
         try {
+             Gate::authorize('is-owner', $reservation);
             $data = $request->validated();
             $reservation->update($data);
             return response()->json('updated', 200);
@@ -72,6 +76,7 @@ class ReservationController extends Controller
     public function destroy(Reservation $reservation)
     {
         try {
+             Gate::authorize('is-owner', $reservation);
             $reservation->delete();
             return response()->json('deleted', 204);
         } catch (\Exception $e) {
