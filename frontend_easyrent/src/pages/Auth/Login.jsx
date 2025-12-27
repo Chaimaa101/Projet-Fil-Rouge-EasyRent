@@ -16,7 +16,7 @@ export default function Login() {
   });
 
   const navigate = useNavigate();
-  const { login, errors, loading } = useContext(AuthContext);
+  const { login,user, errors, loading } = useContext(AuthContext);
 
   const handleChange = (e) => {
     setFormData({
@@ -27,9 +27,15 @@ export default function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+const response = await login(formData); 
 
-   await login(formData);
-  };
+  if (user) {
+    if (user.role === "admin") {
+      navigate("/admin/dashboard");
+    } else {
+      navigate("/complete-profile"); 
+  }
+  }}
 
   return (
     <div className="min-h-screen flex items-center justify-center ">

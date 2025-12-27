@@ -1,5 +1,5 @@
-// FilterSection.jsx
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
+import { BrandContext } from '../../Context/BrandProvider';
 
 const FilterSection = ({
   searchQuery,
@@ -14,33 +14,36 @@ const FilterSection = ({
   setTransmissionFilter,
   fuelFilter,
   setFuelFilter,
-  typeFilter,
-  setTypeFilter,
+  categoryFilter,
+  setcategoryFilter,
   yearFilter,
   setYearFilter,
   seatsFilter,
   setSeatsFilter,
   resetFilters,
-  brands = [], 
   colors = [], 
   years = [], 
   transmissions = ["Manuelle", "Automatique"],
   fuels = ["Essence", "Diesel", "Électrique", "Hybride"],
-  types = ["Voiture", "SUV", "Camionnette", "Moto"],
   seatsOptions = [2, 4, 5, 7, 9]
 }) => {
+  const {categories,brands,getBrands,getCategories}= useContext(BrandContext)
+
+  useEffect(() =>{
+    getBrands()
+    getCategories()
+  },[])
   return (
     <div className="lg:w-1/4 w-full bg-gray-50 p-4 rounded-lg shadow-md h-fit">
       <div className="mb-6">
         <h2 className="text-xl font-bold mb-4 text-gray-800">Filtres</h2>
-        
-        {/* Search */}
+
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Recherche
           </label>
           <input
-            type="text"
+            category="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Nom ou immatriculation..."
@@ -48,7 +51,6 @@ const FilterSection = ({
           />
         </div>
 
-        {/* Brand Filter */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Marque
@@ -61,13 +63,12 @@ const FilterSection = ({
             <option value="">Toutes les marques</option>
             {brands.map((brand) => (
               <option key={brand.id} value={brand.id}>
-                {brand.name}
+                {brand.nom}
               </option>
             ))}
           </select>
         </div>
 
-        {/* Color Filter */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Couleur
@@ -86,26 +87,24 @@ const FilterSection = ({
           </select>
         </div>
 
-        {/* Type Filter */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Type de véhicule
+            Categorie de véhicule
           </label>
           <select
-            value={typeFilter}
-            onChange={(e) => setTypeFilter(e.target.value)}
+            value={categoryFilter}
+            onChange={(e) => setcategoryFilter(e.target.value)}
             className="w-full p-2 border border-gray-300 rounded-md"
           >
-            <option value="">Tous les types</option>
-            {types.map((type, index) => (
-              <option key={index} value={type}>
-                {type}
+            <option value="">Tous les categories</option>
+            {categories.map((category, index) => (
+              <option key={index} value={category}>
+                {category.nom}
               </option>
             ))}
           </select>
         </div>
 
-        {/* Transmission Filter */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Transmission
@@ -124,7 +123,6 @@ const FilterSection = ({
           </select>
         </div>
 
-        {/* Fuel Type Filter */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Carburant
@@ -143,7 +141,6 @@ const FilterSection = ({
           </select>
         </div>
 
-        {/* Year Filter */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Année
@@ -162,7 +159,6 @@ const FilterSection = ({
           </select>
         </div>
 
-        {/* Seats Filter */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Nombre de places
@@ -181,7 +177,7 @@ const FilterSection = ({
           </select>
         </div>
 
-        {/* Price Range */}
+
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Prix max par jour: {priceRange}DH
@@ -197,11 +193,10 @@ const FilterSection = ({
           />
           <div className="flex justify-between text-xs text-gray-500 mt-1">
             <span>50DH</span>
-            <span>500DH</span>
+            <span>900DH</span>
           </div>
         </div>
 
-        {/* Reset Filters Button */}
         <button
           onClick={resetFilters}
           className="w-full bg-gray-200 text-gray-800 py-2 px-4 rounded-md hover:bg-gray-300 transition-colors"

@@ -4,6 +4,7 @@ import { VehiculeContext } from "../Context/VehiculeProvider";
 import GlobalLoader from "../components/common/GlobalLoader";
 import VehiculeList from "../components/vehiculesListComponents/VehiculesList";
 import FilterSection from "../components/vehiculesListComponents/FilterSection";
+import Pagination from "../components/Pagination";
 
 const ListVehicules = () => {
   const [filteredVehicules, setFilteredVehicules] = useState([]);
@@ -14,21 +15,43 @@ const ListVehicules = () => {
   const [priceRange, setPriceRange] = useState(2000);
   const [transmissionFilter, setTransmissionFilter] = useState("");
   const [fuelFilter, setFuelFilter] = useState("");
-  const [typeFilter, setTypeFilter] = useState("");
+  const [categoryFilter, setcategoryFilter] = useState("");
   const [yearFilter, setYearFilter] = useState("");
   const [seatsFilter, setSeatsFilter] = useState("");
 
-  const { vehicules, getVehicules, loading, errors } =
+  const { vehicules, getVehicules, loading, errors,pagination ,total} =
     useContext(VehiculeContext);
 
-  useEffect(() => {
-    getVehicules();
-  }, []);
+ useEffect(() => {
+  getVehicules(1, {
+    search: searchQuery,
+    brand: brandFilter,
+    color: colorFilter,
+    price: priceRange,
+    transmission: transmissionFilter,
+    fuel: fuelFilter,
+    category: categoryFilter,
+    year: yearFilter,
+    seats: seatsFilter,
+    sort: sortOption,
+  });
+}, [
+  searchQuery,
+  brandFilter,
+  colorFilter,
+  priceRange,
+  transmissionFilter,
+  fuelFilter,
+  categoryFilter,
+  yearFilter,
+  seatsFilter,
+  sortOption,
+]);
 
   useEffect(() => {
     let filteredData = [...vehicules];
     
-    // Search filter (by name/registration number)
+    
     if (searchQuery) {
       filteredData = filteredData.filter((item) =>
         item.nom.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -64,10 +87,10 @@ const ListVehicules = () => {
       );
     }
     
-    // Vehicle type filter
-    if (typeFilter) {
+   
+    if (categoryFilter) {
       filteredData = filteredData.filter((item) =>
-        item.type && item.type.toLowerCase() === typeFilter.toLowerCase()
+        item.category.nom && item.category.nom.toLowerCase() === categoryFilter.toLowerCase()
       );
     }
     
@@ -125,7 +148,7 @@ const ListVehicules = () => {
     vehicules,
     transmissionFilter,
     fuelFilter,
-    typeFilter,
+    categoryFilter,
     yearFilter,
     seatsFilter,
   ]);
@@ -137,7 +160,7 @@ const ListVehicules = () => {
     setPriceRange(2000);
     setTransmissionFilter("");
     setFuelFilter("");
-    setTypeFilter("");
+    setcategoryFilter("");
     setYearFilter("");
     setSeatsFilter("");
     setSortOption("default");
@@ -162,8 +185,8 @@ const ListVehicules = () => {
           setTransmissionFilter={setTransmissionFilter}
           fuelFilter={fuelFilter}
           setFuelFilter={setFuelFilter}
-          typeFilter={typeFilter}
-          setTypeFilter={setTypeFilter}
+          categoryFilter={categoryFilter}
+          setcategoryFilter={setcategoryFilter}
           yearFilter={yearFilter}
           setYearFilter={setYearFilter}
           seatsFilter={seatsFilter}
@@ -178,12 +201,16 @@ const ListVehicules = () => {
             sortOption={sortOption}
             setSortOption={setSortOption}
             totalVehicules={filteredVehicules.length}
-            allVehiculesCount={vehicules.length}
+            allVehiculesCount={total}
           />
         )}
       </div>
+      <Pagination currentPage={pagination.currentPage}
+          lastPage={pagination.lastPage}
+          onPageChange={(page) => getVehicules(page)}
+          />
       
-      {/* Show message when filters are applied */}
+      {/* Show message when filters are applied
       {filteredVehicules.length !== vehicules.length && (
         <div className="mt-4 text-center text-gray-600">
           <p>
@@ -191,8 +218,8 @@ const ListVehicules = () => {
             {filteredVehicules.length === 0 && " - Aucun véhicule ne correspond aux critères"}
           </p>
         </div>
-      )}
-    </div>
+      )}*/}
+    </div> 
   );
 };
 

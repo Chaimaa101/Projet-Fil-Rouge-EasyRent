@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\ReservationPaid;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AvisController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehiculeController;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -46,7 +48,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('reservations', ReservationController::class)->except('store');
     Route::post('reservations/{vehicule}', [ReservationController::class, 'store']);
 
-    Route::post('/create-payment', [PaymentController::class, 'processPayment']);
+    Route::post('/create-payment/{reservation}', [PaymentController::class, 'createPayment']);
+    Route::post('/confirmPayment/{reservation}', [PaymentController::class, 'confirmPayment']);
 
     Route::apiResource('avis', AvisController::class);
 });
@@ -58,6 +61,11 @@ Route::middleware(['auth:sanctum', 'isAdmin'])->group(function () {
     Route::apiResource('avis', AvisController::class)->except(['index', 'store']); 
     Route::apiResource('vehicules', VehiculeController::class)->except(['index', 'show']); 
     Route::get('Allreservations', [AdminController::class,'reservations']); 
-    Route::get('dashboardStats', [AdminController::class,'dashboardStats']); 
+    Route::get('dashboard', [AdminController::class,'dashboard']); 
     Route::put('updateReservationStatus/{reservation}', [AdminController::class,'updateReservationStatus']); 
+});
+
+Route::post('/test-confirm/{reservation}', function (Reservation $reservation) {
+    event(new ReservationPaid($reservation));
+    return response()->json(['ok']);
 });

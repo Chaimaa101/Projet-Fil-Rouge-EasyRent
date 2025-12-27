@@ -25,7 +25,7 @@ class AuthController extends Controller
             $data = [
                 'title' => 'Bienvenue !',
                 'body' => '   Votre inscription a été effectuée avec succès. Nous sommes ravis de vous compter parmi nos utilisateurs !',
-               'url' => 'http://localhost:5173/confirm/' . $user->nom
+               'url' => 'http://localhost:5173/confirm' 
             ];
              
             Mail::to($user->email)->queue(new RegisterMail($data));

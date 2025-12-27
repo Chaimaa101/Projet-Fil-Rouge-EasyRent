@@ -56,12 +56,13 @@ export default function Testimonials() {
         ))}
       </div>
 
-      {/* Comment */}
       <p className="text-gray-600 text-sm leading-relaxed mb-6">
         {avis.avis}
       </p>
 
-      {/* Author */}
+<div className="">
+  <img src="" alt="" />
+</div>
       <div className="bg-teal-500 text-white rounded-lg py-2 px-4 inline-block">
         <p className="font-semibold text-sm">{avis.user.nom} {avis.user.prenom}</p>
         <p className="text-xs opacity-90">{avis.user.role}</p>

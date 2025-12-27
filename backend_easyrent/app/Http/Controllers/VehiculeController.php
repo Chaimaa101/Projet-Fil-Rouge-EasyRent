@@ -16,7 +16,7 @@ class VehiculeController extends Controller
     public function index()
     {
         try {
-            $vehicules = Vehicule::with('marque','images')->paginate(10);
+            $vehicules = Vehicule::with('marque','category','images')->paginate(9);
             return response()->json($vehicules, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

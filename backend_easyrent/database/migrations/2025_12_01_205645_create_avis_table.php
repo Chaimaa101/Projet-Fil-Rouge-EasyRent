@@ -17,6 +17,8 @@ return new class extends Migration
             $table->integer('rating');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('reservation_id')->constrained()->onDelete('cascade');
+            $table->boolean('isPublic')->default(false);
+
             $table->timestamps();
         });
     }

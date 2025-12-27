@@ -24,6 +24,7 @@ return new class extends Migration
             $table->enum('carburant',['essence','diesel','electronique','hybride']);
             $table->enum('status',['disponible','loue','maintenance','indisponible'])->default('disponible');
             $table->string('immatriculation')->unique();
+            $table->boolean('isTop')->default(false);
             $table->foreignId('marque_id')->constrained()->onDelete('cascade');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->timestamps();

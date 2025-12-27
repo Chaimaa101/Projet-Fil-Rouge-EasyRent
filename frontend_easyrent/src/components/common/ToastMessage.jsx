@@ -7,7 +7,7 @@ export default function ToastMessage() {
   const {errors, successMessage} = useContext(AuthContext || VehiculeContext)
 
   useEffect(() => {
-    if (errors?.message) toast.error(errors.message);
+    if (errors) toast.error(errors);
     if (successMessage) toast.success(successMessage);
   }, [errors, successMessage]);
 }

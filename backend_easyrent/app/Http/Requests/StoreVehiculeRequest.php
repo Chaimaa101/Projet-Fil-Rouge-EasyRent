@@ -30,7 +30,7 @@ class StoreVehiculeRequest extends FormRequest
             'description' => 'nullable|string',
             'registration_number' => 'required|string|max:50|unique:vehicules,registration_number',
             'seats' => 'required|integer|min:1',
-            'transmission' => 'required|string|in:manuel,automatique',
+            'transmission' => 'required|string|in:manuelle,automatique',
             'carburant' => 'required|string|in:essence,diesel,electronique,hybride',
             'status' => 'required|string|in:disponible,loue,maintenance,indisponible',
             'immatriculation' => 'required|string|max:100|unique:vehicules,immatriculation',

@@ -17,8 +17,8 @@ class ReservationController extends Controller
     public function index()
     {
         try {
-            $reservations = Auth::user()->reservations()->with(['vehicule', 'client'])->paginate(10);
-            return [$reservations];
+            $reservations = Auth::user()->reservations()->with(['vehicule', 'user'])->get();
+            return $reservations;
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()]);
         }
@@ -48,7 +48,7 @@ class ReservationController extends Controller
     public function show(Reservation $reservation)
     {
         try {
-            return response()->json($reservation->load(['vehicule', 'client']), 200);
+            return response()->json($reservation->load(['vehicule', 'user']), 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

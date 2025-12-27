@@ -94,6 +94,7 @@ getUser()
   const logout = async () => {
     try {
       await api.post("/logout");
+      setSuccessMessage(data.message || "Déconnexion effectue avec successé")
     } catch (_) {}
 
     localStorage.removeItem("token");

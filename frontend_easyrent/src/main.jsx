@@ -9,6 +9,7 @@ import { ReservationsProvider } from './Context/ReservationProvider.jsx'
 import { AvisProvider } from './Context/AvisProvider.jsx'
 import { UserProvider } from './Context/UsersContext.jsx'
 import { AdminProvider } from './Context/AdminProvider.jsx'
+import { PaymentProvider } from './Context/PaymentProvider.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -19,9 +20,11 @@ createRoot(document.getElementById('root')).render(
     <UserProvider>
     <AdminProvider>
     <ReservationsProvider>
+    <PaymentProvider>
        
       <App />
     
+    </PaymentProvider>
     </ReservationsProvider>
     </AdminProvider>
     </UserProvider>

@@ -44,7 +44,7 @@ export const VehiculeProvider = ({ children }) => {
       const res = await api.get(`/vehicules/${id}`);
       setVehicule(res.data);
     } catch (error) {
-      setErrors(error.response?.data || "Error fetching vehicle");
+      setErrors(error.response?.data || "Erreur lors de la récupération du véhicule");
     } finally {
       setLoading(false);
     }
@@ -56,10 +56,10 @@ export const VehiculeProvider = ({ children }) => {
     setErrors(null);
     try {
       const res = await api.post("/vehicules", data);
-      setSuccessMessage("Vehicle created successfully");
+      setSuccessMessage("Véhicule créé avec succès");
       getVehicules
     } catch (error) {
-      setErrors( error.response?.data?.errors || "Error creating vehicle");
+      console.log( error || "Erreur lors de la création du véhicule");
     } finally {
       setLoading(false);
     }
@@ -74,7 +74,7 @@ export const VehiculeProvider = ({ children }) => {
       setVehicules((prev) =>
         prev.map((v) => (v.id === id ? res.data : v))
       );
-      setSuccessMessage("Vehicle updated successfully");
+      setSuccessMessage("Véhicule modifié avec succès");
     } catch (error) {
       setErrors(error.response?.data || "Error updating vehicle");
     } finally {
@@ -89,7 +89,7 @@ export const VehiculeProvider = ({ children }) => {
     try {
       await api.delete(`/vehicules/${id}`);
       setVehicules((prev) => prev.filter((v) => v.id !== id));
-      setSuccessMessage("Vehicle deleted successfully");
+      setSuccessMessage("Véhicule supprimé avec succès");
     } catch (error) {
       setErrors(error.response?.data || "Error deleting vehicle");
     } finally {

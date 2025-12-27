@@ -24,6 +24,7 @@ class StoreReservationRequest extends FormRequest
         return [
             'start_date' => 'required|date|after_or_equal:today',
             'end_date' => 'required|date|after:start_date',
+            'days' => 'required|numeric',
             'total_price' => 'required|numeric|min:0',
             'status' => 'nullable|string|in:pending,paid,cancelled',
             'frait_retard' => 'nullable|numeric|min:0',

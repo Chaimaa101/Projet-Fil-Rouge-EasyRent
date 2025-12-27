@@ -26,7 +26,9 @@ export default function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
     const result = await register(formData);
-
+if(result){
+  toast.success("Consultez votre email pour le lien d\'accès à votre espace",{duration: 5000})
+}
   };
 
   return (
@@ -37,16 +39,15 @@ export default function Register() {
         className="bg-white/10 backdrop-blur-xl p-10 rounded-2xl w-full max-w-md bg-gradient-to-b from-[#71C9CE] to-[#CBF1F5] text-white"
         onSubmit={handleRegister}
         >
-        <h2 className="text-3xl font-bold mb-8 text-center">Create Account</h2>
+        <h2 className="text-3xl font-bold mb-8 text-center">Inscription</h2>
 
-        {/* Name Fields */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div>
             <input
               className={`w-full p-3 rounded bg-white/80 focus:outline-none text-black ${
                 errors?.nom ? "border border-red-500" : ""
               }`}
-              placeholder="Nom"
+              placeholder="Votre Nom"
               name="nom"
               value={formData.nom}
               onChange={handleChange}
@@ -61,7 +62,7 @@ export default function Register() {
               className={`w-full p-3 rounded bg-white/80 focus:outline-none text-black ${
                 errors?.prenom ? "border border-red-500" : ""
               }`}
-              placeholder="Prenom"
+              placeholder="Votre Prénom"
               name="prenom"
               value={formData.prenom}
               onChange={handleChange}
@@ -78,7 +79,7 @@ export default function Register() {
             className={`w-full p-3 rounded bg-white/80 focus:outline-none text-black ${
               errors?.email ? "border border-red-500" : ""
             }`}
-            placeholder="Email"
+            placeholder="Votre Email"
             name="email"
             value={formData.email}
             onChange={handleChange}
@@ -129,9 +130,9 @@ export default function Register() {
           disabled={loading}
           className="w-full py-3 bg-teal-600 rounded-xl hover:bg-teal-700 transition disabled:opacity-50"
         >
-          {loading ? "Loading..." : "Create Account"}
+          {loading ? "Chargement..." : "S'inscrire"}
         </button>
       </motion.form>
     </div>
   );
-}
+} 

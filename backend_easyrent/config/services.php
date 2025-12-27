@@ -34,6 +34,8 @@ return [
         'secret' => env('STRIPE_SECRET'),
         'public' => env('STRIPE_KEY'),
     ],
+    'enabled' => env('TELESCOPE_ENABLED', true),
+
 
 
 ];

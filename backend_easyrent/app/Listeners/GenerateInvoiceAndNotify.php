@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 use App\Events\ReservationPaid;
 use App\Notifications\ReservationPaidNotification;
-use Barryvdh\DomPDF\Facade\Pdf ;
+use Barryvdh\DomPDF\Facade\Pdf;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -12,48 +12,46 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class GenerateInvoiceAndNotify implements ShouldQueue
 {
     use Queueable;
-    /**
-     * Create the event listener.
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
-     * Handle the event.
-     */
-
 
     public function handle(ReservationPaid $event)
     {
-        $reservation = $event->reservation;
+         $reservation = $event->reservation;
 
-        // 1️⃣ Update reservation status
+        // Reservation
         $reservation->update(['status' => 'paid']);
 
-        // 2️⃣ Generate invoice PDF
-        $pdf = Pdf::loadView('invoice', compact('reservation'));
-        $path = "invoices/invoice_{$reservation->id}.pdf";
+        // Vehicle
+        $reservation->vehicule->update(['status' => 'loue']);
 
-        $pdfPath = storage_path("invoices/invoice_{$reservation->id}.pdf");
+        // 3️⃣ Generate PDF TEMPORAIRE
+    $pdf = Pdf::loadView('invoice', compact('reservation'));
 
-        $uploadedFile = Cloudinary::upload($pdfPath, [
-            'resource_type' => 'raw',   // important for PDF
-            'folder' => 'invoices',
-        ]);
+    $tempPath = storage_path("app/temp/invoice_{$reservation->id}.pdf");
 
-        // Get URL
-        $pdfUrl = $uploadedFile->getSecurePath();
-
-        // Store URL in reservation
-        $reservation->invoice_path = $pdfUrl;
-        $reservation->save();
-        // 3️⃣ Save invoice path (optional)
-        $reservation->invoice_path = $path;
-        $reservation->save();
-
-        // 4️⃣ Notify user
-        $reservation->user->notify(new ReservationPaidNotification($reservation));
+    if (!file_exists(dirname($tempPath))) {
+        mkdir(dirname($tempPath), 0755, true);
     }
-}
+
+    $pdf->save($tempPath); // ⬅️ fichier temporaire
+
+    // 4️⃣ Upload Cloudinary
+    $uploaded = Cloudinary::upload($tempPath, [
+        'resource_type' => 'raw',
+        'folder' => 'invoices',
+        'public_id' => "invoice_{$reservation->id}",
+    ]);
+
+    $pdfUrl = $uploaded->getSecurePath();
+
+    // 5️⃣ Save URL in DB
+    $reservation->update([
+        'invoice_path' => $pdfUrl
+    ]);
+
+        // Notification
+        $reservation->user->notify(
+            new ReservationPaidNotification($reservation)
+        );
+    }
+    }
+

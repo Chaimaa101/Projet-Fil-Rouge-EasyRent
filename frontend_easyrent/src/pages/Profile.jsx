@@ -1,156 +1,164 @@
 import { motion } from "framer-motion";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { AuthContext } from "../Context/AuthProvider";
-
-// Reusable Input Component
-const InputField = ({ label, type, id, value, onChange, placeholder, error }) => (
-  <div className="flex flex-col gap-1">
-    <label className="text-sm font-medium text-gray-700" htmlFor={id}>
-      {label}
-    </label>
-    <input
-      className={`bg-white border ${error ? 'border-red-500' : 'border-gray-300'} text-gray-600 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all`}
-      type={type}
-      id={id}
-      name={id}
-      value={value}
-      onChange={onChange}
-      placeholder={placeholder}
-    />
-    {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
-  </div>
-);
+import TextInput from "../components/formCompenents/TextInput";
 
 export default function Profile() {
-const {user,errors}= useContext(AuthContext)
-  const { formData} = useState({
-    nom: user.nom,
-    prenom: user.prenom,
-    email: user.email,
-    password: '',
-    password_confirmation: '',
-  });
+  const { user, errors, updateProfile } = useContext(AuthContext);
 
-  const [previewImage, setPreviewImage] = useState(user.details || '/default-profile.png');
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+  } = useForm();
 
+  const [previewImage, setPreviewImage] = useState(
+    user?.details?.profile_image || "/default-profile.png"
+  );
 
+  const [loading, setLoading] = useState(false);
+
+  /* Fill form when user loads */
+  useEffect(() => {
+    if (user) {
+      reset({
+        nom: user.nom || "",
+        prenom: user.prenom || "",
+        email: user.email || "",
+        password: "",
+        password_confirmation: "",
+      });
+    }
+  }, [user, reset]);
+
+  /* Image change */
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
+    if (!file) return;
 
-      // Create preview
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        setPreviewImage(event.target.result);
-      };
-      reader.readAsDataURL(file);
+    setValue("profile_image", file);
+
+    const reader = new FileReader();
+    reader.onload = (e) => setPreviewImage(e.target.result);
+    reader.readAsDataURL(file);
+  };
+
+  /* Submit */
+  const onSubmit = async (data) => {
+    try {
+      setLoading(true);
+
+      const formData = new FormData();
+      Object.entries(data).forEach(([key, value]) => {
+        if (value) formData.append(key, value);
+      });
+
+      await updateProfile(formData);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-   
-  };
-
   return (
-    <div className="flex-1 relative overflow-auto bg-gradient-to-br from-gray-50 to-gray-100">
-      <main className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-        
+    <div className="flex-1 bg-gradient-to-br from-gray-50 to-gray-100">
+      <main className="max-w-4xl mx-auto py-8 px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.3 }}
-          className="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-200"
+          className="bg-white shadow-xl rounded-2xl border"
         >
-          <form className="p-8 space-y-8" onSubmit={handleSubmit}>
-            {/* Profile Picture Section */}
-            <div className="flex flex-col items-center space-y-6">
-              <div className="relative w-40 h-40 rounded-full overflow-hidden border-4 border-white shadow-lg">
+          <form onSubmit={handleSubmit(onSubmit)} className="p-8 space-y-8">
+            {/* Profile image */}
+            <div className="flex flex-col items-center space-y-4">
+              <div className="relative w-40 h-40 rounded-full overflow-hidden border">
                 <img
                   src={previewImage}
-                  alt="Profile"
                   className="w-full h-full object-cover"
+                  alt="Profile"
                 />
+
                 <input
                   type="file"
+                  id="profile_image"
                   accept="image/*"
-      
-                  className="hidden"
+                  hidden
                   onChange={handleFileChange}
                 />
+
                 <label
                   htmlFor="profile_image"
-                  className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity cursor-pointer"
+                  className="absolute inset-0 flex items-center justify-center
+                             bg-black/50 text-white opacity-0 hover:opacity-100
+                             cursor-pointer transition"
                 >
-                  <span className="text-white text-sm font-medium">Change</span>
+                  Change
                 </label>
               </div>
-              {errors.profile_image && (
-                <p className="text-red-500 text-sm">{errors.profile_image}</p>
+
+              {errors?.profile_image && (
+                <p className="text-red-500 text-sm">
+                  {errors.profile_image[0]}
+                </p>
               )}
-              <h2 className="text-2xl font-bold text-gray-800">
-                {user.firstname} {user.lastname}
+
+              <h2 className="text-xl font-bold">
+                {user?.nom} {user?.prenom}
               </h2>
-              <p className="text-sm text-gray-600">{user.email}</p>
+              <p className="text-sm text-gray-600">{user?.email}</p>
             </div>
 
-            {/* Form Fields */}
+            {/* Inputs */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <InputField
+              <TextInput
                 label="First Name"
-                type="text"
-                id="firstname"
-                value={data.firstname}
-                onChange={(e) => setData('firstname', e.target.value)}
-                placeholder="Enter your first name"
-                error={errors.firstname}
+                name="nom"
+                register={register}
+                errors={errors}
               />
-              <InputField
+
+              <TextInput
                 label="Last Name"
-                type="text"
-                id="lastname"
-                value={data.lastname}
-                onChange={(e) => setData('lastname', e.target.value)}
-                placeholder="Enter your last name"
-                error={errors.lastname}
+                name="prenom"
+                register={register}
+                errors={errors}
               />
-              <InputField
-                label="Email Address"
+
+              <TextInput
+                label="Email"
                 type="email"
-                id="email"
-                value={data.email}
-                onChange={(e) => setData('email', e.target.value)}
-                placeholder="Enter your email"
-                error={errors.email}
+                name="email"
+                register={register}
+                errors={errors}
               />
-              <InputField
-                label="New Password (leave blank to keep current)"
+
+              <TextInput
+                label="New Password"
                 type="password"
-                id="password"
-                value={data.password}
-                onChange={(e) => setData('password', e.target.value)}
-                placeholder="Enter a new password"
-                error={errors.password}
+                name="password"
+                register={register}
+                errors={errors}
               />
-              <InputField
+
+              <TextInput
                 label="Confirm Password"
                 type="password"
-                id="password_confirmation"
-                value={data.password_confirmation}
-                onChange={(e) => setData('password_confirmation', e.target.value)}
-                placeholder="Confirm your new password"
+                name="password_confirmation"
+                register={register}
+                errors={errors}
               />
             </div>
 
-            {/* Save Changes Button */}
+            {/* Submit */}
             <motion.button
               whileTap={{ scale: 0.95 }}
-              whileHover={{ scale: 1.05 }}
               type="submit"
-              disabled={processing}
-              className={`w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white px-5 py-3 rounded-md font-semibold hover:from-blue-600 hover:to-blue-700 transition-all ${processing ? 'opacity-75 cursor-not-allowed' : ''}`}
+              disabled={loading}
+              className="w-full bg-teal-600 text-white py-3 rounded-md font-semibold
+                         hover:bg-teal-700 disabled:opacity-50"
             >
-              {processing ? 'Saving...' : 'Save Changes'}
+              {loading ? "Saving..." : "Save Changes"}
             </motion.button>
           </form>
         </motion.div>

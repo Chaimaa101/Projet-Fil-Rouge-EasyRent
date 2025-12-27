@@ -6,6 +6,8 @@ import { LuChartNoAxesCombined } from "react-icons/lu";
 import StatCard from "./common/StatBar";
 import { useContext } from "react";
 import { AdminContext } from "../../Context/AdminProvider";
+import RecentReservations from "./statistics/RecentReservations";
+import QuickActions from "./statistics/QuickActions";
 
 function Dashboard() {
   const {state,} = useContext(AdminContext)
@@ -46,24 +48,13 @@ function Dashboard() {
                 trend="down"
               />
             </motion.div>
-
-            {/* <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              <div className="lg:col-span-2">
-                <TotalSellersChart />
-              </div>
-              <div>
-                <RevenueBarChart />
-              </div>
-            </div>
-            
-            <div className="mt-8">
-              <PoductesSelling />
-            </div> */}
           </div>
 
-          <motion.div className="w-full h-1/2 bg-gray-400">
-
-            </motion.div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <RecentReservations/>
+              <RecentReservations/>
+          </div>
+<QuickActions/>
         </main>
             
       </>

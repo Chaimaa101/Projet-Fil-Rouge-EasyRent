@@ -1,11 +1,10 @@
 import { motion } from "framer-motion";
 
 function Pagination({ currentPage, lastPage, onPageChange }) {
-  if (lastPage <= 1) return null;
+  if (!lastPage) return null;
 
   return (
     <div className="flex justify-center items-center gap-2 mt-6">
-      {/* Prev */}
       <motion.button
         whileTap={{ scale: 0.95 }}
         disabled={currentPage === 1}
@@ -17,7 +16,6 @@ function Pagination({ currentPage, lastPage, onPageChange }) {
         Prev
       </motion.button>
 
-      {/* Page Numbers */}
       {Array.from({ length: lastPage }).map((_, index) => {
         const page = index + 1;
         return (
@@ -37,7 +35,6 @@ function Pagination({ currentPage, lastPage, onPageChange }) {
         );
       })}
 
-      {/* Next */}
       <motion.button
         whileTap={{ scale: 0.95 }}
         disabled={currentPage === lastPage}

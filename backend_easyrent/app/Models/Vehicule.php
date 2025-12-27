@@ -29,6 +29,10 @@ class Vehicule extends Model
     {
         return $this->belongsTo(Marque::class);
     }
+    public function category()
+    {
+        return $this->belongsTo(Marque::class);
+    }
 
     public function reservations()
     {

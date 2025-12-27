@@ -18,7 +18,7 @@ export const ReservationsProvider = ({ children }) => {
     setErrors(null);
     try {
       const res = await api.get("/reservations");
-      setreservations(res.data.data);
+      setreservations(res.data);
       setTotal(res.data.total)
     } catch (error) {
       setErrors(error.response?.data || "Error fetching reservations");
