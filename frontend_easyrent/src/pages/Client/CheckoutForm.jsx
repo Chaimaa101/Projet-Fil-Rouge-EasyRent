@@ -1,12 +1,22 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import api from '../../Services/api';
+import { useParams } from 'react-router-dom';
+import { ReservationsContext } from '../../Context/ReservationProvider';
+import toast from 'react-hot-toast';
 
 export default function CheckoutForm() {
   const stripe = useStripe();
   const elements = useElements();
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const { id } = useParams()
+  const {singlereservations,getSinglereservations} = useContext(ReservationsContext)
+
+  useEffect(()=>{
+    getSinglereservations(id)
+  },[])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,8 +25,8 @@ export default function CheckoutForm() {
     setMessage('');
 
     try {
-      // 1️⃣ Call backend to create PaymentIntent
-      const { data } = await api.post('/create-payment', { amount: 100 }); // $1.00
+  
+      const { data } = await api.post(`/create-payment/${id}`, { amount: 100 }); 
 
       // 2️⃣ Confirm the payment
       const result = await stripe.confirmCardPayment(data.clientSecret, {
@@ -31,7 +41,7 @@ export default function CheckoutForm() {
       if (result.error) {
         toast.error(result.error.message);
       } else if (result.paymentIntent.status === 'succeeded') {
-        toast.succes('Paiement réussi ! ✅');
+        toast.success('Paiement réussi !');
       }
     } catch (error) {
       toast.error('Erreur lors du paiement.');
@@ -59,7 +69,7 @@ export default function CheckoutForm() {
       </div>
 
       <div className="mb-4 text-gray-700">
-        <p>Total à payer: <span className="font-semibold text-teal-600">100 MAD</span></p>
+        <p>Total à payer: <span className="font-semibold text-teal-600">{singlereservations?.total_price}</span></p>
       </div>
 
       <button

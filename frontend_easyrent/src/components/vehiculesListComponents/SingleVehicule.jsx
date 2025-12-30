@@ -1,93 +1,213 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import {
   FaCogs,
   FaGasPump,
-  FaDoorOpen,
-  FaSnowflake,
   FaUsers,
-  FaRoad,
+  FaCalendarAlt,
 } from "react-icons/fa";
 import { VehiculeContext } from "../../Context/VehiculeProvider";
-import { useParams } from "react-router-dom";
+import { ReservationsContext } from "../../Context/ReservationProvider";
+import { useNavigate, useParams } from "react-router-dom";
+import TextInput from "../formCompenents/TextInput";
+import { handleApiError } from "../common/handleApiError";
 
 export default function VehicleDetails() {
-  const {id} = useParams()
-
+  const { id } = useParams();
+ 
+  const navigate =  useNavigate()
   const { vehicule, getVehicule } = useContext(VehiculeContext);
-useEffect(() => {
+  const { createreservations, errors } =
+    useContext(ReservationsContext);
+
+  useEffect(() => {
     getVehicule(id);
-  }, []);
+  }, [id]);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors: frontErrors },
+  } = useForm();
+
+    /* récupérer dates depuis react-hook-form */
+  const start_date = watch("start_date");
+  const end_date = watch("end_date");
+
+  /* calcul jours */
+
+  const days =
+    start_date && end_date
+      ? Math.max(
+          0,
+          Math.ceil(
+            (new Date(end_date) - new Date(start_date)) /
+              (1000 * 60 * 60 * 24)
+          )
+        )
+      : 0;
+
+  const totalPrice = days * (vehicule?.prix_day || 0);
+
+  /* submit réservation */
+  const onSubmit = async (data) => {
+    const payload = {
+      ...data,
+      start_date: start_date,
+      end_date: end_date,
+      vehicule_id: vehicule.id,
+      total_price: totalPrice,
+      days,
+    };
+try{
+ const result = await createreservations(payload,id);
+ if(result){
+  navigate('/client/myReserv')
+ }
+
+} catch (error) {
+    handleApiError(error, "Erreur lors de la suppression");
+  }
+  };
 
 
   return (
-    <section className="bg-blue-100 min-h-screen py-10">
+    <section className="bg-gray-100 min-h-screen py-10">
       <div className="max-w-7xl mx-auto px-4">
-        {/* Page Title */}
-        <h1 className="text-2xl font-bold text-center mb-10">
-          Vehicle Details
+
+        {/* TITRE */}
+        <h1 className="text-2xl font-bold mb-6">
+          {vehicule?.nom} {vehicule?.marque?.nom} 
         </h1>
 
-        <div className="bg-white rounded-xl shadow-md p-8 grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div className="bg-white rounded-xl shadow-lg p-8 grid grid-cols-1 md:grid-cols-2 gap-10">
+
           {/* LEFT SIDE */}
           <div>
-            <h2 className="text-lg font-semibold mb-1">{vehicule?.marque?.nom}</h2>
-            <p className="text-teal-500 font-bold mb-4">
-              {vehicule?.prix_day}
-              <span className="text-sm font-normal text-gray-500">/day</span>
+            <p className="text-teal-500 font-bold text-xl mb-4">
+              {vehicule?.prix_day} DH
+              <span className="text-sm text-gray-500"> / jour</span>
             </p>
 
-            {/* Car Image */}
-            <div className="flex justify-center mb-6">
-              <img src={vehicule?.images[0]?.path} alt="BMW" className="h-40 object-contain" />
-            </div>
+            {/* Image principale */}
+            {vehicule?.images?.length > 0 && (
+              <img
+                src={vehicule.images[0].path}
+                alt="Véhicule"
+                className="h-50 object-contain mx-auto mb-4"
+              />
+            )}
 
-            {/* Thumbnails */}
+            {/* Miniatures */}
             <div className="flex gap-3 justify-center">
-              {vehicule?.images.map((img) => (
-                <div
-                  key={img?.id}
-                  className="w-16 h-12 bg-gray-200 rounded-md"
-                >
-                  <img src={img?.path} alt="image" />
-                </div>
+              {vehicule?.images?.map((img) => (
+                <img
+                  key={img.id}
+                  src={img.path}
+                  alt="miniature"
+                  className="w-20 h-15 object-cover rounded border"
+                />
               ))}
-          </div>
+            </div>
+ {vehicule?.description && (
+              <p className="text-gray-600 text-sm mt-4">
+                {vehicule.description}
+              </p>
+            )}
           </div>
 
           {/* RIGHT SIDE */}
           <div>
-            <h3 className="font-semibold mb-4">Technical Specification</h3>
+            <h3 className="font-semibold mb-4">Spécifications techniques</h3>
 
-            {/* Specs Grid */}
-            <div className="grid grid-cols-2 gap-4 text-sm text-gray-600 mb-6">
-              <Spec icon={<FaCogs />} label='dgvdbb' value={vehicule?.transmission} />
-              <Spec icon={<FaGasPump />} label="Fuel" value={vehicule?.carburant} />
-              <Spec icon={<FaDoorOpen />} label="Doors" value="2" />
-              <Spec
-                icon={<FaSnowflake />}
-                label="Air Conditioner"
-                value="Yes"
-              />
-              <Spec icon={<FaUsers />} label={vehicule?.seats} value={vehicule?.seats} />
-              <Spec icon={<FaRoad />} label="Distance" value="500" />
+            <div className="grid grid-cols-2 gap-4 mb-6">
+
+              {vehicule?.transmission && (
+                <Spec
+                  icon={<FaCogs />}
+                  label="Boîte"
+                  value={vehicule.transmission}
+                />
+              )}
+
+              {vehicule?.carburant && (
+                <Spec
+                  icon={<FaGasPump />}
+                  label="Carburant"
+                  value={vehicule.carburant}
+                />
+              )}
+
+              {vehicule?.seats && (
+                <Spec
+                  icon={<FaUsers />}
+                  label="Places"
+                  value={vehicule.seats}
+                />
+              )}
+
+              {vehicule?.annee && (
+                <Spec
+                  icon={<FaCalendarAlt />}
+                  label="Année"
+                  value={vehicule.annee}
+                />
+              )}
             </div>
+  <h3 className="font-semibold mb-3">Réservation</h3>
 
-            {/* Rent Button */}
-            <button className="bg-teal-500 text-white px-6 py-2 rounded-lg hover:bg-teal-600 transition mb-8">
-              Rent a car
-            </button>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="grid grid-cols-2 gap-4">
 
-            {/* Equipment */}
-            <h3 className="font-semibold mb-3">Car Equipment</h3>
+                <TextInput
+                  label="Date de retrait"
+                  name="start_date"
+                  type="date"
+                  register={register}
+                  rules={{ required: "Date obligatoire" }}
+                  frontErrors={frontErrors}
+                  backErrors={errors}
+                />
 
-            <div className="grid grid-cols-2 gap-2 text-sm text-gray-600">
-              <Equipment text="ABS" />
-              <Equipment text="Air Bags" />
-              <Equipment text="Cruise Control" />
-              <Equipment text="Air Conditioner" />
-            </div>
-            <p>{vehicule?.description}</p>
-            <p>{vehicule?.statut}</p>
+                <TextInput
+                  label="Date de retour"
+                  name="end_date"
+                  type="date"
+                  register={register}
+                  rules={{ required: "Date obligatoire" }}
+                  frontErrors={frontErrors}
+                  backErrors={errors}
+                />
+
+                <div>
+                  <label>Nombre de jours</label>
+                  <input
+                    value={days}
+                    name="days"
+                    readOnly
+                    className="w-full border px-3 py-2 rounded bg-gray-100"
+                  />
+                </div>
+
+                <div>
+                  <label>Total à payer</label>
+                  <input
+                  name="total_price"
+                    value={`${totalPrice} DH`}
+                    readOnly
+                    className="w-full border px-3 py-2 rounded bg-gray-100"
+                  />
+                </div>
+              </div>
+
+              <button
+                disabled={!days}
+                className="mt-6 w-full bg-teal-500 text-white py-3 rounded-lg disabled:opacity-50"
+              >
+                Louer ce véhicule
+              </button>
+            </form>
           </div>
         </div>
       </div>
@@ -95,20 +215,13 @@ useEffect(() => {
   );
 }
 
-/* Reusable components */
+/* COMPONENT TECHNIQUE */
 const Spec = ({ icon, label, value }) => (
-  <div className="flex items-center gap-2 bg-gray-50 p-3 rounded-lg">
-    <span className="text-teal-500">{icon}</span>
+  <div className="flex items-center gap-3 bg-gray-50 p-3 rounded-lg">
+    <span className="text-teal-500 text-lg">{icon}</span>
     <div>
       <p className="text-xs text-gray-400">{label}</p>
       <p className="font-medium text-gray-700">{value}</p>
     </div>
-  </div>
-);
-
-const Equipment = ({ text }) => (
-  <div className="flex items-center gap-2">
-    <span className="w-2 h-2 bg-teal-500 rounded-full"></span>
-    <span>{text}</span>
   </div>
 );

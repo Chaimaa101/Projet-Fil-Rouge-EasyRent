@@ -28,7 +28,6 @@ class UpdateReservationRequest extends FormRequest
             'end_date' => 'sometimes|date|after:start_date',
             'total_price' => 'sometimes|numeric|min:0',
             'status' => 'sometimes|string|in:pending,paid,cancelled',
-            'frait_retard' => 'nullable|numeric|min:0',
         ];
     }
 
@@ -50,8 +49,6 @@ class UpdateReservationRequest extends FormRequest
             'status.string' => 'Le statut doit être une chaîne de caractères.',
             'status.in' => 'Le statut doit être l\'un des suivants: pending, confirmed, cancelled.',
             
-            'frait_retard.numeric' => 'Les frais de retard doivent être un nombre.',
-            'frait_retard.min' => 'Les frais de retard ne peuvent pas être négatifs.',
         ];
     }
 }

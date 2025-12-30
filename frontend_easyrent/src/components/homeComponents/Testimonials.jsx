@@ -3,15 +3,14 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import { useContext, useEffect, useRef } from "react";
 import { FaQuoteLeft, FaStar } from "react-icons/fa";
-
 import "swiper/css";
 import { AvisContext } from "../../Context/AvisProvider";
 
 export default function Testimonials() {
-   const { avis, getAvis } = useContext(AvisContext);
+   const {publicAvis, getPublicAvis } = useContext(AvisContext);
   
     useEffect(() => {
-      getAvis();
+      getPublicAvis();
     }, []);
 
   return (
@@ -34,7 +33,7 @@ export default function Testimonials() {
         }}
         className="max-w-7xl mx-auto px-4"
       >
-        {avis.map((avis) => (
+        {publicAvis.map((avis) => (
           <SwiperSlide key={avis.id} className="flex justify-center">
             <div className="bg-white rounded-xl shadow-md p-6 mx-9 text-center w-80 h-65">
     
@@ -61,7 +60,7 @@ export default function Testimonials() {
       </p>
 
 <div className="">
-  <img src="" alt="" />
+  <img src="/logo.png" alt="" />
 </div>
       <div className="bg-teal-500 text-white rounded-lg py-2 px-4 inline-block">
         <p className="font-semibold text-sm">{avis.user.nom} {avis.user.prenom}</p>

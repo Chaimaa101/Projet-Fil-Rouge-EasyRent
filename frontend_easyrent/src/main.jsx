@@ -21,9 +21,8 @@ createRoot(document.getElementById('root')).render(
     <AdminProvider>
     <ReservationsProvider>
     <PaymentProvider>
-       
       <App />
-    
+ 
     </PaymentProvider>
     </ReservationsProvider>
     </AdminProvider>

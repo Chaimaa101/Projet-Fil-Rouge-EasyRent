@@ -21,7 +21,6 @@ return new class extends Migration
             $table->decimal('total_price', 10, 2);
             $table->string('invoice_path')->nullable();
             $table->enum('status',['pending', 'paid', 'cancelled'])->default('pending');
-            $table->decimal('frait_retard', 10, 2)->nullable();
             $table->timestamps();
         });
     }

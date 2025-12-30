@@ -14,6 +14,7 @@ class Avis extends Model
         'rating',
         'reservation_id',
         'user_id',
+        'isPublic'
     ];
 
     public function user()

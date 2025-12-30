@@ -4,21 +4,20 @@ import { AvisContext } from "../../Context/AvisProvider";
 
 export default function MesAvis() {
 
-  const {avis,pending,error,getAvis } = useContext(AvisContext)
+  const {MesAvis=[wowa],pending,error,getMesAvis } = useContext(AvisContext)
   useEffect(() =>{
-    getAvis()
+    getMesAvis()
   },[])
-  console.log(avis)
   return (
     <>
     <div className= "grid grid-cols-2 ">
-   {avis.map((avi, index) => (
+   {MesAvis.map((avi, index) => (
     <div key ={index} className="bg-white rounded-xl shadow-md border border-teal-100 p-6 m-12 hover:shadow-lg transition">
    
       <div className="flex justify-between items-start">
         <div>
           <h2 className="text-lg font-semibold text-gray-800">
-            {avi?.vehicule?.nom} • {avi?.vehicule?.marque?.nom}
+            {avi?.vehicule?.nom} • {avi?.reservation.vehicule?.nom}
           </h2>
           <p className="text-sm text-gray-500">{avi?.days}</p>
         </div>

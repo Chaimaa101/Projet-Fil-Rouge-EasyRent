@@ -23,6 +23,7 @@ class AvisFactory extends Factory
             'reservation_id' => \App\Models\Reservation::factory(),
             'rating' => fake()->numberBetween(1, 5),
             'avis' => fake()->sentence(),
+            'isPublic' => fake()->boolean(),
         ];
     }
 }

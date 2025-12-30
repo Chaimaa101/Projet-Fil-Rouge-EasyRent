@@ -10,9 +10,10 @@ class UpdatePaymentRequest extends FormRequest
     {
         return [
             'reservation_id' => 'sometimes|exists:reservations,id',
+            'user_id' => 'sometimes|exists:users,id',
             'amount' => 'sometimes|numeric|min:0',
             'payment_method' => 'sometimes|in:credit_card,cash,paypal',
-            'statut' => 'sometimes|in:completed,pending,failed',
+            'status' => 'sometimes|in:completed,pending,failed',
         ];
     }
 
@@ -26,7 +27,7 @@ class UpdatePaymentRequest extends FormRequest
 
             'payment_method.in' => 'Mode de paiement invalide.',
 
-            'statut.in' => 'Statut invalide.',
+            'status.in' => 'Statut invalide.',
         ];
     }
 }

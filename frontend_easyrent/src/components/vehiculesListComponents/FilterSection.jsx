@@ -27,7 +27,7 @@ const FilterSection = ({
   fuels = ["Essence", "Diesel", "Électrique", "Hybride"],
   seatsOptions = [2, 4, 5, 7, 9]
 }) => {
-  const {categories,brands,getBrands,getCategories}= useContext(BrandContext)
+  const {categories=[],brands=[],getBrands,getCategories}= useContext(BrandContext)
 
   useEffect(() =>{
     getBrands()

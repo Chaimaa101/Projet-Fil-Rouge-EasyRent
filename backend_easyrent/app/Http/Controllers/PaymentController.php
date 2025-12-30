@@ -11,8 +11,15 @@ use Stripe\Stripe;
 
 class PaymentController extends Controller
 {
-    // Process the payment
-   public function createPayment(Reservation $reservation)
+    public function getUserPaiments(Request $request){
+       try {
+         $myPaiments = $request->user()->paiments()->with('reservation')->get();
+        return $myPaiments;
+       } catch (\Throwable $th) {
+        return $th->getMessage();
+       }
+    }
+   public function createPayment(Request $request,Reservation $reservation)
 {
     Stripe::setApiKey(config('services.stripe.secret'));
 
@@ -21,7 +28,7 @@ class PaymentController extends Controller
         'currency' => 'usd',
     ]);
 
-    Payment::create([
+    $request->user()->paiments()->create([
         'reservation_id'    => $reservation->id,
         'payment_intent_id' => $paymentIntent->id,
         'amount' => $reservation->total_price * 100,

@@ -18,6 +18,7 @@ class MarqueController extends Controller
         try {
             $marques = Marque::with('vehicules')->get();
             return ['marques' =>  $marques];
+
         } catch (\Exception $e) {
             return ['error'=>$e->getMessage()];
         }
@@ -26,7 +27,7 @@ class MarqueController extends Controller
        public function getCategories()
     {
         try {
-            $categories =Category::all();
+            $categories =Category::with('vehicules')->get();
             return ['categories' =>  $categories];
         } catch (\Exception $e) {
             return ['error'=>$e->getMessage()];

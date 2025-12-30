@@ -1,23 +1,40 @@
-import React, { useContext, useEffect } from 'react'
-import VehicleCard from '../vehiculesListComponents/VehiculeCard'
+import React, { useContext, useEffect } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import VehicleCard from '../vehiculesListComponents/VehiculeCard';
 import { VehiculeContext } from '../../Context/VehiculeProvider';
 
 function TopVehicules() {
-     const { pagination, vehicules, getVehicules, loading,total } =
-        useContext(VehiculeContext);
-    
-      useEffect(() => {
-        getVehicules();
-      }, []);
+  const { getTopVehicules, topvehicules } = useContext(VehiculeContext);
+
+  useEffect(() => {
+    getTopVehicules();
+  }, []);
+
   return (
-    <>
-     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto text-center">
-    {vehicules.map((vehicule) => (
-    <VehicleCard vehicule = {vehicule} key ={vehicule.id} />
-    ))}
+    <div className="mx-auto text-center">
+      <h2 className="text-2xl font-bold my-4 flex items-center justify-center gap-2 ">
+         Top Vehicles 
+      </h2>
+
+      <Swiper
+        spaceBetween={20}
+        slidesPerView={1}
+        breakpoints={{
+          640: { slidesPerView: 2 },
+          768: { slidesPerView: 2 },
+          1024: { slidesPerView: 3 },
+        }}
+        className='mx-5'
+      >
+        {topvehicules.map((vehicule) => (
+          <SwiperSlide key={vehicule.id}>
+            <VehicleCard vehicule={vehicule} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </div>
-    </>
-  )
+  );
 }
 
-export default TopVehicules
+export default TopVehicules;

@@ -17,7 +17,6 @@ class Reservation extends Model
         'total_price',
         'days',
         'status',
-        'frait_retard',
     ];
 
     public function user()

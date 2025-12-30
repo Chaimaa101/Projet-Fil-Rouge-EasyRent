@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UpdateProfileRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -14,7 +13,7 @@ class UserController extends Controller
     public function index()
     {
         try {
-            $users = User::paginate(10);
+            $users = User::with('details')->latest()->paginate(6);
             return $users;
         } catch (\Exception $e) {
                       return response()->json(['error' => $e->getMessage()]);
@@ -42,15 +41,12 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
-    {
-        try {
-            return response()->json($user, 200);
-        } catch (\Exception $e) {
-                       return response()->json(['error' => $e->getMessage()]);
+   public function show(Request $request)
+{
+    $user = $request->user()->load('details');
 
-        }
-    }
+    return $user;
+}
 
 
     /**

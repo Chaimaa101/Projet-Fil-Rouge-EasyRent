@@ -8,16 +8,11 @@ import { toast } from "react-hot-toast";
 import TextInput from "../../../components/formCompenents/TextInput";
 import SelectInput from "../../../components/formCompenents/SelectInput";
 import TextareaInput from "../../../components/formCompenents/TextareaInput";
-
+import GlobalLoader from './../../../components/common/GlobalLoader';
 
 export default function VehiculeForm({ isEdit = false }) {
-  const {
-    createVehicule,
-    updateVehicule,
-    vehicule,
-    getVehicule,
-    errors, 
-  } = useContext(VehiculeContext);
+  const { createVehicule, updateVehicule, vehicule, getVehicule, errors,loading } =
+    useContext(VehiculeContext);
 
   const { brands, categories, getBrands, getCategories } =
     useContext(BrandContext);
@@ -25,13 +20,17 @@ export default function VehiculeForm({ isEdit = false }) {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [loading, setLoading] = useState(false);
+
   const [images, setImages] = useState([null, null, null, null]);
   const [previews, setPreviews] = useState([null, null, null, null]);
 
-  const { register, handleSubmit, reset, setValue } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors: frontErrors },
+  } = useForm();
 
-  /* Load data */
   useEffect(() => {
     getBrands();
     getCategories();
@@ -41,7 +40,6 @@ export default function VehiculeForm({ isEdit = false }) {
     }
   }, []);
 
-  /* Fill form on edit */
   useEffect(() => {
     if (isEdit && vehicule) {
       reset({
@@ -49,6 +47,7 @@ export default function VehiculeForm({ isEdit = false }) {
         annee: vehicule.annee,
         prix_day: vehicule.prix_day,
         registration_number: vehicule.registration_number,
+        immatriculation: vehicule.immatriculation,
         seats: vehicule.seats,
         transmission: vehicule.transmission,
         carburant: vehicule.carburant,
@@ -68,7 +67,6 @@ export default function VehiculeForm({ isEdit = false }) {
     }
   }, [vehicule]);
 
-  /* Image handlers */
   const handleImageChange = (e, index) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -99,10 +97,9 @@ export default function VehiculeForm({ isEdit = false }) {
     setPreviews(newPreviews);
   };
 
-  /* Submit */
   const onSubmit = async (data) => {
     try {
-      setLoading(true);
+    
       const formData = new FormData();
 
       Object.entries(data).forEach(([key, value]) =>
@@ -113,14 +110,17 @@ export default function VehiculeForm({ isEdit = false }) {
         formData.append("images[]", img);
       });
 
-      isEdit
+      const result = isEdit
         ? await updateVehicule(id, formData)
         : await createVehicule(formData);
 
+      if (!result) {
+        toast.error("Erreur lors de l'enregistrement");
+      } else {
+        navigate("/admin/vehicules");
+      }
     } catch {
       toast.error("Erreur lors de l'enregistrement");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -129,75 +129,103 @@ export default function VehiculeForm({ isEdit = false }) {
       <h2 className="text-2xl font-bold text-teal-700 mb-6">
         {isEdit ? "Modifier le véhicule" : "Ajouter un véhicule"}
       </h2>
-
+         {loading ?(
+        <GlobalLoader/>
+      ):(
+        
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        {/* Inputs */}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <TextInput label="Nom" name="nom" register={register} errors={errors} />
+        <TextInput
+            label="Nom"
+            name="nom"
+            register={register}
+            rules={{ required: "Le nom est requis" }}
+            frontErrors={frontErrors}
+            backErrors={errors}
+          />
+
           <TextInput
             label="Année"
             name="annee"
             type="number"
             register={register}
-            errors={errors}
+            rules={{ required: "L'année est requis" }}
+            backErrors={errors}
+            frontErrors={frontErrors}
           />
           <TextInput
             label="Prix / jour"
             name="prix_day"
             type="number"
             register={register}
-            errors={errors}
+            rules={{ required: "Le prix par jour  est requis" }}
+            backErrors={errors}
+            frontErrors={frontErrors}
           />
           <TextInput
             label="Numéro f'enregistrement"
             name="registration_number"
             register={register}
-            errors={errors}
+            rules={{ required: "Le Numéro f'enregistrement est requis" }}
+            backErrors={errors}
+            frontErrors={frontErrors}
           />
           <TextInput
             label="Immatriculation"
             name="immatriculation"
             register={register}
-            errors={errors}
+            rules={{ required: "L'Immatriculation nom est requis" }}
+            backErrors={errors}
+            frontErrors={frontErrors}
           />
           <TextInput
             label="Places"
             name="seats"
             type="number"
             register={register}
-            errors={errors}
+            rules={{ required: "Le nomre des places nom est requis" }}
+            backErrors={errors}
+            frontErrors={frontErrors}
           />
 
           <SelectInput
             label="Transmission"
             name="transmission"
-            options={["manuel", "automatique"]}
+            options={["manuelle", "automatique"]}
             register={register}
-            errors={errors}
+            rules={{ required: "Choisissez une Transmission" }}
+            backErrors={errors}
+            frontErrors={frontErrors}
           />
 
           <SelectInput
             label="Carburant"
             name="carburant"
-            options={['essence','diesel','electronique','hybride']}
+            options={["essence", "diesel", "electronique", "hybride"]}
             register={register}
-            errors={errors}
+            rules={{ required: "Choisissez Carburant" }}
+            backErrors={errors}
+            frontErrors={frontErrors}
           />
 
           <TextInput
             label="Couleur"
             name="color"
             register={register}
-            errors={errors}
+            rules={{ required: "Le couleur est requis" }}
+            backErrors={errors}
+            frontErrors={frontErrors}
           />
 
           <SelectInput
-          label="Statut"
-          name="status"
-          options={["disponible","loue","maintenance","indisponible"]}
-          register={register}
-          errors={errors}
-        />
+            label="Statut"
+            name="status"
+            options={["disponible", "loue", "maintenance", "indisponible"]}
+            register={register}
+            backErrors={errors}
+            frontErrors={frontErrors}
+          />
         </div>
 
         <SelectInput
@@ -206,7 +234,9 @@ export default function VehiculeForm({ isEdit = false }) {
           options={brands}
           isObject
           register={register}
-          errors={errors}
+          rules={{ required: "Choisissez une marque" }}
+          backErrors={errors}
+          frontErrors={frontErrors}
         />
 
         <SelectInput
@@ -215,14 +245,16 @@ export default function VehiculeForm({ isEdit = false }) {
           options={categories}
           isObject
           register={register}
-          errors={errors}
+          rules={{ required: "Choisissez une Catégorie" }}
+          backErrors={errors}
+          frontErrors={frontErrors}
         />
 
         <TextareaInput
           label="Description"
           name="description"
           register={register}
-          errors={errors}
+          backErrors={errors}
         />
 
         {/* Images */}
@@ -262,9 +294,7 @@ export default function VehiculeForm({ isEdit = false }) {
           </div>
 
           {errors?.images && (
-            <p className="text-red-500 text-sm mt-2">
-              {errors.images[0]}
-            </p>
+            <p className="text-red-500 text-sm mt-2">{errors.images[0]}</p>
           )}
         </div>
 
@@ -287,6 +317,7 @@ export default function VehiculeForm({ isEdit = false }) {
           </button>
         </div>
       </form>
+      )}
     </div>
   );
 }

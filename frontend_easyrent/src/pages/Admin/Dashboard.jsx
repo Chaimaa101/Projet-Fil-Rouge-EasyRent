@@ -1,23 +1,26 @@
 
 import { motion } from "framer-motion"; 
 import { BiSolidCollection } from "react-icons/bi";
-import { FaShoppingCart, FaUsers } from "react-icons/fa";
+import { FaCar, FaDiaspora, FaShoppingCart, FaUsers } from "react-icons/fa";
 import { LuChartNoAxesCombined } from "react-icons/lu";
 import StatCard from "./common/StatBar";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AdminContext } from "../../Context/AdminProvider";
 import RecentReservations from "./statistics/RecentReservations";
 import QuickActions from "./statistics/QuickActions";
 
 function Dashboard() {
-  const {state,} = useContext(AdminContext)
+  const {stats,getDashboardStats} = useContext(AdminContext)
 
+  useEffect(()=>{
+    getDashboardStats()
+  },[])
   return (
   <>
         <main className="flex-1 overflow-y-auto p-4 md:p-6">
           <div className="max-w-7xl mx-auto">
             <motion.div
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
+              className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, staggerChildren: 0.1 }}
@@ -25,25 +28,31 @@ function Dashboard() {
               <StatCard
                 name="Total Revenue"
                 icon={LuChartNoAxesCombined}
-                number={300}
+                number={stats?.revenus}
+                trend="up"
+              />
+              <StatCard
+                name="Vehicules loué"
+                icon={FaCar}
+                number={stats?.loue}
                 trend="up"
               />
               <StatCard 
                 name="Reservation" 
                 icon={FaShoppingCart} 
-                number={45}
+                number={stats?.reservations}
                 trend="neutral"
               />
               <StatCard 
                 name="Clients" 
                 icon={FaUsers} 
-                number={20}
+                number={stats?.users}
                 trend="up"
               />
               <StatCard
                 name="Vehicules"
-                icon={BiSolidCollection}
-                number={12}
+                icon={FaCar}
+                number={stats?.vehicles}
                 bg="#686ef1"
                 trend="down"
               />

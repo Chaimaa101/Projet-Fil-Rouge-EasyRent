@@ -1,11 +1,12 @@
 import { createContext, useState } from "react";
 import api from "../Services/api";
+import { getEasingForSegment } from "framer-motion";
 
 export const AvisContext = createContext();
 
 export const AvisProvider = ({ children }) => {
-  const [avis, setAvis] = useState([]);
-  const [singleAvis, setSingleAvis] = useState(null);
+  const [publicAvis, setPublicAvis] = useState([]);
+const [mesAvis, setMesAvis] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
@@ -13,12 +14,24 @@ export const AvisProvider = ({ children }) => {
 
 
 
-  const getAvis = async () => {
+  const getPublicAvis = async () => {
+    setLoading(true);
+    setErrors(null);
+    try {
+      const res = await api.get("/getPublicAvis");
+      console.log(res.data);
+    } catch (error) {
+      setErrors(error.response?.data || "Error fetching avis");
+    } finally {
+      setLoading(false);
+    }
+  };
+    const getMesAvis = async () => {
     setLoading(true);
     setErrors(null);
     try {
       const res = await api.get("/avis");
-      setAvis(res.data.data);
+      setMesAvis(res.data.data);
       setTotal(res.data.total)
     } catch (error) {
       setErrors(error.response?.data || "Error fetching avis");
@@ -26,6 +39,7 @@ export const AvisProvider = ({ children }) => {
       setLoading(false);
     }
   };
+
 
 
   const getSingleAvis = async (id) => {
@@ -87,14 +101,14 @@ export const AvisProvider = ({ children }) => {
   };
 
   const values = {
-    avis,
-    singleAvis,
+    mesAvis,
+    publicAvis,
     loading,
     errors,
     successMessage,
     total,
-    getAvis,
-    getSingleAvis,
+    getMesAvis,
+    getPublicAvis,
     createAvis,
     updateAvis,
     deleteAvis,

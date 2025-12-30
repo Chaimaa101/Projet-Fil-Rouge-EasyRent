@@ -7,6 +7,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Mail\RegisterMail;
 use App\Models\User;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -33,6 +34,7 @@ class AuthController extends Controller
             return [
                 'message' => 'Inscription réussie.',
                 'user' =>[
+    
                     'id' => $user->id,
                     'nom' => $user->nom,
                     'prenom' => $user->prenom,
@@ -95,5 +97,86 @@ class AuthController extends Controller
             ];
         }
     }
+
+    public function updateProfile(Request $request)
+{
+    $user = $request->user();
+
+    /* USER */
+    $user->update($request->only([
+        'nom','prenom','email'
+    ]));
+
+    /* DETAILS */
+    $details = $user->details()->updateOrCreate(
+        ['user_id' => $user->id],
+        $request->only([
+            'adresse',
+            'CNI',
+            'tel',
+            'genre',
+            'date_naissance'
+        ])
+    );
+
+  if ($request->hasFile('photo_profil')) {
+
+    $uploadedPhoto = Cloudinary::upload(
+        $request->file('photo_profil')->getRealPath(),
+        [
+            'folder' => 'profiles',
+            'transformation' => [
+                'width' => 400,
+                'height' => 400,
+                'crop' => 'fill'
+            ]
+        ]
+    );
+
+    $details->photo_profil = $uploadedPhoto->getSecurePath();
+}
+
+/* PERMIS */
+if ($request->hasFile('permi_licence')) {
+
+    $uploadedPermis = Cloudinary::upload(
+        $request->file('permi_licence')->getRealPath(),
+        [
+            'folder' => 'permis',
+            'resource_type' => 'auto' // image or pdf
+        ]
+    );
+
+    $details->permi_licence = $uploadedPermis->getSecurePath();
+}
+    return response()->json(
+        $user->load('details')
+    );
+}
+
+
+public function updatePassword(Request $request)
+{
+    $request->validate([
+        'current_password' => 'required',
+        'password' => 'required|confirmed|min:8',
+    ]);
+
+    $user = $request->user();
+
+    if (!Hash::check($request->current_password, $user->password)) {
+        return response()->json([
+            'message' => 'Le mot de passe actuel est incorrect'
+        ], 422);
+    }
+
+    $user->update([
+        'password' => Hash::make($request->password)
+    ]);
+
+    return response()->json([
+        'message' => 'Mot de passe mis à jour avec succès'
+    ]);
+}
 
 }

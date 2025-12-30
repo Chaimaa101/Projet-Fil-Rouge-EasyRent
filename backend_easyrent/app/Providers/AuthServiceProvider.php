@@ -38,6 +38,15 @@ class AuthServiceProvider extends ServiceProvider
     return Response::deny("Vous n'êtes pas le propriétaire de cette ressource.");
 });
 
+ Gate::define('is-admin', function (User $user, $model) {
+
+   if ($user->role === 'admin') {
+            return Response::allow();
+        }
+
+
+    return Response::deny("Vous n'êtes pas un admin.");
+});
     
     }
 }

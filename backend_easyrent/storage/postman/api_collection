@@ -36,7 +36,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"nom\": \"sample_text\",\n    \"prenom\": \"sample_text\",\n    \"email\": \"user53@example.com\",\n    \"password\": \"sample_text\",\n    \"role\": \"sample_text\"\n}",
+                            "raw": "{\n    \"nom\": \"sample_text\",\n    \"prenom\": \"sample_text\",\n    \"email\": \"user2@example.com\",\n    \"password\": \"sample_text\",\n    \"role\": \"sample_text\"\n}",
                             "options": []
                         }
                     }
@@ -74,7 +74,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"email\": \"user55@example.com\",\n    \"password\": \"sample_text\"\n}",
+                            "raw": "{\n    \"email\": \"user41@example.com\",\n    \"password\": \"sample_text\"\n}",
                             "options": []
                         }
                     }
@@ -112,7 +112,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"nom\": \"sample_text\",\n    \"phone\": \"sample_text\",\n    \"email\": \"user93@example.com\",\n    \"message\": \"sample_text\"\n}",
+                            "raw": "{\n    \"nom\": \"sample_text\",\n    \"phone\": \"sample_text\",\n    \"email\": \"user44@example.com\",\n    \"message\": \"sample_text\"\n}",
                             "options": []
                         }
                     }
@@ -220,6 +220,40 @@
                     }
                 },
                 {
+                    "name": "featured",
+                    "item": [
+                        {
+                            "name": "[GET] api/vehicules/featured",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/vehicules/featured",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "vehicules",
+                                        "featured"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
                     "name": "[POST] api/vehicules",
                     "request": {
                         "method": "POST",
@@ -247,7 +281,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"marque_id\": \"sample_text\",\n    \"nom\": \"sample_text\",\n    \"annee\": 1935,\n    \"color\": \"sample_text\",\n    \"prix_day\": 95,\n    \"description\": \"sample_text\",\n    \"registration_number\": \"sample_text\",\n    \"seats\": 3,\n    \"transmission\": \"sample_text\",\n    \"carburant\": \"sample_text\",\n    \"status\": \"sample_text\",\n    \"immatriculation\": \"sample_text\",\n    \"category_id\": \"sample_text\"\n}",
+                            "raw": "{\n    \"marque_id\": \"sample_text\",\n    \"nom\": \"sample_text\",\n    \"annee\": 1913,\n    \"color\": \"sample_text\",\n    \"prix_day\": 33,\n    \"description\": \"sample_text\",\n    \"registration_number\": \"sample_text\",\n    \"seats\": 1,\n    \"transmission\": \"sample_text\",\n    \"carburant\": \"sample_text\",\n    \"status\": \"sample_text\",\n    \"immatriculation\": \"sample_text\",\n    \"category_id\": \"sample_text\"\n}",
                             "options": []
                         }
                     }
@@ -282,7 +316,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"marque_id\": \"sample_text\",\n    \"nom\": \"sample_text\",\n    \"annee\": 1963,\n    \"color\": \"sample_text\",\n    \"prix_day\": 13,\n    \"description\": \"sample_text\",\n    \"registration_number\": \"sample_text\",\n    \"seats\": 2,\n    \"transmission\": \"sample_text\",\n    \"carburant\": \"sample_text\",\n    \"status\": \"sample_text\",\n    \"immatriculation\": \"sample_text\",\n    \"category_id\": \"sample_text\"\n}",
+                            "raw": "{\n    \"marque_id\": \"sample_text\",\n    \"nom\": \"sample_text\",\n    \"annee\": 1973,\n    \"color\": \"sample_text\",\n    \"prix_day\": 99,\n    \"description\": \"sample_text\",\n    \"registration_number\": \"sample_text\",\n    \"seats\": 6,\n    \"transmission\": \"sample_text\",\n    \"carburant\": \"sample_text\",\n    \"status\": \"sample_text\",\n    \"immatriculation\": \"sample_text\",\n    \"category_id\": \"sample_text\"\n}",
                             "options": []
                         }
                     }
@@ -514,6 +548,201 @@
             ]
         },
         {
+            "name": "avis",
+            "item": [
+                {
+                    "name": "public",
+                    "item": [
+                        {
+                            "name": "[GET] api/avis/public",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/avis/public",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "avis",
+                                        "public"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "[GET] api/avis",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/avis",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "avis"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "[POST] api/avis",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/avis",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "avis"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"avis\": \"sample_text\",\n    \"rating\": 1,\n    \"user_id\": \"sample_text\",\n    \"vehicule_id\": \"sample_text\",\n    \"isPublic\": 1\n}",
+                            "options": []
+                        }
+                    }
+                },
+                {
+                    "name": "[GET] api/avis/{avi}",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/avis/:avi",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "avis",
+                                ":avi"
+                            ],
+                            "variable": []
+                        }
+                    }
+                },
+                {
+                    "name": "[PUT] api/avis/{avi}",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/avis/:avi",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "avis",
+                                ":avi"
+                            ],
+                            "variable": []
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"avis\": \"sample_text\",\n    \"rating\": 3\n}",
+                            "options": []
+                        }
+                    }
+                },
+                {
+                    "name": "[DELETE] api/avis/{avi}",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/avis/:avi",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "avis",
+                                ":avi"
+                            ],
+                            "variable": []
+                        }
+                    }
+                }
+            ]
+        },
+        {
             "name": "logout",
             "item": [
                 {
@@ -670,7 +899,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"user_id\": \"sample_text\",\n    \"vehicule_id\": \"sample_text\",\n    \"start_date\": \"sample_text\",\n    \"end_date\": \"sample_text\",\n    \"total_price\": 47,\n    \"status\": \"sample_text\",\n    \"frait_retard\": 8\n}",
+                            "raw": "{\n    \"user_id\": \"sample_text\",\n    \"vehicule_id\": \"sample_text\",\n    \"start_date\": \"sample_text\",\n    \"end_date\": \"sample_text\",\n    \"total_price\": 22,\n    \"status\": \"sample_text\"\n}",
                             "options": []
                         }
                     }
@@ -735,7 +964,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"start_date\": \"sample_text\",\n    \"end_date\": \"sample_text\",\n    \"total_price\": 19,\n    \"status\": \"sample_text\",\n    \"frait_retard\": 2\n}",
+                            "raw": "{\n    \"start_date\": \"sample_text\",\n    \"end_date\": \"sample_text\",\n    \"days\": 76,\n    \"total_price\": 43,\n    \"status\": \"sample_text\",\n    \"frait_retard\": 72\n}",
                             "options": []
                         }
                     }
@@ -746,7 +975,7 @@
             "name": "create-payment",
             "item": [
                 {
-                    "name": "[POST] api/create-payment",
+                    "name": "[POST] api/create-payment/{reservation}",
                     "request": {
                         "method": "POST",
                         "header": [
@@ -762,52 +991,26 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{base_url}}/api/create-payment",
+                            "raw": "{{base_url}}/api/create-payment/:reservation",
                             "host": [
                                 "{{base_url}}"
                             ],
                             "path": [
                                 "api",
-                                "create-payment"
-                            ]
+                                "create-payment",
+                                ":reservation"
+                            ],
+                            "variable": []
                         }
                     }
                 }
             ]
         },
         {
-            "name": "avis",
+            "name": "confirmPayment",
             "item": [
                 {
-                    "name": "[GET] api/avis",
-                    "request": {
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            },
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{base_url}}/api/avis",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "api",
-                                "avis"
-                            ]
-                        }
-                    }
-                },
-                {
-                    "name": "[POST] api/avis",
+                    "name": "[POST] api/confirmPayment/{reservation}",
                     "request": {
                         "method": "POST",
                         "header": [
@@ -823,24 +1026,26 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{base_url}}/api/avis",
+                            "raw": "{{base_url}}/api/confirmPayment/:reservation",
                             "host": [
                                 "{{base_url}}"
                             ],
                             "path": [
                                 "api",
-                                "avis"
-                            ]
-                        },
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"avis\": \"sample_text\",\n    \"rating\": 4,\n    \"user_id\": \"sample_text\",\n    \"vehicule_id\": \"sample_text\"\n}",
-                            "options": []
+                                "confirmPayment",
+                                ":reservation"
+                            ],
+                            "variable": []
                         }
                     }
-                },
+                }
+            ]
+        },
+        {
+            "name": "getUserPaiments",
+            "item": [
                 {
-                    "name": "[GET] api/avis/{avi}",
+                    "name": "[GET] api/getUserPaiments",
                     "request": {
                         "method": "GET",
                         "header": [
@@ -856,81 +1061,14 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{base_url}}/api/avis/:avi",
+                            "raw": "{{base_url}}/api/getUserPaiments",
                             "host": [
                                 "{{base_url}}"
                             ],
                             "path": [
                                 "api",
-                                "avis",
-                                ":avi"
-                            ],
-                            "variable": []
-                        }
-                    }
-                },
-                {
-                    "name": "[PUT] api/avis/{avi}",
-                    "request": {
-                        "method": "PUT",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            },
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{base_url}}/api/avis/:avi",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "api",
-                                "avis",
-                                ":avi"
-                            ],
-                            "variable": []
-                        },
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"avis\": \"sample_text\",\n    \"rating\": 3\n}",
-                            "options": []
-                        }
-                    }
-                },
-                {
-                    "name": "[DELETE] api/avis/{avi}",
-                    "request": {
-                        "method": "DELETE",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            },
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{base_url}}/api/avis/:avi",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "api",
-                                "avis",
-                                ":avi"
-                            ],
-                            "variable": []
+                                "getUserPaiments"
+                            ]
                         }
                     }
                 }
@@ -1088,76 +1226,230 @@
             ]
         },
         {
-            "name": "Allreservations",
+            "name": "admin",
             "item": [
                 {
-                    "name": "[GET] api/Allreservations",
-                    "request": {
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            },
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json",
-                                "type": "text"
+                    "name": "Allreservations",
+                    "item": [
+                        {
+                            "name": "[GET] api/admin/Allreservations",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/admin/Allreservations",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "admin",
+                                        "Allreservations"
+                                    ]
+                                }
                             }
-                        ],
-                        "url": {
-                            "raw": "{{base_url}}/api/Allreservations",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "api",
-                                "Allreservations"
+                        }
+                    ]
+                },
+                {
+                    "name": "paiments",
+                    "item": [
+                        {
+                            "name": "[GET] api/admin/paiments",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/admin/paiments",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "admin",
+                                        "paiments"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "avis",
+                    "item": [
+                        {
+                            "name": "[GET] api/admin/avis",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/admin/avis",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "admin",
+                                        "avis"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "toggle-public",
+                            "item": [
+                                {
+                                    "name": "[PATCH] api/admin/avis/{avis}/toggle-public",
+                                    "request": {
+                                        "method": "PATCH",
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json",
+                                                "type": "text"
+                                            },
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json",
+                                                "type": "text"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{base_url}}/api/admin/avis/:avis/toggle-public",
+                                            "host": [
+                                                "{{base_url}}"
+                                            ],
+                                            "path": [
+                                                "api",
+                                                "admin",
+                                                "avis",
+                                                ":avis",
+                                                "toggle-public"
+                                            ],
+                                            "variable": []
+                                        }
+                                    }
+                                }
                             ]
                         }
-                    }
+                    ]
+                },
+                {
+                    "name": "dashboard",
+                    "item": [
+                        {
+                            "name": "[GET] api/admin/dashboard",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/admin/dashboard",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "admin",
+                                        "dashboard"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "vehicules",
+                    "item": [
+                        {
+                            "name": "toggle-top",
+                            "item": [
+                                {
+                                    "name": "[PATCH] api/admin/vehicules/{vehicule}/toggle-top",
+                                    "request": {
+                                        "method": "PATCH",
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json",
+                                                "type": "text"
+                                            },
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json",
+                                                "type": "text"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{base_url}}/api/admin/vehicules/:vehicule/toggle-top",
+                                            "host": [
+                                                "{{base_url}}"
+                                            ],
+                                            "path": [
+                                                "api",
+                                                "admin",
+                                                "vehicules",
+                                                ":vehicule",
+                                                "toggle-top"
+                                            ],
+                                            "variable": []
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ]
                 }
             ]
         },
         {
-            "name": "dashboard",
+            "name": "updateVehiculeStatus",
             "item": [
                 {
-                    "name": "[GET] api/dashboard",
-                    "request": {
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            },
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{base_url}}/api/dashboard",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "api",
-                                "dashboard"
-                            ]
-                        }
-                    }
-                }
-            ]
-        },
-        {
-            "name": "updateReservationStatus",
-            "item": [
-                {
-                    "name": "[PUT] api/updateReservationStatus/{reservation}",
+                    "name": "[PUT] api/updateVehiculeStatus/{vehicule}",
                     "request": {
                         "method": "PUT",
                         "header": [
@@ -1173,13 +1465,48 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{base_url}}/api/updateReservationStatus/:reservation",
+                            "raw": "{{base_url}}/api/updateVehiculeStatus/:vehicule",
                             "host": [
                                 "{{base_url}}"
                             ],
                             "path": [
                                 "api",
-                                "updateReservationStatus",
+                                "updateVehiculeStatus",
+                                ":vehicule"
+                            ],
+                            "variable": []
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "test-confirm",
+            "item": [
+                {
+                    "name": "[POST] api/test-confirm/{reservation}",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/test-confirm/:reservation",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "test-confirm",
                                 ":reservation"
                             ],
                             "variable": []

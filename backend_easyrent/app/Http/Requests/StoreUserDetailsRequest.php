@@ -22,7 +22,7 @@ class StoreUserDetailsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id'=> 'required|exists:users,id',
+          
             'adresse' => 'required|string|max:255',
             'CNI' => 'required|string|max:100|unique:user_details,CNI',
             'tel' => 'required|string|max:20',
@@ -36,8 +36,6 @@ class StoreUserDetailsRequest extends FormRequest
     public function messages()
     {
         return [
-            'user.required' => "L'utilisateur est requis.",
-            'user.exists' => "L'utilisateur spécifié n'existe pas.",
             'adresse.required' => "L'adresse est requise.",
             'CNI.required' => "Le CNI est requis.",
             'CNI.unique' => "Ce CNI est déjà utilisé.",

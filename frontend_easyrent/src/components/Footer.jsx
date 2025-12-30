@@ -1,111 +1,75 @@
 import React from "react";
-import {
-  FaFacebook,
-  FaInstagram,
-  FaLinkedin,
-  FaLocationArrow,
-  FaMobileAlt,
-} from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaTwitter, FaYoutube, FaPhone, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 
-const FooterLinks = [
-  {
-    title: "Accueil",
-    link: "/",
-  },
-  {
-    title: "A propos",
-    link: "/apropos",
-  },
-  {
-    title: "Contact",
-    link: "/contact",
-  },
-  {
-    title: "Vehicules",
-    link: "/listVehicules",
-  },
+const QuickLinks = [
+  { title: "Home", link: "/" },
+  { title: "About Us", link: "/about" },
+  { title: "Services", link: "/services" },
+  { title: "Contact", link: "/contact" },
 ];
+
 const Footer = () => {
   return (
-    <div className="mt-14 rounded-t-3xl bg-teal-400">
-      <section className="container">
-        <div className=" grid md:grid-cols-3 py-5">
-
-          <div className=" py-2 px-4 ">
-           <img src="/logo.png" alt="" className="w-35 h-25" />
-          
-            <div className="flex items-center gap-3">
-              <FaLocationArrow />
-              <p>Caasablanca, Maroc</p>
-            </div>
-            <div className="flex items-center gap-3 mt-3">
-              <FaMobileAlt />
-              <p>+212 604035</p>
-            </div>
-            {/* Social Handle */}
-            <div className="flex items-center gap-3 mt-6">
-              <a href="#">
-                <FaInstagram className="text-3xl hover:text-primary duration-300" />
-              </a>
-              <a href="#">
-                <FaFacebook className="text-3xl hover:text-primary duration-300" />
-              </a>
-              <a href="#">
-                <FaLinkedin className="text-3xl hover:text-primary duration-300" />
-              </a>
+    <footer className="bg-teal-400 text-white mt-14 rounded-t-3xl">
+      <section className="container mx-auto py-10">
+        <div className="grid md:grid-cols-4 gap-8">
+          {/* Logo & Description */}
+          <div className="space-y-4">
+            <img src="/logo.png" alt="EasyRent Logo" className="w-36" />
+            <p className="text-sm">
+              Your trusted partner for premium car rentals. Experience the freedom of the road with our exceptional service.
+            </p>
+            {/* Social icons */}
+            <div className="flex items-center gap-4 mt-4">
+              <a href="#"><FaFacebook className="text-xl hover:text-gray-200" /></a>
+              <a href="#"><FaInstagram className="text-xl hover:text-gray-200" /></a>
+              <a href="#"><FaTwitter className="text-xl hover:text-gray-200" /></a>
+              <a href="#"><FaYoutube className="text-xl hover:text-gray-200" /></a>
             </div>
           </div>
-          {/* Links */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 col-span-2 md:pl-10 ">
-            <div className="">
-              <div className="py-8 px-4 ">
-                <h1 className="sm:text-xl text-xl font-bold sm:text-left text-justify mb-3">
-                 Important Links
-                </h1>
-                <ul className={`flex flex-col gap-3`}>
-                  {FooterLinks.map((link) => (
-                    <li key={link.id} className="cursor-pointer hover:translate-x-1 duration-300 hover:text-cyan-900 space-x-1 text-gray900 ">
-                      <span>&#11162;</span>
-                      <span>{link.title}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-            <div className="">
-              <div className="py-8 px-4 ">
-                <h1 className="sm:text-xl text-xl font-bold sm:text-left text-justify mb-3">
-                  Liens
-                </h1>
-                <ul className="flex flex-col gap-3">
-                  {FooterLinks.map((link) => (
-                    <li key={link.id} className="cursor-pointer hover:translate-x-1 duration-300 hover:text-cyan-900 space-x-1 text-gray-900 ">
-                      <span>&#11162;</span>
-                      <span>{link.title}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-            <div className="">
-              <div className="py-8 px-4 ">
-                <h1 className="sm:text-xl text-xl font-bold sm:text-left text-justify mb-3">
-                  Location
-                </h1>
-                <ul className="flex flex-col gap-3">
-                  {FooterLinks.map((link) => (
-                    <li key={link.id} className="cursor-pointer hover:translate-x-1 duration-300 hover:text-cyan-900 space-x-1 text-gray-900">
-                      <span>&#11162;</span>
-                      <span>{link.title}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+
+          {/* Quick Links 1 */}
+          <div>
+            <h2 className="font-bold mb-3">Quick Links</h2>
+            <ul className="space-y-2">
+              {QuickLinks.map((link, idx) => (
+                <li key={idx} className="flex items-center gap-1 hover:text-gray-200 cursor-pointer">
+                  <span>&#10148;</span>
+                  <span>{link.title}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Quick Links 2 */}
+          <div>
+            <h2 className="font-bold mb-3">Quick Links</h2>
+            <ul className="space-y-2">
+              {QuickLinks.map((link, idx) => (
+                <li key={idx} className="flex items-center gap-1 hover:text-gray-200 cursor-pointer">
+                  <span>&#10148;</span>
+                  <span>{link.title}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact Info */}
+          <div>
+            <h2 className="font-bold mb-3">Contact Info</h2>
+            <ul className="space-y-3 text-sm">
+              <li className="flex items-center gap-2"><FaPhone /> +1 (555) 123-4567</li>
+              <li className="flex items-center gap-2"><FaEnvelope /> info@carrental.com</li>
+              <li className="flex items-center gap-2"><FaMapMarkerAlt /> 123 Main St, City, State 12345</li>
+            </ul>
           </div>
         </div>
+
+        <div className="border-t border-white mt-10 pt-4 text-center text-sm">
+          © 2026 EasyRent. All rights reserved.
+        </div>
       </section>
-    </div>
+    </footer>
   );
 };
 

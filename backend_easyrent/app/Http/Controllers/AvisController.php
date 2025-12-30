@@ -6,7 +6,7 @@ use App\Models\Avis;
 use App\Http\Requests\StoreAvisRequest;
 use App\Http\Requests\UpdateAvisRequest;
 use App\Models\Reservation;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 class AvisController extends Controller
@@ -14,12 +14,28 @@ class AvisController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+  
+
+    public function getPublicAvis()
     {
-        $avis = Avis::with('user')->paginate(4);
-        return response()->json($avis);
+        try {
+            $avis = Avis::where('isPublic',true)->with('user')->get();
+            return response()->json($avis, 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
+    public function index(Request $request)
+    {
+
+        try {
+            $avis = $request->user()->avis()->with('user')->get();
+            return response()->json($avis, 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -47,6 +63,7 @@ class AvisController extends Controller
      */
     public function show(Avis $avis)
     {
+
         try {
             $avis->load('user');
             return response()->json($avis);
@@ -64,6 +81,7 @@ class AvisController extends Controller
     public function update(UpdateAvisRequest $request, Avis $avis)
     {
          Gate::authorize('is-owner', $avis);
+
         try {
             $data = $request->validated();
             $avis->update($data);
@@ -85,6 +103,7 @@ class AvisController extends Controller
     {
         try {
              Gate::authorize('is-owner', $avis);
+                      Gate::authorize('is-admin', $avis);
             $avis->delete();
             return response()->json([
                 'message' => 'Avis supprimé avec succès.'

@@ -1,5 +1,6 @@
 import { createContext, useState } from "react";
 import api from "../Services/api";
+import toast from "react-hot-toast";
 
 export const ReservationsContext = createContext();
 
@@ -40,13 +41,13 @@ export const ReservationsProvider = ({ children }) => {
     }
   };
 
-  const createreservations = async (data) => {
+  const createreservations = async (data, id) => {
     setLoading(true);
     setErrors(null);
     try {
-      const res = await api.post("/reservations", data);
-      setreservations((prev) => [...prev, res.data]);
-      setSuccessMessage("reservations ajouté avec succès");
+      const res = await api.post(`/reservations/${id}`, data);
+      toast.success("reservations ajouté avec succès");
+      return {result: true}
     } catch (error) {
       setErrors(error.response?.data || "Error creating reservations");
     } finally {

@@ -75,7 +75,5 @@ function Products() {
     </div>
   );
 }
-Products.layout = page => <AdminLayout>{page}</AdminLayout>;
-
 
 export default Products;

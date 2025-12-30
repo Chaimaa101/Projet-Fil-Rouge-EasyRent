@@ -1,5 +1,6 @@
 import { createContext, useState } from "react";
 import api from "../Services/api";
+import toast from "react-hot-toast";
 
 export const PaymentContext = createContext();
 
@@ -8,25 +9,15 @@ export const PaymentProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
-  const [total, setTotal] = useState(0);
-  const [pagination, setPagination] = useState({
-  currentPage: 1,
-  lastPage: 1,
-});
 
 
 //   get  all 
-  const getPayments = async (page = 1) => {
+  const getPayments = async () => {
     setLoading(true);
     setErrors(null);
     try {
-      const res = await api.get(`/payments/?page=${page}`);
-        setPayments(res.data.data);
-      setTotal(res.data.total)
-      setPagination({
-  currentPage: response.data.current_page,
-  lastPage: response.data.last_page,
-});
+      const res = await api.get(`/getUserPaiments`);
+        setPayments(res.data);
     } catch (error) {
       setErrors(error.response?.data || "Error fetching Payments");
     } finally {
@@ -39,7 +30,7 @@ export const PaymentProvider = ({ children }) => {
     setErrors(null);
     try {
       await api.delete(`/payments/${id}`);
-      setSuccessMessage("Payment deleted successfully");
+      toast.success("Payment deleted successfully");
       getPayments()
     } catch (error) {
       setErrors(error.response?.data || "Error deleting Payment");
@@ -48,14 +39,28 @@ export const PaymentProvider = ({ children }) => {
     }
   };
 
+    const viewInvoice = (reservationId) => {
+    window.open(
+      `http://localhost:8000/api/reservations/${reservationId}/invoice`,
+      "_blank"
+    );
+  };
+
+  const downloadInvoice = (reservationId) => {
+    window.open(
+      `http://localhost:8000/api/reservations/${reservationId}/invoice/download`,
+      "_blank"
+    );
+  };
+
   const values = {
     payments,
     loading,
     errors,
-    pagination,
     successMessage,
-    total,
     getPayments,
+      viewInvoice,
+    downloadInvoice,
     deletePayment,
     setErrors,
     setSuccessMessage,

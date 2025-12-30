@@ -22,6 +22,7 @@ class Vehicule extends Model
         'immatriculation',
         'category_id',
         'marque_id',
+        'isTop'
     ];
 
 

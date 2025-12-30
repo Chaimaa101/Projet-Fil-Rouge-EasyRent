@@ -42,7 +42,11 @@ export const UserProvider = ({ children }) => {
     setErrors(null);
     try {
       const res = await api.get(`/users/${id}`);
-      setUser(res.data);
+      console.log(res.data);
+      setPagination({
+  currentPage: res.data.current_page,
+  lastPage: res.data.last_page,
+});
     } catch (error) {
       setErrors(error.response?.data || "Error fetching user");
     } finally {
@@ -57,10 +61,8 @@ export const UserProvider = ({ children }) => {
     setErrors(null);
     try {
       const res = await api.put(`/users/${id}`, data);
-      setUsers((prev) =>
-        prev.map((v) => (v.id === id ? res.data : v))
-      );
       setSuccessMessage("User updated successfully");
+      getUsers()
     } catch (error) {
       setErrors(error.response?.data || "Error updating User");
     } finally {

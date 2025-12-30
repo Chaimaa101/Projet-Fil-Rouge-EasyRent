@@ -10,13 +10,11 @@ import Layout from "./components/Layout";
 import Profile from "./pages/Profile";
 import ConfirmRegestration from "./pages/Auth/ConfirmRegestration";
 import SingleVehicule from "./components/vehiculesListComponents/SingleVehicule";
-import ToastMessage from "./components/common/ToastMessage";
 import Dashboard from "./pages/Admin/Dashboard";
 import Vehicules from "./pages/Admin/Vehicules";
 import Reservations from "./pages/Admin/Reservations";
 import Brands from "./pages/Admin/Brands";
 import GlobalLoader from "./components/common/GlobalLoader";
-import CompleteDetails from "./pages/Client/CompleteDetails";
 import Users from "./pages/Admin/Users";
 import Avis from "./pages/Admin/Avis";
 import CheckoutPage from "./pages/Client/CheckoutePage";
@@ -30,6 +28,8 @@ import MesAvis from "./pages/Client/MesAvis";
 import MesPayments from "./pages/Client/MesPayments";
 import UserRoute from "./components/UserRoute";
 import AdminRoute from "./components/AdminRoute";
+import ProfileForm from "./pages/Client/ProfileForm";
+import Paymentns from './pages/Admin/Payments';
 
 function App() {
   const [appLoading, setAppLoading] = useState(true);
@@ -47,7 +47,6 @@ function App() {
   return (
     <BrowserRouter>
       <Toaster position="top-center" />
-      <ToastMessage />
 
       <Routes>
         <Route path="/login" element={<Login />} />
@@ -69,19 +68,21 @@ function App() {
             <Route path="/client/payments" element={<MesPayments />} />
             <Route
               path="/client/completeProfile"
-              element={<CompleteDetails />}
+              element={<ProfileForm />}
             />
-            <Route path="/client/checkout" element={<CheckoutPage />} />
+            <Route path="/client/checkout/:id" element={<CheckoutPage />} />
             <Route path="/profile" element={<Profile />} />
           <Route path="/confirm" element={<ConfirmRegestration />} />
 
           </Route>
 
          <Route element={<AdminRoute />}>
+            <Route path="/profile" element={<Profile />} />
             <Route path="/admin/dashboard" element={<Dashboard />} />
             <Route path="/admin/vehicules" element={<Vehicules />} />
-            <Route path="/admin/reservation" element={<Reservations />} />
+            <Route path="/admin/reservations" element={<Reservations />} />
             <Route path="/admin/brands" element={<Brands />} />
+            <Route path="/admin/payments" element={<Paymentns />} />
             <Route path="/admin/users" element={<Users />} />
             <Route path="/admin/avis" element={<Avis />} />
             <Route path="/admin/addVehicule" element={<VehiculeForm />} />

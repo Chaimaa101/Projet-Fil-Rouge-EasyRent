@@ -10,7 +10,7 @@ import PageHeader from "../../components/PageHeader";
 
 export default function Avis() {
   const [searchQuery, setSearchQuery] = useState("");
-  const { avis, getAvis, loading } = useContext(AvisContext);
+  const { avis, getAvis, loading ,pagination} = useContext(AvisContext);
 
   const handleSpam = (id) => {
     if (confirm("Are you sure you want to delete this message?")) {
@@ -122,7 +122,13 @@ export default function Avis() {
             </motion.div>
           ))}
         </AnimatePresence>
+        <Pagination currentPage={pagination.currentPage}
+          lastPage={pagination.lastPage}
+          onPageChange={(page) => getAvis(page)}
+          />
+      
       </div>
+
     </div>
   );
 }

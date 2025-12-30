@@ -70,7 +70,6 @@ export default function Profile() {
           className="bg-white shadow-xl rounded-2xl border"
         >
           <form onSubmit={handleSubmit(onSubmit)} className="p-8 space-y-8">
-            {/* Profile image */}
             <div className="flex flex-col items-center space-y-4">
               <div className="relative w-40 h-40 rounded-full overflow-hidden border">
                 <img

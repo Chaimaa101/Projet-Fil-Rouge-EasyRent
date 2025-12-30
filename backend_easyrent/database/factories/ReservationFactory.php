@@ -24,7 +24,6 @@ class ReservationFactory extends Factory
             'total_price' => fake()->randomFloat(2, 100, 1000),
             'days' => fake()->numberBetween(1,30),
             'status' => fake()->randomElement(['pending', 'paid', 'cancelled']),
-            'frait_retard' => fake()->randomFloat(2, 0, 50),
         ];
     }
 }

@@ -35,6 +35,8 @@ class StoreVehiculeRequest extends FormRequest
             'status' => 'required|string|in:disponible,loue,maintenance,indisponible',
             'immatriculation' => 'required|string|max:100|unique:vehicules,immatriculation',
             'category_id' =>  'nullable|exists:categories,id',
+             'images' => 'nullable',
+        'images.*' => 'image,mimes:jpg,jpeg,png,webp,max:2048',
         ];  
     }
 
@@ -61,9 +63,12 @@ class StoreVehiculeRequest extends FormRequest
             'status.in' => "Le statut du véhicule doit être available, rented ou maintenance.",
             'immatriculation.required' => "L'immatriculation est requise.",
             'immatriculation.unique' => "Cette immatriculation est déjà utilisée.",
-            'type.required' => "Le type de véhicule est requis.",
-             'images' => 'nullable,array',
-        'images.*' => 'image,mimes:jpg,jpeg,png,webp,max:2048',
+    'images.*.image' => 'Chaque fichier doit être une image valide.',
+    
+    'images.*.mimes' => 'Les images doivent être au format JPG, JPEG, PNG ou WEBP.',
+    
+    'images.*.max' => 'Chaque image ne doit pas dépasser 2 Mo.',
+            
         ];  
     }
 }

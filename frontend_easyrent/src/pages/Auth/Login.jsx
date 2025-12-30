@@ -2,7 +2,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../Context/AuthProvider";
-import { toast } from "react-hot-toast";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 export default function Login() {
@@ -33,7 +32,7 @@ const response = await login(formData);
     if (user.role === "admin") {
       navigate("/admin/dashboard");
     } else {
-      navigate("/complete-profile"); 
+      navigate("/client/completeProfile"); 
   }
   }}
 

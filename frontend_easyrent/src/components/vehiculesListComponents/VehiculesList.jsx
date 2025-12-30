@@ -4,7 +4,7 @@ const VehiculeList = ({
   filteredVehicules,
   sortOption,
   setSortOption,
-  brand,
+
 }) => {
   return (
     <div className="lg:w-3/4">

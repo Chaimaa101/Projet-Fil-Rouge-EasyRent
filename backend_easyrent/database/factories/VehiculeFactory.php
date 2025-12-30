@@ -30,6 +30,7 @@ class VehiculeFactory extends Factory
             'carburant' => fake()->randomElement(['essence','diesel','electronique','hybride']),    
             'status' => fake()->randomElement(['disponible','loue','maintenance','indisponible']),
             'immatriculation' => strtoupper(fake()->bothify('??#-####-??')),    
+            'isTop' => fake()->boolean(),    
 
         ];
     }

@@ -1,5 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import api from "../Services/api";
+import { toast } from "react-hot-toast";
+
 
 export const AuthContext = createContext();
 
@@ -56,7 +58,7 @@ const contact = async (datacontact) => {
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
-
+console.log(data)
       setUser(data.user);
       setSuccessMessage(data.message || "Login successful");
 getUser()
@@ -137,6 +139,12 @@ getUser()
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (errors) toast.error(errors);
+    if (successMessage) toast.success(successMessage);
+  }, [errors, successMessage]);
+
 
   return (
     <AuthContext.Provider

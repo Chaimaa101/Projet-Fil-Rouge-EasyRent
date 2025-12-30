@@ -8,13 +8,21 @@ import { VehiculeContext } from "../../Context/VehiculeProvider";
 import Pagination from "../../components/Pagination";
 import PageHeader from "../../components/PageHeader";
 import GlobalLoader from "../../components/common/GlobalLoader";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { FaEye } from "react-icons/fa";
 
 function Vehicules() {
-  const { pagination, vehicules, getVehicules, loading,total } =
-    useContext(VehiculeContext);
+  const {
+    pagination,
+    vehicules,
+    getVehicules,
+    loading,
+    total,
+    deleteVehicule,
+  } = useContext(VehiculeContext);
   const [searchTerm, setSearchTerm] = useState("");
 
+  const navigate = useNavigate;
   useEffect(() => {
     getVehicules();
   }, []);
@@ -23,25 +31,46 @@ function Vehicules() {
     v.nom.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-   const statusConfig = {
-    approved: {
-      label: "Confirmé",
+  const statusConfig = {
+    disponible: {
+      label: "Disponible",
       class: "bg-green-100 text-green-700",
     },
-    rejected: {
-      label: "Rejeté",
-      class: "bg-red-100 text-red-700",
+    loue: {
+      label: "Loué",
+      class: "bg-neutral-200 text-neutral-700",
     },
-    pending: {
-      label: "En attente",
+    maintenance: {
+      label: "Maintenance",
       class: "bg-yellow-100 text-yellow-700",
+    },
+    indisponible: {
+      label: "Indisponible",
+      class: "bg-red-100 text-red-700",
     },
   };
 
+  const handleDelete = async (id) => {
+    const confirmed = window.confirm(
+      "Voulez-vous vraiment supprimer ce véhicule ?"
+    );
+
+    if (!confirmed) return;
+
+    const result = await deleteVehicule(id);
+
+    if (result) {
+      navigate("/admin/vehicules");
+    }
+  };
 
   return (
     <div className="flex-1 relative overflow-auto z-10 bg-gray-100 min-h-screen py-8">
-      <PageHeader title = "Gestion des Vehicules" subtitle="gesfvnsfjvjksfjk svjsjnvsjkrvsw" num={total} />
+      <PageHeader
+        title="Gestion des Vehicules"
+        subtitle="gesfvnsfjvjksfjk svjsjnvsjkrvsw"
+        num={total}
+      />
       <main className="container max-w-7xl mx-auto px-4">
         <div className="bg-white/80 backdrop-blur-lg p-6 rounded-2xl shadow-xl">
           {/* Search & New Vehicule */}
@@ -62,15 +91,14 @@ function Vehicules() {
               <MdSearch size={25} className="text-gray-500" />
             </div>
 
-         <Link to="/admin/addVehicule">
-  <motion.button
-    whileTap={{ scale: 0.95 }}
-    className="bg-neutral-600 hover:bg-neutral-700 text-white px-6 py-3 rounded-xl shadow-md transition-all duration-200 w-full sm:w-auto"
-  >
-    NEW Vehicule
-  </motion.button>
-</Link>
-
+            <Link to="/admin/addVehicule">
+              <motion.button
+                whileTap={{ scale: 0.95 }}
+                className="bg-neutral-600 hover:bg-neutral-700 text-white px-6 py-3 rounded-xl shadow-md transition-all duration-200 w-full sm:w-auto"
+              >
+                NEW Vehicule
+              </motion.button>
+            </Link>
           </motion.div>
 
           {/* Loading */}
@@ -86,7 +114,8 @@ function Vehicules() {
             <table className="w-full text-left text-gray-700 border-separate border-spacing-y-2">
               <thead>
                 <tr className="bg-neutral-500 text-white uppercase text-sm rounded-lg">
-                  <th className="px-6 py-3">Title</th>
+                  <th className="px-6 py-3">Image</th>
+                  <th className="px-6 py-3">Nom</th>
                   <th className="px-6 py-3">Brand</th>
                   <th className="px-6 py-3">Immatriculation</th>
                   <th className="px-6 py-3">Statut</th>
@@ -103,30 +132,60 @@ function Vehicules() {
                     transition={{ duration: 0.5, delay: index * 0.05 }}
                     className="bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-200"
                   >
+                     <td className="px-6 py-4">
+                      {vehicule?.images[0]?.path ? (
+                        <img
+                          src={vehicule.images[0].path}
+                          alt="car"
+                          className="w-10 h-10 rounded-full object-cover border"
+                        />
+                      ) : (
+                        <img
+                          src="/brabus.jpg"
+                          alt="Profil"
+                          className="w-10 h-10 rounded-full object-cover border"
+                        />
+                      )}
+                    </td>
                     <td className="px-6 py-4">{vehicule.nom}</td>
                     <td className="px-6 py-4">{vehicule.marque.nom}</td>
                     <td className="px-6 py-4">{vehicule.immatriculation}</td>
                     <td className="px-6 py-4">
-                    <span
-                className={`inline-block px-3 py-1 rounded-full text-sm font-semibold mb-4
-  ${statusConfig[vehicule.statut]?.class}`}
-              >
-                {statusConfig[vehicule.statut]?.label}
-              </span>
+                      <span
+                        className={`inline-block px-3 py-1 rounded-full text-sm font-semibold mb-4
+  ${statusConfig[vehicule.status]?.class}`}
+                      >
+                        {statusConfig[vehicule.status]?.label}
+                      </span>
                     </td>
                     <td className="px-6 py-4">{vehicule.prix_day} DH</td>
                     <td className="px-6 py-4 flex gap-2">
-                      <Link to={`/admin/editVehicule/${vehicule.id}`}><motion.button
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        className="text-purple-500 hover:text-purple-700"
+                        // onClick pour voir détails
+                        onClick={() => navigate(`/admin/vehicules/${vehicule.id}`)}
+                      >
+                        <FaEye size={20} />
+                      </motion.button>
+
+                      <motion.button
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         className="text-blue-500 hover:text-blue-700"
+                        onClick={() =>
+                          navigate(`/admin/addVehicule/${vehicule.id}`)
+                        }
                       >
                         <TbEdit size={20} />
-                      </motion.button></Link>
+                      </motion.button>
+
                       <motion.button
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         className="text-red-500 hover:text-red-700"
+                        onClick={() => handleDelete(vehicule.id)}
                       >
                         <BiTrash size={20} />
                       </motion.button>
