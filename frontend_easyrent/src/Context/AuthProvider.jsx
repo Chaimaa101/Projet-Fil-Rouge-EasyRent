@@ -58,7 +58,6 @@ const contact = async (datacontact) => {
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
-console.log(data)
       setUser(data.user);
       setSuccessMessage(data.message || "Login successful");
 getUser()

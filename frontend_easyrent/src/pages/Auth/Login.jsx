@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useContext, useState } from "react";
+import React, { useState, useContext } from "react";
 import { AuthContext } from "../../Context/AuthProvider";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
@@ -51,7 +51,7 @@ const response = await login(formData);
             className={`w-full p-3 rounded bg-white/80 focus:outline-none text-black ${
               errors?.email ? "border border-red-500" : ""
             }`}
-            placeholder="Adresse email"
+            placeholder="Votre email"
             name="email"
             value={formData.email}
             onChange={handleChange}
@@ -94,13 +94,13 @@ const response = await login(formData);
           className="w-full py-3 bg-teal-700 hover:bg-teal-600 text-white rounded-xl mt-3"
           disabled={loading}
         >
-          {loading ? "Signing In..." : "Sign In"}
+          {loading ? "Connexion..." : "Se connecter"}
         </button>
 
         <p className="text-center mt-4 text-sm text-gray-600">
-          No account?{" "}
+          pas de compte?{" "}
           <Link to="/register" className="text-teal-900 underline">
-            Register
+            S'inscrire
           </Link>
         </p>
       </motion.form>

@@ -2,15 +2,15 @@ import { motion, AnimatePresence } from "framer-motion"; // Import Framer Motion
 import { useContext, useEffect, useState } from "react";
 import { GoTrash } from "react-icons/go";
 import { MdOutlineEmail, MdOutlinePhone } from "react-icons/md";
-import { FaExclamationCircle } from "react-icons/fa";
 import { HiOutlineSearch } from "react-icons/hi";
 import { AvisContext } from "../../Context/AvisProvider";
 import GlobalLoader from "../../components/common/GlobalLoader";
 import PageHeader from "../../components/PageHeader";
+import Pagination from "../../components/Pagination";
 
 export default function Avis() {
   const [searchQuery, setSearchQuery] = useState("");
-  const { avis, getAvis, loading ,pagination} = useContext(AvisContext);
+  const { avis = [], getAvis, loading ,pagination} = useContext(AvisContext);
 
   const handleSpam = (id) => {
     if (confirm("Are you sure you want to delete this message?")) {

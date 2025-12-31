@@ -31,12 +31,10 @@ const handleDelete = async (id) => {
 
   if (!confirmed) return;
 
-  const ok = await deletereservations(id);
-
-  if (ok) {
+      await deletereservations(id)
+ 
      getAllReservations();
-      toast.success("Reservation supprimé avec succès");
-  }
+  
 };
 
 const statusConfig = {
@@ -142,7 +140,7 @@ const statusConfig = {
                           className="text-center text-red-500 hover:text-red-700 transition-colors duration-200"
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
-                          onClick={handleDelete}
+                          onClick={() => handleDelete(reserv.id)}
                         >
                           <BiTrash size={20} aria-label="Delete" />
                         </motion.button>

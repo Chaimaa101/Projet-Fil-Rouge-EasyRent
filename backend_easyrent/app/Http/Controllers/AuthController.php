@@ -26,15 +26,15 @@ class AuthController extends Controller
             $data = [
                 'title' => 'Bienvenue !',
                 'body' => '   Votre inscription a été effectuée avec succès. Nous sommes ravis de vous compter parmi nos utilisateurs !',
-               'url' => 'http://localhost:5173/confirm' 
+                'url' => 'http://localhost:5173/confirm'
             ];
-             
+
             Mail::to($user->email)->queue(new RegisterMail($data));
 
             return [
                 'message' => 'Inscription réussie.',
-                'user' =>[
-    
+                'user' => [
+
                     'id' => $user->id,
                     'nom' => $user->nom,
                     'prenom' => $user->prenom,
@@ -99,84 +99,97 @@ class AuthController extends Controller
     }
 
     public function updateProfile(Request $request)
-{
-    $user = $request->user();
+    {
+        $user = $request->user();
 
-    /* USER */
-    $user->update($request->only([
-        'nom','prenom','email'
-    ]));
+        /* USER */
+        $user->update($request->only([
+            'nom',
+            'prenom',
+            'email'
+        ]));
 
-    /* DETAILS */
-    $details = $user->details()->updateOrCreate(
-        ['user_id' => $user->id],
-        $request->only([
-            'adresse',
-            'CNI',
-            'tel',
-            'genre',
-            'date_naissance'
-        ])
-    );
+        /* DETAILS */
+        $details = $user->details()->updateOrCreate(
+            ['user_id' => $user->id],
+            $request->only([
+                'adresse',
+                'CNI',
+                'tel',
+                'genre',
+                'date_naissance'
+            ])
+        );
 
-  if ($request->hasFile('photo_profil')) {
+        if ($request->hasFile('photo_profil')) {
 
-    $uploadedPhoto = Cloudinary::upload(
-        $request->file('photo_profil')->getRealPath(),
-        [
-            'folder' => 'profiles',
-            'transformation' => [
-                'width' => 400,
-                'height' => 400,
-                'crop' => 'fill'
-            ]
-        ]
-    );
+            $uploadedPhoto = Cloudinary::upload(
+                $request->file('photo_profil')->getRealPath(),
+                [
+                    'folder' => 'profiles',
+                    'transformation' => [
+                        'width' => 400,
+                        'height' => 400,
+                        'crop' => 'fill'
+                    ]
+                ]
+            );
 
-    $details->photo_profil = $uploadedPhoto->getSecurePath();
-}
+            $details->photo_profil = $uploadedPhoto->getSecurePath();
+        }
 
-/* PERMIS */
-if ($request->hasFile('permi_licence')) {
+        /* PERMIS */
+        if ($request->hasFile('permi_licence')) {
 
-    $uploadedPermis = Cloudinary::upload(
-        $request->file('permi_licence')->getRealPath(),
-        [
-            'folder' => 'permis',
-            'resource_type' => 'auto' // image or pdf
-        ]
-    );
+            $uploadedPermis = Cloudinary::upload(
+                $request->file('permi_licence')->getRealPath(),
+                [
+                    'folder' => 'permis',
+                    'resource_type' => 'auto' // image or pdf
+                ]
+            );
 
-    $details->permi_licence = $uploadedPermis->getSecurePath();
-}
-    return response()->json(
-        $user->load('details')
-    );
-}
-
-
-public function updatePassword(Request $request)
-{
-    $request->validate([
-        'current_password' => 'required',
-        'password' => 'required|confirmed|min:8',
-    ]);
-
-    $user = $request->user();
-
-    if (!Hash::check($request->current_password, $user->password)) {
-        return response()->json([
-            'message' => 'Le mot de passe actuel est incorrect'
-        ], 422);
+            $details->permi_licence = $uploadedPermis->getSecurePath();
+        }
+        return response()->json(
+            $user->load('details')
+        );
     }
 
-    $user->update([
-        'password' => Hash::make($request->password)
-    ]);
 
-    return response()->json([
-        'message' => 'Mot de passe mis à jour avec succès'
-    ]);
-}
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'password' => 'required|confirmed|min:8',
+        ]);
 
+        $user = $request->user();
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return response()->json([
+                'message' => 'Le mot de passe actuel est incorrect'
+            ], 422);
+        }
+
+        $user->update([
+            'password' => Hash::make($request->password)
+        ]);
+
+        return response()->json([
+            'message' => 'Mot de passe mis à jour avec succès'
+        ]);
+    }
+
+    public function notifications()
+    {
+        $notifications = auth()->user()->notifications()->orderBy('created_at', 'desc')->get();
+        return response()->json(['notifs'=> $notifications]);
+    }
+       public function markAsRead($id)
+    {
+        $notification = auth()->user()->notifications()->findOrFail($id);
+        $notification->markAsRead();
+        return response()->json(['success' => true]);
+    }
 }

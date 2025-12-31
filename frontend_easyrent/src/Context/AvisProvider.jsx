@@ -1,6 +1,7 @@
 import { createContext, useState } from "react";
 import api from "../Services/api";
 import { getEasingForSegment } from "framer-motion";
+import toast from "react-hot-toast";
 
 export const AvisContext = createContext();
 
@@ -19,7 +20,7 @@ const [mesAvis, setMesAvis] = useState([]);
     setErrors(null);
     try {
       const res = await api.get("/getPublicAvis");
-      console.log(res.data);
+      setPublicAvis(res.data);
     } catch (error) {
       setErrors(error.response?.data || "Error fetching avis");
     } finally {
@@ -42,29 +43,18 @@ const [mesAvis, setMesAvis] = useState([]);
 
 
 
-  const getSingleAvis = async (id) => {
+
+  const createAvis = async (data, id) => {
     setLoading(true);
     setErrors(null);
     try {
-      const res = await api.get(`/avis/${id}`);
-      setSingleAvis(res.data);
+      const res = await api.post(`/avis/${id}`, data);
+      toast.success("Avis ajouté avec succès");
+      getMesAvis()
+      return {result : true}
     } catch (error) {
-      setErrors(error.response?.data || "Error fetching avis");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-
-  const createAvis = async (data) => {
-    setLoading(true);
-    setErrors(null);
-    try {
-      const res = await api.post("/avis", data);
-      setAvis((prev) => [...prev, res.data]);
-      setSuccessMessage("Avis ajouté avec succès");
-    } catch (error) {
-      setErrors(error.response?.data || "Error creating avis");
+      toast.error(error?.response?.data?.error || "Error creating avis");
+      setErrors(error?.response?.data?.message)
     } finally {
       setLoading(false);
     }

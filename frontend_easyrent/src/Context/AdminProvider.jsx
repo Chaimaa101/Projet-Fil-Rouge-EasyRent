@@ -74,6 +74,10 @@ export const AdminProvider = ({ children }) => {
     try {
       const res = await api.get(`/admin/Allreservations?page=${page}`);
       setAllReservations(res.data.data);
+       setPagination({
+  currentPage: res.data.current_page,
+  lastPage: res.data.last_page,
+});
     } catch (error) {
       setErrors(error.response?.data || "Error fetching reservations");
     } finally {

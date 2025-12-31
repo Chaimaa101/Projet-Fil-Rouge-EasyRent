@@ -64,7 +64,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
      Route::get('/reservations/{reservation}/invoice', [InvoiceController::class, 'show']);
     Route::get('/reservations/{reservation}/invoice/download', [InvoiceController::class, 'download']);
-
+    
+    Route::get('/notifications', [AuthController::class, 'notifications']);
+     Route::post('/notifications/{id}/read', [AuthController::class, 'markAsRead']);
 });
 
 

@@ -4,8 +4,6 @@ namespace App\Listeners;
 
 use App\Events\ReservationPaid;
 use App\Notifications\ReservationPaidNotification;
-use Barryvdh\DomPDF\Facade\Pdf;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 

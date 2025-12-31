@@ -60,8 +60,7 @@ function Dashboard() {
           </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <RecentReservations/>
-              <RecentReservations/>
+      
           </div>
 <QuickActions/>
         </main>

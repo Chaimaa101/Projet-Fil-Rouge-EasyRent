@@ -59,7 +59,7 @@ export const PaymentProvider = ({ children }) => {
     errors,
     successMessage,
     getPayments,
-      viewInvoice,
+    viewInvoice,
     downloadInvoice,
     deletePayment,
     setErrors,

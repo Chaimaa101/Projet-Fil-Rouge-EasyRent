@@ -10,6 +10,7 @@ import { UserContext } from "../../Context/UsersContext";
 import PageHeader from "../../components/PageHeader";
 import { FaEye } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import UpdateUserRoleModal from "./Forms/UserForm";
 
 function Users() {
   const { pagination, users, getUsers, loading, total, deleteUser } =
@@ -39,6 +40,20 @@ function Users() {
       toast.success("Utilisateur supprimé avec succès");
     }
   };
+
+  const [openRoleModal, setOpenRoleModal] = useState(false);
+const [selectedUser, setSelectedUser] = useState(null);
+
+const openModal = (user) => {
+  setSelectedUser(user);
+  setOpenRoleModal(true);
+};
+
+const closeModal = () => {
+  setOpenRoleModal(false);
+  setSelectedUser(null);
+};
+
 
   const statusConfig = {
     admin: {
@@ -144,8 +159,7 @@ function Users() {
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         className="text-purple-500 hover:text-purple-700"
-                        // onClick pour voir détails
-                        onClick={() => navigate(`/admin/users/${User.id}`)}
+                      
                       >
                         <FaEye size={20} />
                       </motion.button>
@@ -154,7 +168,7 @@ function Users() {
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         className="text-blue-500 hover:text-blue-700"
-                        onClick={() => navigate(`/admin/users/edit/${User.id}`)}
+                        onClick={() => openModal(User)}
                       >
                         <TbEdit size={20} />
                       </motion.button>
@@ -180,6 +194,13 @@ function Users() {
         lastPage={pagination.lastPage}
         onPageChange={(page) => getUsers(page)}
       />
+
+      {openRoleModal && (
+  <UpdateUserRoleModal
+    user={selectedUser}
+    onClose={closeModal}
+  />
+)}
     </div>
   );
 }

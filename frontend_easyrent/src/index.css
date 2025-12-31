@@ -64,3 +64,8 @@
 .dropdown-item {
   @apply block px-3 py-2 rounded-md hover:bg-gray-100 transition;
 }
+
+
+.flex-grow{
+  flex-grow: 1;
+}

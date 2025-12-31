@@ -55,32 +55,16 @@ export const ReservationsProvider = ({ children }) => {
     }
   };
 
-  const updatereservations = async (id, data) => {
-    setLoading(true);
-    setErrors(null);
-    try {
-      const res = await api.put(`/reservations/${id}`, data);
-      setreservations((prev) =>
-        prev.map((a) => (a.id === id ? res.data : a))
-      );
-      setSuccessMessage("reservations mis à jour avec succès");
-    } catch (error) {
-      setErrors(error.response?.data || "Error updating reservations");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const deletereservations = async (id) => {
     setLoading(true);
     setErrors(null);
     try {
       await api.delete(`/reservations/${id}`);
-      setreservations((prev) => prev.filter((a) => a.id !== id));
-      setSuccessMessage("reservations supprimé avec succès");
+      toast.success("reservations supprimé avec succès");
+     
     } catch (error) {
-      setErrors(error.response?.data || "Error deleting reservations");
-    } finally {
+      console.log(error)
       setLoading(false);
     }
   };

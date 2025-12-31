@@ -12,7 +12,7 @@ function TopVehicules() {
   }, []);
 
   return (
-    <div className="mx-auto text-center">
+    <div className="max-w-7xl mx-auto px-4">
       <h2 className="text-2xl font-bold my-4 flex items-center justify-center gap-2 ">
          Top Vehicles 
       </h2>

@@ -56,7 +56,6 @@ public function confirmPayment(Reservation $reservation)
 
     $payment->update(['status' => 'success']);
 
-    // 🔥 EVENT
     event(new ReservationPaid($reservation));
 
     return response()->json(['message' => 'Payment confirmed']);

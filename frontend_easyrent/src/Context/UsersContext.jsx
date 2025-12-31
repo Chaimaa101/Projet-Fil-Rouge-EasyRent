@@ -1,5 +1,6 @@
 import { createContext, useState } from "react";
 import api from "../Services/api";
+import toast from "react-hot-toast";
 
 export const UserContext = createContext();
 
@@ -25,8 +26,8 @@ export const UserProvider = ({ children }) => {
         setUsers(res.data.data);
       setTotal(res.data.total)
       setPagination({
-  currentPage: response.data.current_page,
-  lastPage: response.data.last_page,
+  currentPage: res.data.current_page,
+  lastPage: res.data.last_page,
 });
     } catch (error) {
       setErrors(error.response?.data || "Error fetching users");
@@ -61,8 +62,9 @@ export const UserProvider = ({ children }) => {
     setErrors(null);
     try {
       const res = await api.put(`/users/${id}`, data);
-      setSuccessMessage("User updated successfully");
+      console.log(res)
       getUsers()
+       return {result: true}
     } catch (error) {
       setErrors(error.response?.data || "Error updating User");
     } finally {

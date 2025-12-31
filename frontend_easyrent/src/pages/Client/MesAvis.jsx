@@ -4,7 +4,7 @@ import { AvisContext } from "../../Context/AvisProvider";
 
 export default function MesAvis() {
 
-  const {MesAvis=[wowa],pending,error,getMesAvis } = useContext(AvisContext)
+  const {MesAvis=[],pending,error,getMesAvis } = useContext(AvisContext)
   useEffect(() =>{
     getMesAvis()
   },[])

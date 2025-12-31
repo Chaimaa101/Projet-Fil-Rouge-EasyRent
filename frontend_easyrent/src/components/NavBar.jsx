@@ -34,7 +34,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="relative flex items-center justify-between px-6 lg:px-10 py-5 bg-white shadow-md text-gray-800">
+    <nav className="relative flex items-center justify-between px-6 lg:px-10 py-5 bg-white shadow-md text-gray-800 fixed">
       <div className="hidden lg:flex items-center gap-6 font-medium">
         <Link to="/" className="hover:text-teal-600 transition">
           Accueil
@@ -180,7 +180,7 @@ export default function Navbar() {
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  className="absolute right-0 mt-8 bg-white shadow-lg rounded-lg w-52 p-2 z-50"
+                  className="absolute right-0 mt-40 bg-white shadow-lg rounded-lg w-52 p-2 z-50"
                 >
                   <li>
                     <Link to="/profile" className="dropdown-item">

@@ -14,7 +14,6 @@ export default function Register() {
   });
 
   const { register, loading,errors  } = useContext(AuthContext);
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -130,7 +129,7 @@ if(result){
           disabled={loading}
           className="w-full py-3 bg-teal-600 rounded-xl hover:bg-teal-700 transition disabled:opacity-50"
         >
-          {loading ? "Chargement..." : "S'inscrire"}
+          {loading ? "Inscription..." : "S'inscrire"}
         </button>
       </motion.form>
     </div>

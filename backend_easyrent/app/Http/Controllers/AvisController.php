@@ -44,6 +44,7 @@ class AvisController extends Controller
     {
         try {
              Gate::authorize('is-owner', $reservation);
+             
             $data = $request->validated();
              $data['reservation_id'] = $reservation->id;
             $avis = $request->user()->avis()->create($data);
@@ -53,7 +54,7 @@ class AvisController extends Controller
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
-                'error' => 'Erreur lors de la création de l\'avis: ' . $e->getMessage()
+                'error' => $e->getMessage()
             ], 500);
         }
     }

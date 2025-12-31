@@ -5,6 +5,7 @@ import { HiOutlineSearch } from "react-icons/hi";
 import GlobalLoader from "../../components/common/GlobalLoader";
 import PageHeader from "../../components/PageHeader";
 import { BrandContext } from "../../Context/BrandProvider";
+import { MdSearch } from "react-icons/md";
 
 export default function Brands() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -27,38 +28,22 @@ export default function Brands() {
   );
 
   return (
-    <div className="flex-1 relative overflow-auto bg-gray-100 text-black">
+    <div className="flex-1 relative overflow-auto bg-gray-100 text-black p-7 m-12">
       <PageHeader
         title="Gestion des Marques"
         subtitle="Liste et gestion des marques"
         num={brands.length}
       />
-
-      {/* Search */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="p-6"
-      >
-        <div className="relative max-w-md">
-          <input
-            type="text"
-            placeholder="Rechercher une marque..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
-          />
-          <HiOutlineSearch
-            size={20}
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-          />
-        </div>
-      </motion.div>
-
-      {/* Loader */}
+       <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+                  <div className="flex items-center w-full sm:w-1/2 bg-gray-50 rounded-xl px-4 py-2 border border-gray-200 shadow-sm">
+                    <input type="text" placeholder="Rechercher une marque..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="bg-transparent w-full outline-none text-gray-700 placeholder-gray-400"/>
+                    <MdSearch size={25} className="text-gray-500"/>
+                  </div>
+                  <motion.button whileTap={{ scale: 0.95 }} className="bg-neutral-600 hover:bg-neutral-700 text-white px-6 py-3 rounded-xl shadow-md transition-all duration-200 w-full sm:w-auto" onClick={() => handleOpenModal()}>NEW Marque</motion.button>
+                </motion.div>
+      
       {loading && <GlobalLoader />}
 
-      {/* Brands Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-6">
         <AnimatePresence>
           {filteredBrands.map((brand, index) => (
@@ -71,7 +56,7 @@ export default function Brands() {
               whileHover={{ scale: 1.02 }}
               className="bg-white p-6 rounded-2xl shadow-lg"
             >
-              {/* Image */}
+            
               <img
                 src={brand.image || "/placeholder.png"}
                 alt={brand.nom}
@@ -108,6 +93,7 @@ export default function Brands() {
           ))}
         </AnimatePresence>
       </div>
+
     </div>
   );
 }

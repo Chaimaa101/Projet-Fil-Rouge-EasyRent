@@ -1,5 +1,6 @@
 import { createContext, useState } from "react";
 import api from "../Services/api";
+import toast from "react-hot-toast";
 
 export const BrandContext = createContext();
 
@@ -88,9 +89,10 @@ export const BrandProvider = ({ children }) => {
     setErrors(null);
     try {
       await api.delete(`/brands/${id}`);
-      setBrands((prev) => prev.filter((m) => m.id !== id));
-      setSuccessMessage("Brand deleted successfully");
-    } catch (error) {
+      toast.success("Brand deleted successfully");
+
+return {result:truee}    
+} catch (error) {
       setErrors(error.response?.data || "Error deleting Brand");
     } finally {
       setLoading(false);

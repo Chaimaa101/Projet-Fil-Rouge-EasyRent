@@ -3,15 +3,15 @@ import { BiTrash } from "react-icons/bi";
 import { motion } from "framer-motion";
 import PageHeader from "../../components/PageHeader";
 import { Pagination } from "swiper/modules";
-import { PaymentContext } from "../../Context/PaymentProvider";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+import { AdminContext } from "../../Context/AdminProvider";
 
 function Paymentns() {
 
-  const {paymentns ,getPaymentns, loading,errors,pagination,total} = useContext(PaymentContext)
+  const {payments ,getPayments, loading,errors,pagination,total} = useContext(AdminContext)
 
   useEffect(() =>{
-    getPaymentns()
+    getPayments()
   },[])
 
 const handleDelete = async (id) => {
@@ -24,7 +24,7 @@ const handleDelete = async (id) => {
   const ok = await deletereservations(id);
 
   if (ok) {
-   navigate('/admin/reservations')
+   navigate('/admin/payments')
   }
 };
 
@@ -76,7 +76,7 @@ const handleDelete = async (id) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {paymentns.map((reserv, index) => (
+                  {payments.map((reserv, index) => (
                     <motion.tr
                       key={reserv.id}
                       initial={{ opacity: 0, x: -50 }}
@@ -86,7 +86,7 @@ const handleDelete = async (id) => {
                     >
                       
                       <td className="px-6 py-4">{reserv?.user?.nom} {reserv?.user?.prenom}</td>
-                      <td className="px-6 py-4 truncate">{reserv.total_price}DH</td>
+                      <td className="px-6 py-4 truncate">{reserv.amount}DH</td>
                       <td className="px-6 py-4 truncate">{reserv.status}</td>
 
                       <td className="px-6 py-4 truncate">{reserv.user.details.phone}</td>
@@ -107,7 +107,7 @@ const handleDelete = async (id) => {
             </motion.div>
             <Pagination currentPage={pagination.currentPage}
           lastPage={pagination.lastPage}
-          onPageChange={(page) => getPaymentns(page)}
+          onPageChange={(page) => getPayments(page)}
           />
       
           </div>
