@@ -11,6 +11,7 @@ import { ReservationsContext } from "../../Context/ReservationProvider";
 import { useNavigate, useParams } from "react-router-dom";
 import TextInput from "../formCompenents/TextInput";
 import { handleApiError } from "../common/handleApiError";
+import toast from "react-hot-toast";
 
 export default function VehicleDetails() {
   const { id } = useParams();
@@ -60,6 +61,10 @@ export default function VehicleDetails() {
       total_price: totalPrice,
       days,
     };
+
+    if(!user.profileCompleted){
+      toast.error('Veuillez compléter votre profil pour continuer.')
+    }
 try{
  const result = await createreservations(payload,id);
  if(result){

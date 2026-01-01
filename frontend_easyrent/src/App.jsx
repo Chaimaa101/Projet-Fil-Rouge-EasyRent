@@ -7,7 +7,6 @@ import Home from "./pages/Home";
 import { Toaster } from "react-hot-toast";
 import Contact from "./components/homeComponents/Contact";
 import Layout from "./components/Layout";
-import Profile from "./pages/Profile";
 import ConfirmRegestration from "./pages/Auth/ConfirmRegestration";
 import SingleVehicule from "./components/vehiculesListComponents/SingleVehicule";
 import Dashboard from "./pages/Admin/Dashboard";
@@ -28,8 +27,8 @@ import MesAvis from "./pages/Client/MesAvis";
 import MesPayments from "./pages/Client/MesPayments";
 import UserRoute from "./components/UserRoute";
 import AdminRoute from "./components/AdminRoute";
-import ProfileForm from "./pages/Client/ProfileForm";
 import Paymentns from './pages/Admin/Payments';
+import Profile from './pages/Client/ProfileForm';
 
 function App() {
   const [appLoading, setAppLoading] = useState(true);
@@ -67,17 +66,16 @@ function App() {
             <Route path="/client/avis" element={<MesAvis />} />
             <Route path="/client/payments" element={<MesPayments />} />
             <Route
-              path="/client/completeProfile"
-              element={<ProfileForm />}
+              path="/profile"
+              element={<Profile />}
             />
             <Route path="/client/checkout/:id" element={<CheckoutPage />} />
-            <Route path="/profile" element={<Profile />} />
           <Route path="/confirm" element={<ConfirmRegestration />} />
 
           </Route>
 
          <Route element={<AdminRoute />}>
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/admin/profile" element={<Profile />} />
             <Route path="/admin/dashboard" element={<Dashboard />} />
             <Route path="/admin/vehicules" element={<Vehicules />} />
             <Route path="/admin/reservations" element={<Reservations />} />

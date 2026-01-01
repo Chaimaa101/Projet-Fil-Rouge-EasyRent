@@ -46,7 +46,7 @@ function HeroSection() {
 Une réservation rapide en quelques clics.
         </p>
         <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-          <Link to="/vehicles" className="px-6 py-3 bg-teal-700 rounded-xl text-white">
+          <Link to="/listVehicule" className="px-6 py-3 bg-teal-700 rounded-xl text-white">
             Reserver maintenant
           </Link>
           <Link

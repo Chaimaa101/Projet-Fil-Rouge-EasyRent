@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../Context/AuthProvider";
 import { toast } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -13,7 +13,7 @@ export default function Register() {
     password_confirmation: "",
   });
 
-  const { register, loading,errors  } = useContext(AuthContext);
+  const { register, loading, errors } = useContext(AuthContext);
 
   const handleChange = (e) => {
     setFormData({
@@ -25,9 +25,7 @@ export default function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
     const result = await register(formData);
-if(result){
-  toast.success("Consultez votre email pour le lien d\'accès à votre espace",{duration: 5000})
-}
+
   };
 
   return (
@@ -37,7 +35,7 @@ if(result){
         animate={{ opacity: 1, y: 0 }}
         className="bg-white/10 backdrop-blur-xl p-10 rounded-2xl w-full max-w-md bg-gradient-to-b from-[#71C9CE] to-[#CBF1F5] text-white"
         onSubmit={handleRegister}
-        >
+      >
         <h2 className="text-3xl font-bold mb-8 text-center">Inscription</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -124,14 +122,22 @@ if(result){
           )}
         </div>
 
-
         <button
           disabled={loading}
           className="w-full py-3 bg-teal-600 rounded-xl hover:bg-teal-700 transition disabled:opacity-50"
         >
           {loading ? "Inscription..." : "S'inscrire"}
         </button>
+        <p className="mt-4 text-center text-sm text-gray-600">
+          Vous avez déjà un compte&nbsp;?
+          <Link
+            to="/login"
+            className="ml-1 font-medium text-teal-700 transition-colors duration-200 hover:text-teal-900 hover:underline"
+          >
+            Se connecter
+          </Link>
+        </p>
       </motion.form>
     </div>
   );
-} 
+}

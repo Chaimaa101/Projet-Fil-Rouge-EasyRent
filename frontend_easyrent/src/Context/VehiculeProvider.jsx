@@ -13,45 +13,46 @@ export const VehiculeProvider = ({ children }) => {
 
   const [total, setTotal] = useState(0);
   const [pagination, setPagination] = useState({
-  currentPage: 1,
-  lastPage: 1,
-});
+    currentPage: 1,
+    lastPage: 1,
+  });
 
-
-//   get  all 
+  //   get  all
   const getVehicules = async (page = 1) => {
     setLoading(true);
     setErrors(null);
     try {
       const res = await api.get(`/vehicules/?page=${page}`);
       setVehicules(res.data.data);
-      setTotal(res.data.total)
+      setTotal(res.data.total);
       setPagination({
-  currentPage: res.data.current_page,
-  lastPage: res.data.last_page,
-});
+        currentPage: res.data.current_page,
+        lastPage: res.data.last_page,
+      });
     } catch (error) {
-      setErrors(error.response?.data || "Error fetching vehicles");
+      setErrors("Erreur lors de la récupération des véhicules");
     } finally {
       setLoading(false);
     }
   };
-// get top vehicule
-    const getTopVehicules = async (page = 1) => {
+  // get top vehicule
+  const getTopVehicules = async (page = 1) => {
     setLoading(true);
     setErrors(null);
     try {
       const res = await api.get(`/getTopVehicules`);
-      setTopvehicules(res.data)
+      setTopvehicules(res.data);
     } catch (error) {
-      setErrors(error.response?.data || "Error fetching vehicles");
+
+setErrors("Erreur lors de la récupération des véhicules");
+
     } finally {
       setLoading(false);
     }
   };
 
-//   get one
-  
+  //   get one
+
   const getVehicule = async (id) => {
     setLoading(true);
     setErrors(null);
@@ -59,86 +60,69 @@ export const VehiculeProvider = ({ children }) => {
       const res = await api.get(`/vehicules/${id}`);
       setVehicule(res.data);
     } catch (error) {
-      setErrors(error.response?.data || "Erreur lors de la récupération du véhicule");
+      setErrors( "Erreur lors de la récupération du véhicule");
     } finally {
       setLoading(false);
     }
   };
 
-//   store
+  //   store
   const createVehicule = async (data) => {
     setLoading(true);
     setErrors(null);
     try {
       const res = await api.post("/vehicules", data);
       toast.success("Véhicule créé avec succès");
-      getVehicules()
-      return {result:true}
+      getVehicules();
+      return { result: true };
     } catch (error) {
-      setErrors( error || "Erreur lors de la création du véhicule");
-    } finally {
-      setLoading(false);
+      if (error.response?.status === 422) {
+        setErrors(error.response.data.errors);
+        toast.error("Veuillez corriger les erreurs");
+      } else {
+        toast.error("Erreur serveur");
+      }
     }
   };
 
-//  updade
+  //  updade
   const updateVehicule = async (id, data) => {
-  setLoading(true);
-  setErrors(null);
+    setLoading(true);
+    setErrors(null);
 
-  try {
-    data.append("_method", "PUT");
+    try {
+      data.append("_method", "PUT");
 
-    const res = await api.post(`/vehicules/${id}`, data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+      const res = await api.post(`/vehicules/${id}`, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
-    await getVehicules();
+      await getVehicules();
 
-    toast.success("Véhicule modifié avec succès");
+      toast.success("Véhicule modifié avec succès");
 
-    return { result: true, data: res.data };
-
-  } catch (error) {
-    if (error.response?.status === 422) {
-      setErrors(error.response.data.errors);
-      toast.error("Veuillez corriger les erreurs du formulaire");
-    } else {
-      toast.error("Erreur lors de la modification du véhicule");
+      return { result: true, data: res.data };
+    } catch (error) {
+      if (error.response?.status === 422) {
+        setErrors(error.response.data.errors);
+        toast.error("Veuillez corriger les erreurs");
+      } else {
+        toast.error("Erreur serveur");
+      }
     }
+  };
 
-    return { result: false };
-  } finally {
-    setLoading(false);
-  }
-};
-
-
-//   remove
+  //   remove
   const deleteVehicule = async (id) => {
     setLoading(true);
     setErrors(null);
     try {
       await api.delete(`/vehicules/${id}`);
-     getVehicules()
+      getVehicules();
       toast.success("Véhicule supprimé avec succès");
-      return {result:true}
-
-    } catch (error) {
-if (error.response) {
-      if (error.response.status === 403) {
-        toast.error("Action non autorisée");
-      } else if (error.response.status === 404) {
-        toast.error("Véhicule introuvable");
-      } else {
-        toast.error("Erreur lors de la suppression");
-      }
-
-    }
-      
-      setErrors(error.response.data?.errors || {});
+      return { result: true };
     } finally {
       setLoading(false);
     }

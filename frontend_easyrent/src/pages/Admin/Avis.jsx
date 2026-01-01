@@ -3,16 +3,16 @@ import { useContext, useEffect, useState } from "react";
 import { GoTrash } from "react-icons/go";
 import { MdOutlineEmail, MdOutlinePhone } from "react-icons/md";
 import { HiOutlineSearch } from "react-icons/hi";
-import { AvisContext } from "../../Context/AvisProvider";
 import GlobalLoader from "../../components/common/GlobalLoader";
 import PageHeader from "../../components/PageHeader";
 import Pagination from "../../components/Pagination";
+import { AdminContext } from "../../Context/AdminProvider";
 
 export default function Avis() {
   const [searchQuery, setSearchQuery] = useState("");
-  const { avis = [], getAvis, loading ,pagination} = useContext(AvisContext);
+  const { avis = [], getAvis, loading ,pagination} = useContext(AdminContext);
 
-  const handleSpam = (id) => {
+  const handleDelete = (id) => {
     if (confirm("Are you sure you want to delete this message?")) {
       router.delete(`/messages/${id}`, {
         preserveScroll: true,
@@ -36,7 +36,10 @@ export default function Avis() {
 
   return (
     <div className="flex-1 relative overflow-auto z-5 bg-gray-100 text-black">
-            <PageHeader title = "Gestion des avis" subtitle="gesfvnsfjvjksfjk svjsjnvsjkrvsw" num={avis.length} />
+   <PageHeader
+  title="Gestion des Avis"
+  subtitle="Consultez, ajoutez et gérez l'ensemble des avis"
+num={avis.length} />
       
 
       {/* Search Bar */}
@@ -96,7 +99,7 @@ export default function Avis() {
 
               {/* Timestamp */}
               <p className="mt-2 text-xs text-gray-500">
-                Received: {msg.rating}
+                Rating: {msg.rating}
               </p>
 
               {/* Action Buttons */}
@@ -112,7 +115,7 @@ export default function Avis() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => handleSpam(msg.id)}
+                  onClick={() => handleDelete(msg.id)}
                   className="flex items-center gap-2 px-4 py-2 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all"
                 >
                   <GoTrash size={16} />

@@ -61,6 +61,15 @@ use  HasApiTokens, HasFactory, Notifiable;
      public function details() {
         return $this->hasOne(UserDetails::class);
     }
+    public function isProfileCompleted()
+    {
+        return $this->details &&
+               $this->details->CNI &&
+               $this->details->tel &&
+               $this->details->permi_licence &&
+               $this->details->genre &&
+               $this->details->date_naissance;
+    }
     public function paiments()
     {
         return $this->hasMany(Payment::class);

@@ -19,25 +19,29 @@ export const PaymentProvider = ({ children }) => {
       const res = await api.get(`/getUserPaiments`);
         setPayments(res.data);
     } catch (error) {
-      setErrors(error.response?.data || "Error fetching Payments");
+      setErrors("Erreur lors de la récupération des Payments");
     } finally {
       setLoading(false);
     }
   };
 
-  const deletePayment = async (id) => {
-    setLoading(true);
-    setErrors(null);
-    try {
-      await api.delete(`/payments/${id}`);
-      toast.success("Payment deleted successfully");
-      getPayments()
-    } catch (error) {
-      setErrors(error.response?.data || "Error deleting Payment");
-    } finally {
-      setLoading(false);
+ const deletePayment = async (id) => {
+  setLoading(true);
+  setErrors(null);
+  try {
+    await api.delete(`/payments/${id}`);
+    toast.success("Paiement supprimé avec succès");
+    getPayments();
+  } catch (error) {
+  
+    if (error.response?.status === 422) {
+      setErrors(error.response.data.errors);
     }
-  };
+  } finally {
+    setLoading(false);
+  }
+};
+
 
     const viewInvoice = (reservationId) => {
     window.open(

@@ -13,16 +13,15 @@ export const ReservationsProvider = ({ children }) => {
 
   const [successMessage, setSuccessMessage] = useState("");
 
-
   const getreservations = async () => {
     setLoading(true);
     setErrors(null);
     try {
       const res = await api.get("/reservations");
       setreservations(res.data);
-      setTotal(res.data.total)
+      setTotal(res.data.total);
     } catch (error) {
-      setErrors(error.response?.data || "Error fetching reservations");
+      setErrors("Erreur lors de la récupération des réservations");
     } finally {
       setLoading(false);
     }
@@ -35,7 +34,9 @@ export const ReservationsProvider = ({ children }) => {
       const res = await api.get(`/reservations/${id}`);
       setSinglereservations(res.data);
     } catch (error) {
-      setErrors(error.response?.data || "Error fetching reservations");
+      setErrors(
+        error.response?.data || "Erreur lors de la récupération de réservation"
+      );
     } finally {
       setLoading(false);
     }
@@ -47,14 +48,20 @@ export const ReservationsProvider = ({ children }) => {
     try {
       const res = await api.post(`/reservations/${id}`, data);
       toast.success("reservations ajouté avec succès");
-      return {result: true}
+      return { result: true };
     } catch (error) {
-      setErrors(error.response?.data || "Error creating reservations");
+      if (error.response?.status === 422) {
+        setErrors(error.response.data.errors);
+      } else {
+        setErrors(
+          error.response?.data?.message ||
+            "Erreur lors de la création de la réservation"
+        );
+      }
     } finally {
       setLoading(false);
     }
   };
-
 
   const deletereservations = async (id) => {
     setLoading(true);
@@ -62,9 +69,7 @@ export const ReservationsProvider = ({ children }) => {
     try {
       await api.delete(`/reservations/${id}`);
       toast.success("reservations supprimé avec succès");
-     
     } catch (error) {
-      console.log(error)
       setLoading(false);
     }
   };
@@ -79,7 +84,6 @@ export const ReservationsProvider = ({ children }) => {
     getreservations,
     getSinglereservations,
     createreservations,
-    updatereservations,
     deletereservations,
     setErrors,
     setSuccessMessage,

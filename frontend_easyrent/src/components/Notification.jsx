@@ -14,7 +14,7 @@ export default function NotificationDropdown() {
   const fetchNotifications = async () => {
     try {
       const res = await axios.get("/api/notifications"); 
-      // setNotifications(res.data.data);
+      // setNotifications(res.data);
     } catch (error) {
       console.error(error);
     }
@@ -35,11 +35,11 @@ export default function NotificationDropdown() {
     <div className="relative inline-block text-left">
        <button
         onClick={() => setOpen(!open)}
-        className="relative p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition"
+        className="relative py-2  px-1 rounded-full hover:bg-gray-200 transition"
       >
     <FiBell size={22} className="hover:text-teal-600 transition" />
  
-          <span className="absolute top-0 right-0  text-red-500 rounded-full">{unreadCount}</span>
+          <span className="absolute top-0 right-0 text-red-600 rounded-full">{unreadCount}</span>
   
       </button>
 
@@ -67,7 +67,7 @@ export default function NotificationDropdown() {
                     </p>
                   </div>
                   {!notification.read_at && (
-                    <span className="text-xs text-blue-500">New</span>
+                    <span className="text-xs text-blue-500">  Noveau</span>
                   )}
                 </div>
               </li>

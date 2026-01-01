@@ -11,8 +11,7 @@ export const BrandProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
-    const [total, setTotal] = useState(0);
-
+  const [total, setTotal] = useState(0);
 
   const getBrands = async () => {
     setLoading(true);
@@ -20,22 +19,22 @@ export const BrandProvider = ({ children }) => {
     try {
       const res = await api.get("/brands");
       setBrands(res.data.marques);
-      setTotal(res.data.total)
+      setTotal(res.data.total);
     } catch (error) {
-      setErrors(error.response?.data || "Error fetching Brands");
+      setErrors(error.response?.data?.errors || {});
     } finally {
       setLoading(false);
     }
   };
 
-   const getCategories = async () => {
+  const getCategories = async () => {
     setLoading(true);
     setErrors(null);
     try {
       const res = await api.get("/categories");
       setCategories(res.data.categories);
     } catch (error) {
-      setErrors(error.response?.data || "Error fetching categories");
+      setErrors(error.response?.data?.errors || {});
     } finally {
       setLoading(false);
     }
@@ -48,7 +47,7 @@ export const BrandProvider = ({ children }) => {
       const res = await api.get(`/brands/${id}`);
       setBrand(res.data);
     } catch (error) {
-      setErrors(error.response?.data || "Error fetching Brand");
+      setErrors(error.response?.data?.errors || {});
     } finally {
       setLoading(false);
     }
@@ -60,9 +59,13 @@ export const BrandProvider = ({ children }) => {
     try {
       const res = await api.post("/brands", data);
       setBrands((prev) => [...prev, res.data]);
-      setSuccessMessage("Brand created successfully");
+      toast.success("Brand created successfully");
+      return { result: true };
     } catch (error) {
-      setErrors(error.response?.data || "Error creating Brand");
+      if (error.response?.status === 422) {
+        setErrors(error.response.data.errors);
+      }
+      return { result: false };
     } finally {
       setLoading(false);
     }
@@ -72,13 +75,15 @@ export const BrandProvider = ({ children }) => {
     setLoading(true);
     setErrors(null);
     try {
-      const res = await api.put(`/brands/${id}`, data);
-      setBrands((prev) =>
-        prev.map((m) => (m.id === id ? res.data : m))
-      );
-      setSuccessMessage("Brand updated successfully");
+      data.append("_method", "PUT");
+      const res = await api.post(`/brands/${id}`, data);
+      toast.success("Brand updated successfully");
+      getBrands();
     } catch (error) {
-      setErrors(error.response?.data || "Error updating Brand");
+      if (error.response?.status === 422) {
+        setErrors(error.response.data.errors);
+      }
+      return { result: false };
     } finally {
       setLoading(false);
     }
@@ -91,9 +96,9 @@ export const BrandProvider = ({ children }) => {
       await api.delete(`/brands/${id}`);
       toast.success("Brand deleted successfully");
 
-return {result:truee}    
-} catch (error) {
-      setErrors(error.response?.data || "Error deleting Brand");
+      return { result: truee };
+    } catch (error) {
+      setErrors(error.response?.data?.errors || {});
     } finally {
       setLoading(false);
     }
@@ -118,8 +123,6 @@ return {result:truee}
   };
 
   return (
-    <BrandContext.Provider value={values}>
-      {children}
-    </BrandContext.Provider>
+    <BrandContext.Provider value={values}>{children}</BrandContext.Provider>
   );
 };

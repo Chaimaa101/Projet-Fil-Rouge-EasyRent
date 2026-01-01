@@ -68,11 +68,12 @@ const closeModal = () => {
 
   return (
     <div className="flex-1 relative overflow-auto z-10 bg-gray-100 min-h-screen py-8">
-      <PageHeader
-        title="Gestion des users"
-        subtitle="gesfvnsfjvjksfjk svjsjnvsjkrvsw"
-        num={total}
-      />
+    <PageHeader
+  title="Gestion des Utilisateurs"
+  subtitle="Consultez, modifier le role et gérez l'ensemble des utilisateurs inscris"
+  num={total}
+/>
+
 
       <main className="container max-w-7xl mx-auto px-4">
         <div className="bg-white/80 backdrop-blur-lg p-6 rounded-2xl shadow-xl">

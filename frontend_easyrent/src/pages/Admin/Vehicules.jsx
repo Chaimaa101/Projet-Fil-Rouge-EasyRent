@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import VehiculeForm from './Forms/VehiculeForm';
 
 function Vehicules() {
-  const { pagination, vehicules, getVehicules, loading, total, deleteVehicule } = useContext(VehiculeContext);
+  const { pagination, vehicules, getVehicules, loading, total, deleteVehicule,toggleVehiculeIsTop } = useContext(VehiculeContext);
   const [searchTerm, setSearchTerm] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [selectedVehicule, setSelectedVehicule] = useState(null);
@@ -47,10 +47,15 @@ function Vehicules() {
 
   return (
     <div className="flex-1 relative overflow-auto z-10 bg-gray-100 min-h-screen py-8">
-      <PageHeader title="Gestion des Vehicules" subtitle="Liste des véhicules" num={total} />
+   <PageHeader
+  title="Gestion des Véhicules"
+  subtitle="Consultez, ajoutez et gérez l'ensemble des véhicules disponibles"
+  num={total}
+/>
+
       <main className="container max-w-7xl mx-auto px-4">
         <div className="bg-white/80 backdrop-blur-lg p-6 rounded-2xl shadow-xl">
-          {/* Search & New Vehicule */}
+       
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
             <div className="flex items-center w-full sm:w-1/2 bg-gray-50 rounded-xl px-4 py-2 border border-gray-200 shadow-sm">
               <input type="text" placeholder="Search vehicule..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="bg-transparent w-full outline-none text-gray-700 placeholder-gray-400"/>
@@ -59,9 +64,8 @@ function Vehicules() {
             <motion.button whileTap={{ scale: 0.95 }} className="bg-neutral-600 hover:bg-neutral-700 text-white px-6 py-3 rounded-xl shadow-md transition-all duration-200 w-full sm:w-auto" onClick={() => handleOpenModal()}>NEW Vehicule</motion.button>
           </motion.div>
 
-          {loading && <GlobalLoader />}
+          {/* {loading && <GlobalLoader />} */}
 
-          {/* Vehicule Table */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="overflow-x-auto">
             <table className="w-full text-left text-gray-700 border-separate border-spacing-y-2">
               <thead>
@@ -72,6 +76,7 @@ function Vehicules() {
                   <th className="px-6 py-3">Immatriculation</th>
                   <th className="px-6 py-3">Statut</th>
                   <th className="px-6 py-3">Prix</th>
+                  <th className="px-6 py-3">isTop</th>
                   <th className="px-6 py-3">Action</th>
                 </tr>
               </thead>
@@ -94,6 +99,19 @@ function Vehicules() {
                       </span>
                     </td>
                     <td className="px-6 py-4">{vehicule.prix_day} DH</td>
+                    <td className="px-6 py-4">
+  <button
+    onClick={() => toggleVehiculeIsTop(vehicule.id)}
+    className={`px-3 py-1 rounded-full text-sm font-semibold transition
+      ${vehicule.is_top
+        ? "bg-teal-100 text-teal-700 hover:bg-teal-200"
+        : "bg-gray-200 text-gray-600 hover:bg-gray-300"
+      }`}
+  >
+    {vehicule.is_top ? "Actif" : "Désactivé"}
+  </button>
+</td>
+
                     <td className="px-6 py-4 flex gap-2">
                       <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} className="text-purple-500 hover:text-purple-700" onClick={() => navigate(`/admin/vehicules/${vehicule.id}`)}><FaEye size={20} /></motion.button>
                       <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} className="text-blue-500 hover:text-blue-700" onClick={() => handleOpenModal(vehicule)}><TbEdit size={20} /></motion.button>

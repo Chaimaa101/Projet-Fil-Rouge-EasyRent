@@ -49,7 +49,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::apiResource('reservations', ReservationController::class)->except('store');
-    Route::post('reservations/{vehicule}', [ReservationController::class, 'store']);
+    Route::post('reservations/{vehicule}', [ReservationController::class, 'store'])->middleware('profileCompleted');
 
     Route::post('/create-payment/{reservation}', [PaymentController::class, 'createPayment']);
     Route::post('/confirmPayment/{reservation}', [PaymentController::class, 'confirmPayment']);

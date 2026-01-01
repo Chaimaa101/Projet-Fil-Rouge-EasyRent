@@ -193,9 +193,7 @@ const ListVehicules = () => {
           setSeatsFilter={setSeatsFilter}
           resetFilters={resetFilters}
         />
-        {loading ? (
-          <GlobalLoader />
-        ) : (
+
           <VehiculeList
             filteredVehicules={filteredVehicules.length > 0 ? filteredVehicules : vehicules}
             sortOption={sortOption}
@@ -203,22 +201,12 @@ const ListVehicules = () => {
             totalVehicules={filteredVehicules.length}
             allVehiculesCount={total}
           />
-        )}
       </div>
       <Pagination currentPage={pagination.currentPage}
           lastPage={pagination.lastPage}
           onPageChange={(page) => getVehicules(page)}
           />
-      
-      {/* Show message when filters are applied
-      {filteredVehicules.length !== vehicules.length && (
-        <div className="mt-4 text-center text-gray-600">
-          <p>
-            Affichage de {filteredVehicules.length} véhicules sur {vehicules.length} 
-            {filteredVehicules.length === 0 && " - Aucun véhicule ne correspond aux critères"}
-          </p>
-        </div>
-      )}*/}
+    
     </div> 
   );
 };

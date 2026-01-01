@@ -5,9 +5,9 @@ import { AuthContext } from "../../Context/AuthProvider";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 export default function Login() {
-    const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
-    const toggleEye = () => setShowPassword(!showPassword);
+  const toggleEye = () => setShowPassword(!showPassword);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -15,7 +15,7 @@ export default function Login() {
   });
 
   const navigate = useNavigate();
-  const { login,user, errors, loading } = useContext(AuthContext);
+  const { login, user, errors, loading } = useContext(AuthContext);
 
   const handleChange = (e) => {
     setFormData({
@@ -26,15 +26,15 @@ export default function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-const response = await login(formData); 
+    const result = await login(formData);
 
-  if (user) {
-    if (user.role === "admin") {
-      navigate("/admin/dashboard");
-    } else {
-      navigate("/client/completeProfile"); 
-  }
-  }}
+    if (!result) {
+      return
+    }
+    else{
+      navigate("/");
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center ">
@@ -44,7 +44,9 @@ const response = await login(formData);
         className="bg-gradient-to-b from-[#71C9CE] to-[#CBF1F5] p-10 rounded-2xl w-full max-w-md text-white"
         onSubmit={handleLogin}
       >
-        <h2 className="text-3xl font-bold mb-6 text-center text-teal-800">Connexion</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center text-teal-800">
+          Connexion
+        </h2>
 
         <div className="mb-4">
           <input
@@ -67,7 +69,7 @@ const response = await login(formData);
               errors?.password ? "border border-red-500" : ""
             }`}
             placeholder="Mot de passe"
-              type={showPassword ? "text" : "password"}
+            type={showPassword ? "text" : "password"}
             name="password"
             value={formData.password}
             onChange={handleChange}
@@ -76,18 +78,16 @@ const response = await login(formData);
             onClick={toggleEye}
             className="absolute text-gray-500 dark:text-gray-400 top-[10px] right-[8px] cursor-pointer"
           >
-            {showPassword ? <FaRegEyeSlash size={20} /> : <FaRegEye size={20} />}
+            {showPassword ? (
+              <FaRegEyeSlash size={20} />
+            ) : (
+              <FaRegEye size={20} />
+            )}
           </span>
           {errors?.password && (
             <p className="text-red-400 text-xs mt-1">{errors.password}</p>
           )}
         </div>
-        <Link
-          to={"/resetpassword"}
-          className="ml-auto text-xs mt-2 text-teal-900 hover:text-teal-500  w-fit"
-        >
-          Mot de passe oublie ?
-        </Link>
 
         <button
           type="submit"
@@ -98,7 +98,7 @@ const response = await login(formData);
         </button>
 
         <p className="text-center mt-4 text-sm text-gray-600">
-          pas de compte?{" "}
+          Pas de compte?{" "}
           <Link to="/register" className="text-teal-900 underline">
             S'inscrire
           </Link>
