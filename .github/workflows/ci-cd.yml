@@ -23,19 +23,19 @@ jobs:
         run: composer install --no-interaction --prefer-dist
 
       - name: Copy .env
-        working-directory: backend
+        working-directory: backend_easyrent
         run: cp .env.example .env
 
       - name: Generate key
-        working-directory: backend
+        working-directory: backend_easyrent
         run: php artisan key:generate
 
       - name: Run migrations
-        working-directory: backend
+        working-directory: backend_easyrent
         run: php artisan migrate --force
 
       - name: Run tests
-        working-directory: backend
+        working-directory: backend_easyrent
         run: php artisan test
 
   frontend:
@@ -55,9 +55,9 @@ jobs:
         run: npm install
 
       - name: Run frontend tests
-        working-directory: frontend
+        working-directory: frontend_easyrent
         run: npm test -- --watch=false
 
       - name: Build frontend
-        working-directory: frontend
+        working-directory: frontend_easyrent
         run: npm run build
