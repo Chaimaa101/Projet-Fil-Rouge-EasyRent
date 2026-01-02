@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Events\ReservationPaid;
+use App\Events\VehiculeCreated;
 use App\Listeners\GenerateInvoiceAndNotify;
+use App\Listeners\UploadVehiculeImages;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -22,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         ],
          ReservationPaid::class => [
         GenerateInvoiceAndNotify::class,
+    ],
+    VehiculeCreated::class => [
+        UploadVehiculeImages::class,
     ],
     ];
 

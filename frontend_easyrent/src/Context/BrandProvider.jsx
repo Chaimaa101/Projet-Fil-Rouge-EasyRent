@@ -18,7 +18,7 @@ export const BrandProvider = ({ children }) => {
     setErrors(null);
     try {
       const res = await api.get("/brands");
-      setBrands(res.data.marques);
+      setBrands(res.data);
       setTotal(res.data.total);
     } catch (error) {
       setErrors(error.response?.data?.errors || {});
@@ -32,7 +32,7 @@ export const BrandProvider = ({ children }) => {
     setErrors(null);
     try {
       const res = await api.get("/categories");
-      setCategories(res.data.categories);
+      setCategories(res.data);
     } catch (error) {
       setErrors(error.response?.data?.errors || {});
     } finally {
@@ -79,6 +79,8 @@ export const BrandProvider = ({ children }) => {
       const res = await api.post(`/brands/${id}`, data);
       toast.success("Brand updated successfully");
       getBrands();
+       return {result: true}
+
     } catch (error) {
       if (error.response?.status === 422) {
         setErrors(error.response.data.errors);

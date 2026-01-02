@@ -99,21 +99,31 @@ export default function VehiculeForm({
     setPreviews(newPreviews);
   };
 
-  const onSubmit = async (data) => {
-    const formData = new FormData();
-    Object.entries(data).forEach(([key, value]) => formData.append(key, value));
-    images.filter(Boolean).forEach((img) => formData.append("images[]", img));
+const onSubmit = async (data) => {
+  const formData = new FormData();
 
-    const result = isEdit
-      ? await updateVehicule(selectedVehicule.id, formData)
-      : await createVehicule(formData);
-
-    if (!result) {
-      return;
-    } else {
-      onClose();
+  // Append normal fields safely
+  Object.entries(data).forEach(([key, value]) => {
+    if (value !== null && value !== undefined && value !== "") {
+      formData.append(key, value);
     }
-  };
+  });
+
+  // Append images only if added
+  if (images && images.length > 0) {
+    images.filter(Boolean).forEach((img) => {
+      formData.append("images[]", img);
+    });
+  }
+
+  const result = isEdit
+    ? await updateVehicule(selectedVehicule.id, formData)
+    : await createVehicule(formData);
+
+  if (!result.result) return;
+
+  onClose();
+};
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
@@ -284,10 +294,10 @@ export default function VehiculeForm({
               </button>
               <button
                 type="submit"
-                
+                disabled={loading}
                 className="w-1/2 bg-teal-600 text-white py-3 rounded-md"
               >
-                Valider
+                {loading ? "Enregistrement..." : "Enregistrer"}
               </button>
             </div>
           </form>

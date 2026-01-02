@@ -89,8 +89,7 @@ function Reservations() {
                 <MdSearch size={25} className="text-gray-500" />
               </div>
             </motion.div>
-
-            {/* Loading */}
+            
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -153,9 +152,9 @@ function Reservations() {
                         <motion.button
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
-                          className="text-purple-500 hover:text-purple-700"
+                          className="text-purple-500 hover:text-purple-700 mr-2"
                            onClick={() =>
-                          navigate(`/error`)
+                          navigate("/error")
                         }
                         >
                           {" "}

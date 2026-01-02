@@ -7,6 +7,7 @@ use App\Http\Requests\StoreMarqueRequest;
 use App\Http\Requests\UpdateMarqueRequest;
 use App\Models\Category;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Support\Facades\Cache;
 
 class MarqueController extends Controller
 {
@@ -16,21 +17,22 @@ class MarqueController extends Controller
     public function index()
     {
         try {
-            $marques = Marque::with('vehicules')->latest()->get();
-            return ['marques' =>  $marques];
 
+                return Marque::with('vehicules')->latest()->get();
+        
         } catch (\Exception $e) {
-            return ['error'=>$e->getMessage()];
+            return ['error' => $e->getMessage()];
         }
     }
 
-       public function getCategories()
+    public function getCategories()
     {
         try {
-            $categories =Category::with('vehicules')->get();
-            return ['categories' =>  $categories];
+                return  Category::with('vehicules')->latest()->get();
+        
+       
         } catch (\Exception $e) {
-            return ['error'=>$e->getMessage()];
+            return ['error' => $e->getMessage()];
         }
     }
 
@@ -41,19 +43,17 @@ class MarqueController extends Controller
     public function store(StoreMarqueRequest $request)
     {
         try {
-           $data = $request->validated();
+            $data = $request->validated();
 
-            
-        if ($request->hasFile('image')) {
-            $cloudinary = Cloudinary::upload($request->file('image')->getRealPath());
-            $data['image'] = $cloudinary->getSecurePath(); 
-        }
-              $marque = Marque::create($data);
-                return ['message' =>'created','marque' =>$marque ];
 
+            if ($request->hasFile('image')) {
+                $cloudinary = Cloudinary::upload($request->file('image')->getRealPath());
+                $data['image'] = $cloudinary->getSecurePath();
+            }
+            $marque = Marque::create($data);
+            return ['message' => 'created', 'marque' => $marque];
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
-            
         }
     }
 
@@ -77,11 +77,11 @@ class MarqueController extends Controller
         try {
             $data = $request->validated();
             if ($request->hasFile('image')) {
-            $cloudinary = Cloudinary::upload($request->file('image')->getRealPath());
-            $data['image'] = $cloudinary->getSecurePath(); 
-        }
+                $cloudinary = Cloudinary::upload($request->file('image')->getRealPath());
+                $data['image'] = $cloudinary->getSecurePath();
+            }
             $marque->update($data);
-          return ['message' =>'updated','marque' =>$marque ];
+            return ['message' => 'updated', 'marque' => $marque];
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -94,7 +94,7 @@ class MarqueController extends Controller
     {
         try {
             $marque->delete();
-            return ['message' =>'deleted'];
+            return ['message' => 'deleted'];
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

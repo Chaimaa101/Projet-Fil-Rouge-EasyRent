@@ -66,14 +66,42 @@ setErrors("Erreur lors de la récupération des véhicules");
     }
   };
 
- const createVehicule = async (data) => {
-  setLoading(true);
-  setErrors(null);
+const createVehicule = async (data) => {
 
   try {
     const res = await api.post("/vehicules", data);
+
+   getVehicules()
     toast.success("Véhicule créé avec succès");
-    getVehicules();
+
+    return { result: true };
+  } catch (error) {
+    console.log(error)
+    if (error.response?.status === 422) {
+      setErrors(error.response.data.errors);
+      toast.error("Veuillez corriger les erreurs");
+    } else {
+      toast.error(error?.response?.data?.error || "Erreur serveur");
+    }
+    return { result: false };
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+ const updateVehicule = async (id, data) => {
+  try {
+    data.append("_method", "PUT");
+
+    const res = await api.post(`/vehicules/${id}`, data, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+
+    getTopVehicules()
+
+    toast.success("Véhicule modifié avec succès");
+
     return { result: true };
   } catch (error) {
     if (error.response?.status === 422) {
@@ -84,42 +112,10 @@ setErrors("Erreur lors de la récupération des véhicules");
     }
     return { result: false };
   } finally {
-    setLoading(false); 
+    setLoading(false);
   }
 };
 
-  //  updade
-  const updateVehicule = async (id, data) => {
-    setLoading(true);
-    setErrors(null);
-
-    try {
-      data.append("_method", "PUT");
-
-      const res = await api.post(`/vehicules/${id}`, data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      await getVehicules();
-
-      toast.success("Véhicule modifié avec succès");
-
-      return { result: true };
-  } catch (error) {
-    if (error.response?.status === 422) {
-      setErrors(error.response.data.errors);
-      toast.error("Veuillez corriger les erreurs");
-    } else {
-      toast.error(error?.response?.data?.error || "Erreur serveur");
-    }
-    return { result: false };
-  } finally {
-    setLoading(false); 
-  }
-
-  };
 
   //   remove
   const deleteVehicule = async (id) => {

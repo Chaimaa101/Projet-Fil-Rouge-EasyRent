@@ -42,7 +42,6 @@ export default function BrandForm({ brand = null, onClose }) {
     setPreview(null);
   };
 
-  /* ================= SUBMIT ================= */
   const onSubmit = async (data) => {
     const formData = new FormData();
     formData.append("nom", data.nom);
@@ -56,13 +55,8 @@ export default function BrandForm({ brand = null, onClose }) {
       : await createBrand(formData);
 
     if (result) {
-      toast.success(
-        brand ? "Marque modifiée avec succès" : "Marque ajoutée avec succès"
-      );
       onClose();
-    } else {
-      toast.error("Une erreur est survenue");
-    }
+    } 
   };
 
   return (

@@ -41,7 +41,7 @@ function Vehicules() {
   };
 
   const filteredVehicules = vehicules.filter((v) =>
-    v.nom.toLowerCase().includes(searchTerm.toLowerCase())
+    v.nom?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const statusConfig = {
@@ -101,7 +101,7 @@ function Vehicules() {
             transition={{ duration: 0.5 }}
             className="overflow-x-auto"
           >
-               {loading && <GlobalLoader />}
+               {/* {loading && <GlobalLoader />} */}
             <table className="w-full text-left text-gray-700 border-separate border-spacing-y-2">
               <thead>
                 <tr className="bg-neutral-500 text-white uppercase text-sm rounded-lg">

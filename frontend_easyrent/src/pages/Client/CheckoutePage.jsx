@@ -1,7 +1,7 @@
 import { Elements } from "@stripe/react-stripe-js";
-import { getStripe } from "../../Services/StripePromise";
 import CheckoutForm from "./CheckoutForm";
 import { useEffect, useState } from "react";
+import { getStripe } from './../../Services/StripePromise.jsx';
 
 export default function CheckoutPage() {
    const [stripePromise, setStripePromise] = useState(null);

@@ -9,7 +9,7 @@ import BrandForm from "./Forms/BrandForm";
 import { TbEdit } from "react-icons/tb";
 
 export default function Brands() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const {
     brands = [],
     getBrands,
@@ -41,7 +41,7 @@ export default function Brands() {
   };
 
   const filteredBrands = brands.filter((brand) =>
-    brand.nom?.toLowerCase().includes(searchQuery.toLowerCase())
+    brand.nom?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -58,13 +58,13 @@ export default function Brands() {
         className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6"
       >
         <div className="flex items-center w-full sm:w-1/2 bg-gray-50 rounded-xl px-4 py-2 border border-gray-200 shadow-sm">
-          <input
-            type="text"
-            placeholder="Rechercher une marque..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="bg-transparent w-full outline-none text-gray-700 placeholder-gray-400"
-          />
+           <input
+                  type="text"
+                  className="bg-transparent w-full outline-none text-gray-700 placeholder-gray-400"
+                  placeholder="Rechercher une réservation..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  />
           <MdSearch size={25} className="text-gray-500" />
         </div>
         <motion.button
@@ -76,7 +76,7 @@ export default function Brands() {
         </motion.button>{" "}
       </motion.div>
 
-      {loading && <GlobalLoader />}
+      {/* {loading && <GlobalLoader />} */}
 
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-6">
         <AnimatePresence>

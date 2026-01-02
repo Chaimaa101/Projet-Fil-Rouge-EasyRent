@@ -4,7 +4,7 @@ import PageHeader from "../Admin/common/PageHeader";
 import GlobalLoader from "../../components/common/GlobalLoader";
 
 export default function MesPayments() {
-  const { payments, getPayments, viewInvoice, downloadInvoice } =
+  const { payments, getPayments, viewInvoice, loading ,downloadInvoice } =
     useContext(PaymentContext);
 
   useEffect(() => {

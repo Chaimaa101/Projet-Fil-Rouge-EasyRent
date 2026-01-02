@@ -33,8 +33,8 @@ class UpdateVehiculeRequest extends FormRequest
             'carburant' => 'sometimes|string|in:essence,diesel,electronique,hybride',
             'status' => 'sometimes|string|in:disponible,loue,maintenance,indisponible',
             'immatriculation' => 'sometimes|string|max:100',
-            'images' => 'nullable',
-            'images.*' => 'image,mimes:jpg,jpeg,png,webp,max:2048',
+            'images' => 'nullable|array',
+            'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
         ];
     }
 

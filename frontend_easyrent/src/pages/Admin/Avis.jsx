@@ -132,12 +132,13 @@ export default function Avis() {
             </motion.div>
           ))}
         </AnimatePresence>
-        <Pagination
+       
+      </div>
+       <Pagination
           currentPage={pagination.currentPage}
           lastPage={pagination.lastPage}
           onPageChange={(page) => getAvis(page)}
         />
-      </div>
     </div>
   );
 }

@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+      
         $admin = User::factory()->create([
             'nom' => 'Chaimaa',
             'prenom' => 'Admin',
@@ -24,29 +25,55 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
         ]);
 
-        $users = User::factory(10)->create()->each(function ($user) {
+
+        UserDetails::factory()->create(['user_id' => $admin->id]);
+
+        $users = User::factory(10)->create();
+        
+        foreach ($users as $user) {
             UserDetails::factory()->create(['user_id' => $user->id]);
-        });
+        }
 
         $marques = Marque::factory(10)->create();
 
-        $vehicules = Vehicule::factory(12)->create()->each(function ($vehicule) use ($marques) {
-            $vehicule->marque_id = $marques->random()->id;
-            $vehicule->save();
-        });
+     
+        $vehicules = Vehicule::factory(12)->create();
+        foreach ($vehicules as $vehicule) {
+            $vehicule->update([
+                'marque_id' => $marques->random()->id
+            ]);
+        }
 
-        $reservations = Reservation::factory(20)->create()->each(function ($reservation) use ($users, $vehicules) {
-            $reservation->user_id = $users->random()->id;
-            $reservation->vehicule_id = $vehicules->random()->id;
-            $reservation->save();
-        });
+    
+        $reservations = [];
+        for ($i = 0; $i < 20; $i++) {
+            $reservation = Reservation::factory()->create([
+                'user_id' => $users->random()->id,
+                'vehicule_id' => $vehicules->random()->id,
+            ]);
+            $reservations[] = $reservation;
+        }
 
-        Avis::factory(3)->create()->each(function ($avis) use ($users, $reservations) {
-            $avis->user_id = $users->random()->id;
-            $avis->reservation_id = $reservations->random()->id;
-            $avis->save();
-        });
+       
+        foreach ($reservations as $reservation) {
+           
+                Payment::factory()->create([
+                    'reservation_id' => $reservation->id,
+                    'user_id' => $reservation->user_id,
+                ]);
+        
+        }
 
-
+        $avisCount = min(15, count($reservations)); 
+        $selectedReservations = $reservations;
+        shuffle($selectedReservations);
+        
+        for ($i = 0; $i < $avisCount; $i++) {
+            $reservation = $selectedReservations[$i];
+            Avis::factory()->create([
+                'user_id' => $reservation->user_id,
+                'reservation_id' => $reservation->id,
+            ]);
+        }
     }
 }

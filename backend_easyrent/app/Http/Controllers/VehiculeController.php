@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\VehiculeCreated;
 use App\Models\Vehicule;
 use App\Http\Requests\StoreVehiculeRequest;
 use App\Http\Requests\UpdateVehiculeRequest;
@@ -40,29 +41,17 @@ public function getTopVehicules()
  
 public function store(StoreVehiculeRequest $request)
 {
-    DB::beginTransaction();
 
     try {
         $vehicule = Vehicule::create(
             $request->except('images')
         );
-
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-
-                $uploaded = Cloudinary::upload(
-                    $image->getRealPath(),
-                    ['folder' => 'vehicules']
-                );
-
-                $vehicule->images()->create([
-                    'path' => $uploaded->getSecurePath(),
-                    'public_id' => $uploaded->getPublicId(),
-                ]);
-            }
+         if ($request->hasFile('images')) {
+            event(new VehiculeCreated(
+                $vehicule,
+                $request->file('images')
+            ));
         }
-
-        DB::commit();
 
         return response()->json([
             'message' => 'Vehicule created',
@@ -70,7 +59,6 @@ public function store(StoreVehiculeRequest $request)
         ], 201);
 
     } catch (\Exception $e) {
-        DB::rollBack();
         return response()->json(['error' => $e->getMessage()], 500);
     }
 }
@@ -95,6 +83,12 @@ public function store(StoreVehiculeRequest $request)
     {
         try {
             $data = $request->validated();
+             if ($request->hasFile('images')) {
+            event(new VehiculeCreated(
+                $vehicule,
+                $request->file('images')
+            ));
+        }
             $vehicule->update($data);
             return response()->json($vehicule);
         } catch (\Exception $e) {
@@ -105,13 +99,37 @@ public function store(StoreVehiculeRequest $request)
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Vehicule $vehicule)
-    {
-        try {
-            $vehicule->delete();
-            return response()->json('deleted', 204);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+   
+public function destroy(Vehicule $vehicule)
+{
+    DB::beginTransaction();
+
+    try {
+        // Load images relation
+        $vehicule->load('images');
+
+        // Delete images from Cloudinary
+        foreach ($vehicule->images as $image) {
+            if ($image->public_id) {
+                Cloudinary::destroy($image->public_id);
+            }
         }
-    }
+
+        // Delete images from database
+        $vehicule->images()->delete();
+
+        // Delete vehicule
+        $vehicule->delete();
+
+        DB::commit();
+
+        // 204 = no content
+        return response()->noContent();
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return response()->json([
+            'error' => $e->getMessage()
+        ], 500);
+    }}
 }

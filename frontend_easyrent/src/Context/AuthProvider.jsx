@@ -6,8 +6,7 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-    const storedUser = localStorage.getItem("user");
-    return storedUser ? JSON.parse(storedUser) : null;
+   localStorage.getItem("user") || null;
   });
 
   const [loading, setLoading] = useState(true);
@@ -108,31 +107,38 @@ export const AuthProvider = ({ children }) => {
   };
 
 
-  const updateProfile = async (formData) => {
-    try {
-      setLoading(true);
-      setErrors(null);
-      
-      formData.append("_method", "PUT");
-      const { data } = await api.post("/profile", formData);
-      setUser(data.user);
-      localStorage.setItem("user", JSON.stringify(data.user));
+ const updateProfile = async (formData) => {
+  setLoading(true);
+  setErrors(null);
 
-      toast.success("Profil mis à jour");
-      return { success: true };
-    } catch (error) {
-      if (error.response?.status === 422) {
-        setErrors(error.response.data.errors);
-        toast.error("Veuillez corriger les erreurs");
-      } else {
-        toast.error("Erreur serveur");
-      }
-      console.log(error)
-      return { success: false };
-    } finally {
-      setLoading(false);
+  try {
+    // PUT method via FormData
+    formData.append("_method", "PUT");
+    const { data } = await api.post("/profile", formData);
+
+    // 1️⃣ Update React state
+    setUser(data.user);
+
+    // 2️⃣ Update localStorage
+    localStorage.setItem("user", JSON.stringify(data.user));
+
+    toast.success("Profil mis à jour");
+    return { success: true };
+
+  } catch (error) {
+    if (error.response?.status === 422) {
+      setErrors(error.response.data.errors);
+      toast.error("Veuillez corriger les erreurs");
+    } else {
+      toast.error(error?.response?.data?.error || "Erreur serveur");
     }
-  };
+    console.log(error);
+    return { success: false };
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   
   const changePassword = async (formData) => {
