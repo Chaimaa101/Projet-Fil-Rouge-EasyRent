@@ -34,7 +34,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="relative flex items-center justify-between px-6 lg:px-10 py-5 bg-white shadow-md text-gray-800 fixed">
+    <nav className="relative flex items-center justify-between px-6 lg:px-10 py-5 bg-white shadow-md text-gray-800 ">
       <div className="hidden lg:flex items-center gap-6 font-medium">
         <Link to="/" className="hover:text-teal-600 transition">
           Accueil
@@ -105,7 +105,7 @@ export default function Navbar() {
                   {!isAdmin ? (
                     <>
                       <li>
-                        <Link to="/client/myReserv" className="dropdown-item">
+                        <Link to="/client/myReserv"  onClick={() => setOpenManage(!openManage)} className="dropdown-item">
                           Mes réservations
                         </Link>
                       </li>
@@ -123,12 +123,12 @@ export default function Navbar() {
                   ) : (
                     <>
                       <li>
-                        <Link to="/admin/vehicules" className="dropdown-item">
+                        <Link to="/admin/vehicules"  onClick={() => setOpenManage(!openManage)} className="dropdown-item">
                           Gérer les véhicules
                         </Link>
                       </li>
                       <li>
-                        <Link to="/admin/users" className="dropdown-item">
+                        <Link to="/admin/users"  onClick={() => setOpenManage(!openManage)} className="dropdown-item">
                           Gérer les utilisateurs
                         </Link>
                       </li>
@@ -136,22 +136,23 @@ export default function Navbar() {
                         <Link
                           to="/admin/reservations"
                           className="dropdown-item"
+                           onClick={() => setOpenManage(!openManage)}
                         >
                           Gérer les réservations
                         </Link>
                       </li>
                       <li>
-                        <Link to="/admin/avis" className="dropdown-item">
+                        <Link to="/admin/avis" className="dropdown-item"  onClick={() => setOpenManage(!openManage)}>
                           Gérer les commentaires
                         </Link>
                       </li>
                       <li>
-                        <Link to="/admin/brands" className="dropdown-item">
+                        <Link to="/admin/brands" className="dropdown-item"  onClick={() => setOpenManage(!openManage)}>
                           Gérer les marques
                         </Link>
                       </li>
                       <li>
-                        <Link to="/admin/payments" className="dropdown-item">
+                        <Link to="/admin/payments"  onClick={() => setOpenManage(!openManage)} className="dropdown-item" >
                           Gérer les paiements
                         </Link>
                       </li>
@@ -166,7 +167,7 @@ export default function Navbar() {
         {user ? (
           <div className="relative flex items-center gap-4" ref={userRef}>
             <NotificationDropdown />
-            <Link to="/favoris">
+            <Link to="/error">
               <FaHeart className="cursor-pointer hover:text-red-500 transition" />
             </Link>
 
@@ -183,7 +184,7 @@ export default function Navbar() {
                   className="absolute right-0 mt-40 bg-white shadow-lg rounded-lg w-52 p-2 z-50"
                 >
                   <li>
-                    <Link to="/profile" className="dropdown-item">
+                    <Link to="/profile" onClick={() => setOpenUser(!openUser)} className="dropdown-item">
                       Mon profil
                     </Link>
                   </li>

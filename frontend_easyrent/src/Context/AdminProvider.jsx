@@ -1,5 +1,6 @@
 import { createContext, useState } from "react";
 import api from "../Services/api";
+import toast from "react-hot-toast";
 
 export const AdminContext = createContext();
 
@@ -105,8 +106,9 @@ export const AdminProvider = ({ children }) => {
     setErrors(null);
     try {
       const res = await api.put(`/admin/avis/${id}/toggle-public`);
-      setSuccessMessage(" status updated");
-      getAllReservations
+      toast.success(" status updated");
+      getAvis()
+
     } catch (error) {
       setErrors(error.response?.data || "Error updating reservation status");
     } finally {
@@ -115,18 +117,7 @@ export const AdminProvider = ({ children }) => {
   };
 
 
-   const toggleVehiculeIsTop = async (id) => {
-    setLoading(true);
-    setErrors(null);
-    try {
-      const res = await api.patch(`/admin/vehicules/${id}/toggle-top`);
-      setSuccessMessage(" status updated");
-    } catch (error) {
-      setErrors(error.response?.data || "Error updating reservation status");
-    } finally {
-      setLoading(false);
-    }
-  };
+
 
   const values = {
     stats,
@@ -142,7 +133,7 @@ export const AdminProvider = ({ children }) => {
     successMessage,
     getDashboardStats,
     toggleAvisIsPublic,
-    toggleVehiculeIsTop,
+   
     getAllReservations,
     updateVehiculeStatus,
     setErrors,

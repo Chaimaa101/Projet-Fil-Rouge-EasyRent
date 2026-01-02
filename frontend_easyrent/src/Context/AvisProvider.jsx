@@ -32,7 +32,7 @@ const [mesAvis, setMesAvis] = useState([]);
     setErrors(null);
     try {
       const res = await api.get("/avis");
-      setMesAvis(res.data.data);
+      setMesAvis(res.data);
       setTotal(res.data.total)
     } catch (error) {
       setErrors(error.response?.data || "Error fetching avis");
@@ -68,7 +68,7 @@ const [mesAvis, setMesAvis] = useState([]);
       setAvis((prev) =>
         prev.map((a) => (a.id === id ? res.data : a))
       );
-      setSuccessMessage("Avis mis à jour avec succès");
+      toast.succes("Avis mis à jour avec succès");
     } catch (error) {
       setErrors(error.response?.data || "Error updating avis");
     } finally {
@@ -82,13 +82,14 @@ const [mesAvis, setMesAvis] = useState([]);
     try {
       await api.delete(`/avis/${id}`);
       setAvis((prev) => prev.filter((a) => a.id !== id));
-      setSuccessMessage("Avis supprimé avec succès");
+      toast.success("Avis supprimé avec succès");
     } catch (error) {
       setErrors(error.response?.data || "Error deleting avis");
     } finally {
       setLoading(false);
     }
   };
+  
 
   const values = {
     mesAvis,

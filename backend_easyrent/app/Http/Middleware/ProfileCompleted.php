@@ -16,8 +16,7 @@ class ProfileCompleted
     public function handle(Request $request, Closure $next): Response
     {
         if (!$request->user()->isProfileCompleted()) {
-        return redirect('/complete-profile')
-            ->with('error', 'Complétez votre profil pour louer une voiture');
+        return response()->json(['error'=> 'Complétez votre profil pour louer une voiture'],403);
     }
 
     return $next($request);

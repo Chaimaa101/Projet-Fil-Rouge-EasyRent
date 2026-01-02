@@ -12,9 +12,9 @@ function TopVehicules() {
   }, []);
 
   return (
-    <div className="max-w-7xl mx-auto px-4">
+    <div className="max-w-7xl mx-auto px-4 p-10 pl-10 bg-gray-50">
       <h2 className="text-2xl font-bold my-4 flex items-center justify-center gap-2 ">
-         Top Vehicles 
+         Top Véhicules 
       </h2>
 
       <Swiper

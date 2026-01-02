@@ -4,7 +4,7 @@ import { VehiculeContext } from "../Context/VehiculeProvider";
 import GlobalLoader from "../components/common/GlobalLoader";
 import VehiculeList from "../components/vehiculesListComponents/VehiculesList";
 import FilterSection from "../components/vehiculesListComponents/FilterSection";
-import Pagination from "../components/Pagination";
+import Pagination from "../components/common/Pagination";
 
 const ListVehicules = () => {
   const [filteredVehicules, setFilteredVehicules] = useState([]);

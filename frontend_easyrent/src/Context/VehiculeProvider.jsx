@@ -66,24 +66,27 @@ setErrors("Erreur lors de la récupération des véhicules");
     }
   };
 
-  //   store
-  const createVehicule = async (data) => {
-    setLoading(true);
-    setErrors(null);
-    try {
-      const res = await api.post("/vehicules", data);
-      toast.success("Véhicule créé avec succès");
-      getVehicules();
-      return { result: true };
-    } catch (error) {
-      if (error.response?.status === 422) {
-        setErrors(error.response.data.errors);
-        toast.error("Veuillez corriger les erreurs");
-      } else {
-        toast.error("Erreur serveur");
-      }
+ const createVehicule = async (data) => {
+  setLoading(true);
+  setErrors(null);
+
+  try {
+    const res = await api.post("/vehicules", data);
+    toast.success("Véhicule créé avec succès");
+    getVehicules();
+    return { result: true };
+  } catch (error) {
+    if (error.response?.status === 422) {
+      setErrors(error.response.data.errors);
+      toast.error("Veuillez corriger les erreurs");
+    } else {
+      toast.error(error?.response?.data?.error || "Erreur serveur");
     }
-  };
+    return { result: false };
+  } finally {
+    setLoading(false); 
+  }
+};
 
   //  updade
   const updateVehicule = async (id, data) => {
@@ -103,15 +106,19 @@ setErrors("Erreur lors de la récupération des véhicules");
 
       toast.success("Véhicule modifié avec succès");
 
-      return { result: true, data: res.data };
-    } catch (error) {
-      if (error.response?.status === 422) {
-        setErrors(error.response.data.errors);
-        toast.error("Veuillez corriger les erreurs");
-      } else {
-        toast.error("Erreur serveur");
-      }
+      return { result: true };
+  } catch (error) {
+    if (error.response?.status === 422) {
+      setErrors(error.response.data.errors);
+      toast.error("Veuillez corriger les erreurs");
+    } else {
+      toast.error(error?.response?.data?.error || "Erreur serveur");
     }
+    return { result: false };
+  } finally {
+    setLoading(false); 
+  }
+
   };
 
   //   remove
@@ -123,6 +130,21 @@ setErrors("Erreur lors de la récupération des véhicules");
       getVehicules();
       toast.success("Véhicule supprimé avec succès");
       return { result: true };
+    } finally {
+      setLoading(false);
+    }
+  };
+
+     const toggleVehiculeIsTop = async (id) => {
+    setLoading(true);
+    setErrors(null);
+    try {
+      const res = await api.patch(`/admin/vehicules/${id}/toggle-top`);
+      toast.success(" status updated");
+      getTopVehicules()
+      getVehicules()
+    } catch (error) {
+      setErrors(error.response?.data || "Error updating reservation status");
     } finally {
       setLoading(false);
     }
@@ -143,6 +165,7 @@ setErrors("Erreur lors de la récupération des véhicules");
     updateVehicule,
     deleteVehicule,
     setErrors,
+     toggleVehiculeIsTop,
   };
 
   return (

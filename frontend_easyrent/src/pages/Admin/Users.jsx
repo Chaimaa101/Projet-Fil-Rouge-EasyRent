@@ -4,12 +4,11 @@ import React, { useState } from "react";
 import { MdSearch } from "react-icons/md";
 import { BiTrash } from "react-icons/bi";
 import { TbEdit } from "react-icons/tb";
-import Pagination from "../../components/Pagination";
+import Pagination from "../../components/common/Pagination";
 import GlobalLoader from "../../components/common/GlobalLoader";
 import { UserContext } from "../../Context/UsersContext";
-import PageHeader from "../../components/PageHeader";
+import PageHeader from "./common/PageHeader";
 import { FaEye } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 import UpdateUserRoleModal from "./Forms/UserForm";
 
 function Users() {
@@ -17,13 +16,12 @@ function Users() {
     useContext(UserContext);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const navigate  = useNavigate()
   useEffect(() => {
     getUsers();
   }, []);
 
   const filteredUsers = users.filter((v) =>
-    v.nom.toLowerCase().includes(searchTerm.toLowerCase())
+    v.nom.toLowerCase().includes(searchTerm.toLowerCase()) || v.prenom.toLowerCase().includes(searchTerm.toLowerCase() )
   );
   const handleDelete = async (id) => {
     const confirmed = window.confirm(
@@ -35,9 +33,7 @@ function Users() {
     const ok = await deleteUser(id);
 
     if (ok) {
-      // tu peux juste recharger la liste, pas besoin de navigate
       getUsers();
-      toast.success("Utilisateur supprimé avec succès");
     }
   };
 
@@ -73,11 +69,9 @@ const closeModal = () => {
   subtitle="Consultez, modifier le role et gérez l'ensemble des utilisateurs inscris"
   num={total}
 />
-
-
       <main className="container max-w-7xl mx-auto px-4">
         <div className="bg-white/80 backdrop-blur-lg p-6 rounded-2xl shadow-xl">
-          {/* Search & New User */}
+     
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -88,7 +82,7 @@ const closeModal = () => {
               <input
                 type="text"
                 className="bg-transparent w-full outline-none text-gray-700 placeholder-gray-400"
-                placeholder="Search User..."
+                placeholder="Rechercher un utilisatur..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -96,23 +90,20 @@ const closeModal = () => {
             </div>
           </motion.div>
 
-          {/* Loading */}
-          {loading ?? <GlobalLoader />}
-
-          {/* User Table */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="overflow-x-auto"
-          >
+            >
+            {loading && <GlobalLoader />}
             <table className="w-full text-left text-gray-700 border-separate border-spacing-y-2">
               <thead>
                 <tr className="bg-neutral-500 text-white uppercase text-sm rounded-lg">
                   <th className="px-6 py-3">Profile</th>
                   <th className="px-6 py-3">Nom</th>
                   <th className="px-6 py-3">Prenom</th>
-                  <th className="px-6 py-3">Role</th>
+                  <th className="px-6 py-3">Rôle</th>
                   <th className="px-6 py-3">Email</th>
                   <th className="px-6 py-3">tel</th>
                   <th className="px-6 py-3">Action</th>

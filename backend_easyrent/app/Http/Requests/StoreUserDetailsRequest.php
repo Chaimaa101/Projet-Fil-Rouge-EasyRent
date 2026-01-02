@@ -27,8 +27,8 @@ class StoreUserDetailsRequest extends FormRequest
             'CNI' => 'required|string|max:100|unique:user_details,CNI',
             'tel' => 'required|string|max:20',
             'photo_profil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'permi_licence' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'genre' => 'required|string|in:male,female,other',
+            'permi_licence' => 'required|string',
+            'genre' => 'required|string|in:homme,femme,other',
             'date_naissance' => 'required|date|before:today',
         ];
     }
@@ -41,7 +41,7 @@ class StoreUserDetailsRequest extends FormRequest
             'CNI.unique' => "Ce CNI est déjà utilisé.",
             'tel.required' => "Le numéro de téléphone est requis.",
             'genre.required' => "Le genre est requis.",
-            'genre.in' => "Le genre doit être l'un des suivants : male, female, other.",
+            'genre.in' => "Le genre doit être l'un des suivants : homme, femme, other.",
             'date_naissance.required' => "La date de naissance est requise.",
             'date_naissance.before' => "La date de naissance doit être une date passée.",
         ];  

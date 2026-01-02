@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useContext } from "react";
-import { AuthContext } from "../Context/AuthProvider";
+import { AuthContext } from "../../Context/AuthProvider";
 
 export default function UserRoute() {
   const { user, loading } = useContext(AuthContext);

@@ -10,14 +10,15 @@ import { VehiculeContext } from "../../Context/VehiculeProvider";
 import { ReservationsContext } from "../../Context/ReservationProvider";
 import { useNavigate, useParams } from "react-router-dom";
 import TextInput from "../formCompenents/TextInput";
-import { handleApiError } from "../common/handleApiError";
 import toast from "react-hot-toast";
+import { AuthContext } from "../../Context/AuthProvider";
 
 export default function VehicleDetails() {
   const { id } = useParams();
  
   const navigate =  useNavigate()
   const { vehicule, getVehicule } = useContext(VehiculeContext);
+  const { user } = useContext(AuthContext);
   const { createreservations, errors } =
     useContext(ReservationsContext);
 
@@ -51,7 +52,6 @@ export default function VehicleDetails() {
 
   const totalPrice = days * (vehicule?.prix_day || 0);
 
-  /* submit réservation */
   const onSubmit = async (data) => {
     const payload = {
       ...data,
@@ -62,19 +62,18 @@ export default function VehicleDetails() {
       days,
     };
 
-    if(!user.profileCompleted){
+    if(!user?.details){
       toast.error('Veuillez compléter votre profil pour continuer.')
-    }
-try{
+    }else{
+      
  const result = await createreservations(payload,id);
  if(result){
   navigate('/client/myReserv')
- }
 
-} catch (error) {
-    handleApiError(error, "Erreur lors de la suppression");
   }
-  };
+    }
+
+}
 
 
   return (

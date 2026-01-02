@@ -1,10 +1,10 @@
 
 import { BiTrash } from "react-icons/bi";
 import { motion } from "framer-motion";
-import PageHeader from "../../components/PageHeader";
-import { Pagination } from "swiper/modules";
+import PageHeader from "./common/PageHeader";
 import { useContext, useEffect } from "react";
 import { AdminContext } from "../../Context/AdminProvider";
+import Pagination from "../../components/common/Pagination";
 
 function Paymentns() {
 

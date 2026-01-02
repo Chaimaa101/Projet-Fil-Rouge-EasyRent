@@ -2,10 +2,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useContext, useEffect, useState } from "react";
 import { GoTrash } from "react-icons/go";
 import GlobalLoader from "../../components/common/GlobalLoader";
-import PageHeader from "../../components/PageHeader";
+import PageHeader from "./common/PageHeader";
 import { BrandContext } from "../../Context/BrandProvider";
 import { MdSearch } from "react-icons/md";
 import BrandForm from "./Forms/BrandForm";
+import { TbEdit } from "react-icons/tb";
 
 export default function Brands() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -39,7 +40,6 @@ export default function Brands() {
     }
   };
 
-  // Search
   const filteredBrands = brands.filter((brand) =>
     brand.nom?.toLowerCase().includes(searchQuery.toLowerCase())
   );

@@ -1,16 +1,25 @@
 import { motion, AnimatePresence } from "framer-motion"; // Import Framer Motion
 import { useContext, useEffect, useState } from "react";
 import { GoTrash } from "react-icons/go";
-import { MdOutlineEmail, MdOutlinePhone } from "react-icons/md";
+import { MdOutlineEmail, MdOutlinePhone, MdSearch } from "react-icons/md";
 import { HiOutlineSearch } from "react-icons/hi";
 import GlobalLoader from "../../components/common/GlobalLoader";
-import PageHeader from "../../components/PageHeader";
-import Pagination from "../../components/Pagination";
+import PageHeader from "./common/PageHeader";
+import Pagination from "../../components/common/Pagination";
 import { AdminContext } from "../../Context/AdminProvider";
+import { AvisContext } from "../../Context/AvisProvider";
 
 export default function Avis() {
   const [searchQuery, setSearchQuery] = useState("");
-  const { avis = [], getAvis, loading ,pagination} = useContext(AdminContext);
+  const {
+    avis = [],
+    getAvis,
+    toggleAvisIsPublic,
+    loading,
+    pagination,
+    total
+  } = useContext(AdminContext);
+  const { deleteAvis } = useContext(AvisContext);
 
   const handleDelete = (id) => {
     if (confirm("Are you sure you want to delete this message?")) {
@@ -23,7 +32,6 @@ export default function Avis() {
     getAvis();
   }, []);
 
-  // Search logic
   const filteredMessages = avis.filter((msg) => {
     const searchLower = searchQuery.toLowerCase();
     return (
@@ -35,33 +43,27 @@ export default function Avis() {
   });
 
   return (
-    <div className="flex-1 relative overflow-auto z-5 bg-gray-100 text-black">
-   <PageHeader
-  title="Gestion des Avis"
-  subtitle="Consultez, ajoutez et gérez l'ensemble des avis"
-num={avis.length} />
-      
-
-      {/* Search Bar */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="flex flex-col md:flex-row gap-4 mt-4 mb-4 p-6"
-      >
-        <div className="relative flex-1">
-          <input
+     <div className="flex-1 relative overflow-auto z-10 bg-gray-100 min-h-screen p-12">
+         <PageHeader
+      title="Gestion des Avis"
+      subtitle="Consultez, suprimmez et gérez l'ensemble des commentaires "
+            num={total}
+          />
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6"
+          >
+            <div className="flex items-center w-full sm:w-1/2 bg-gray-50 rounded-xl px-4 py-2 border border-gray-200 shadow-sm">
+              <input
             type="text"
-            placeholder="Search messages by name, email, or subject..."
+            className="bg-transparent w-full outline-none text-gray-700 placeholder-gray-400"
+            placeholder="Rechercher un Commentaire..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 hover:border-blue-400"
-            aria-label="Search messages"
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <HiOutlineSearch
-            size={20}
-            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-          />
+          <MdSearch size={25} className="text-gray-500" />
         </div>
       </motion.div>
 
@@ -69,11 +71,11 @@ num={avis.length} />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 p-6">
         {loading && <GlobalLoader />}
         <AnimatePresence>
-          {filteredMessages.map((msg,index) => (
+          {filteredMessages.map((msg, index) => (
             <motion.div
               key={msg.id}
               initial={{ opacity: 0, x: -50 }}
-                whileHover={{ scale: 1.02 }}
+              whileHover={{ scale: 1.02 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: index * 0.05 }}
               className="bg-blue-50 p-6 rounded-2xl shadow-2xl"
@@ -98,24 +100,29 @@ num={avis.length} />
               </div>
 
               {/* Timestamp */}
-              <p className="mt-2 text-xs text-gray-500">
-                Rating: {msg.rating}
-              </p>
+              <p className="mt-2 text-xs text-gray-500">Rating: {msg.rating}</p>
 
               {/* Action Buttons */}
               <div className="mt-5 flex gap-3">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => handleArchive(msg.id)}
-                  className="flex items-center gap-2 px-4 py-2 text-sm bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-all"
+                  onClick={() => toggleAvisIsPublic(msg.id)}
+                  className={`flex items-center gap-2 px-4 py-2 text-sm rounded-lg transition-all
+    ${
+      msg.isPublic
+        ? "bg-teal-100 text-teal-700 hover:bg-teal-200"
+        : "bg-gray-200 text-gray-600 hover:bg-gray-300"
+    }
+  `}
                 >
-                  Ratter
+                  {msg.isPublic ? "Actif" : "Désactivé"}
                 </motion.button>
+
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => handleDelete(msg.id)}
+                  onClick={() => deleteAvis(msg.id)}
                   className="flex items-center gap-2 px-4 py-2 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all"
                 >
                   <GoTrash size={16} />
@@ -125,13 +132,12 @@ num={avis.length} />
             </motion.div>
           ))}
         </AnimatePresence>
-        <Pagination currentPage={pagination.currentPage}
+        <Pagination
+          currentPage={pagination.currentPage}
           lastPage={pagination.lastPage}
           onPageChange={(page) => getAvis(page)}
-          />
-      
+        />
       </div>
-
     </div>
   );
 }

@@ -1,13 +1,11 @@
 
 import { motion } from "framer-motion"; 
-import { BiSolidCollection } from "react-icons/bi";
-import { FaCar, FaDiaspora, FaShoppingCart, FaUsers } from "react-icons/fa";
+import { FaCar, FaShoppingCart, FaUsers } from "react-icons/fa";
 import { LuChartNoAxesCombined } from "react-icons/lu";
 import StatCard from "./common/StatBar";
 import { useContext, useEffect } from "react";
 import { AdminContext } from "../../Context/AdminProvider";
-import RecentReservations from "./statistics/RecentReservations";
-import QuickActions from "./statistics/QuickActions";
+import QuickActions from "./common/QuickActions";
 
 function Dashboard() {
   const {stats,getDashboardStats} = useContext(AdminContext)

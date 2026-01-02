@@ -1,15 +1,18 @@
 import { BiTrash } from "react-icons/bi";
 import { motion } from "framer-motion";
-import PageHeader from "../../components/PageHeader";
-import { useNavigate } from "react-router-dom";
+import PageHeader from "./common/PageHeader";
 import { useContext, useEffect, useState } from "react";
-import Pagination from "../../components/Pagination";
+import Pagination from "../../components/common/Pagination";
 import { AdminContext } from "../../Context/AdminProvider";
 import { MdSearch } from "react-icons/md";
 import { ReservationsContext } from "../../Context/ReservationProvider";
+import { FaEye } from "react-icons/fa";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function Reservations() {
   const [searchTerm, setSearchTerm] = useState("");
+    const navigate = useNavigate();
+  
 
   const {
     allReservations,
@@ -21,8 +24,10 @@ function Reservations() {
   } = useContext(AdminContext);
   const { deletereservations } = useContext(ReservationsContext);
 
-  const filteredReservations = allReservations.filter((v) =>
-    v.user.nom.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredReservations = allReservations.filter(
+    (v) =>
+      v.user.nom.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      v.vehicule.nom.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   useEffect(() => {
@@ -58,15 +63,15 @@ function Reservations() {
 
   return (
     <>
-      <div className="flex-1 relative overflow-auto z-10">
+      <div className="flex-1 relative overflow-auto z-10 bg-gray-100 min-h-screen">
         <PageHeader
           title="Gestion des Réservations"
           subtitle="Consultezl'ensemble des Réservations"
           num={total}
         />
 
-        <main className="container max-w-7xl mx-auto px-4 mt-8">
-          <div className="bg-white p-6 rounded-lg shadow-md">
+        <main className="container max-w-7xl mx-auto px-4 ">
+          <div className="bg-white/80 p-6 rounded-lg">
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -77,30 +82,30 @@ function Reservations() {
                 <input
                   type="text"
                   className="bg-transparent w-full outline-none text-gray-700 placeholder-gray-400"
-                  placeholder="Search User..."
+                  placeholder="Rechercher une réservation..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                />
+                  />
                 <MdSearch size={25} className="text-gray-500" />
               </div>
             </motion.div>
 
             {/* Loading */}
-            {loading ?? <GlobalLoader />}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               className="overflow-x-auto"
             >
+              {loading ?? <GlobalLoader />}
               <table className="w-full text-sm text-left text-gray-500">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-300">
+                <thead className=" bg-neutral-500 text-white uppercase text-sm rounded-l">
                   <tr>
                     <th scope="col" className="px-6 py-3">
-                      Nom User
+                      Client
                     </th>
                     <th scope="col" className="px-6 py-3">
-                      Nom Véhicule
+                      Véhicule
                     </th>
                     <th scope="col" className="px-6 py-3">
                       Nombre des jours
@@ -146,6 +151,17 @@ function Reservations() {
                       </td>
                       <td className="px-6 py-4 ">
                         <motion.button
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          className="text-purple-500 hover:text-purple-700"
+                           onClick={() =>
+                          navigate(`/error`)
+                        }
+                        >
+                          {" "}
+                          <FaEye size={20} />
+                        </motion.button>
+                        <motion.button
                           className="text-center text-red-500 hover:text-red-700 transition-colors duration-200"
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
@@ -159,12 +175,12 @@ function Reservations() {
                 </tbody>
               </table>
             </motion.div>
-            <Pagination
-              currentPage={pagination.currentPage}
-              lastPage={pagination.lastPage}
-              onPageChange={(page) => getAllReservations(page)}
-            />
           </div>
+          <Pagination
+            currentPage={pagination.currentPage}
+            lastPage={pagination.lastPage}
+            onPageChange={(page) => getAllReservations(page)}
+          />
         </main>
       </div>
     </>

@@ -102,7 +102,7 @@ export const AuthProvider = ({ children }) => {
 
     toast.success("Déconnexion réussie");
     } catch(error) {
-      toast.error(error.response.data.errors)
+      toast.error(error?.response?.data?.errors)
     }
 
   };
@@ -113,9 +113,9 @@ export const AuthProvider = ({ children }) => {
       setLoading(true);
       setErrors(null);
       
+      formData.append("_method", "PUT");
       const { data } = await api.post("/profile", formData);
       setUser(data.user);
-      data.append("_method", "PUT");
       localStorage.setItem("user", JSON.stringify(data.user));
 
       toast.success("Profil mis à jour");

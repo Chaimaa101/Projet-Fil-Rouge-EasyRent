@@ -3,6 +3,8 @@ import { FaStar } from "react-icons/fa";
 import { ReservationsContext } from "../../Context/ReservationProvider";
 import { Link } from "react-router-dom";
 import CommentModal from "./CommentModal";
+import PageHeader from "../Admin/common/PageHeader";
+import GlobalLoader from "../../components/common/GlobalLoader";
 
 export default function CarReservationCard() {
   const { reservations, loading, errors, getreservations } =
@@ -27,6 +29,13 @@ export default function CarReservationCard() {
 
   return (
     <>
+     <PageHeader
+            title="Mes Réservations"
+            subtitle="Consulter et gérer mes Réservations"
+            num={reservations.length}
+          />
+      {loading && <GlobalLoader />}
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 m-12 gap-3">
         {reservations.map((reservation, index) => (
           <div

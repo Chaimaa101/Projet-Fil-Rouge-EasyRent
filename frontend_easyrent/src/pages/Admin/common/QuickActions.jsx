@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FaPlusCircle, FaCalendarAlt, FaChartBar, FaCog } from "react-icons/fa";
+import { FaCalendarAlt,FaCog, FaCar, FaPeopleCarry } from "react-icons/fa";
 
 export default function QuickActions() {
   return (
@@ -13,11 +13,11 @@ export default function QuickActions() {
       
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <a
-          href="/admin/addVehicule"
+          href="/admin/users"
           className="flex flex-col items-center p-4 bg-teal-50 rounded-lg hover:bg-teal-100 transition"
         >
-          <FaPlusCircle className="text-2xl text-teal-500 mb-2" />
-          <span className="text-sm text-center">Nouvelle Vehicule</span>
+          <FaPeopleCarry className="text-2xl text-teal-500 mb-2" />
+          <span className="text-sm text-center">Utilisateurs</span>
         </a>
 
         <a
@@ -29,16 +29,16 @@ export default function QuickActions() {
         </a>
 
         <a
-          href="/admin/dashboard"
+          href="/admin/vehicules"
           className="flex flex-col items-center p-4 bg-teal-50 rounded-lg hover:bg-teal-100 transition"
         >
-          <FaChartBar className="text-2xl text-teal-500 mb-2" />
-          <span className="text-sm text-center">Statistiques</span>
+          <FaCar className="text-2xl text-teal-500 mb-2" />
+          <span className="text-sm text-center">Véhicules</span>
         </a>
 
         <a
           href="/profile"
-          className="flex flex-col items-center p-4 bg-orange-50 rounded-lg hover:bg-teal-100 transition"
+          className="flex flex-col items-center p-4 bg-teal-50 rounded-lg hover:bg-teal-100 transition"
         >
           <FaCog className="text-2xl text-teal-500 mb-2" />
           <span className="text-sm text-center">Paramètres</span>

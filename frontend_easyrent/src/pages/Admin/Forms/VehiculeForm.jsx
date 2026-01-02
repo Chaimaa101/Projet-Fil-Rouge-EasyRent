@@ -20,7 +20,7 @@ export default function VehiculeForm({
   const { brands, categories, getBrands, getCategories } =
     useContext(BrandContext);
   const { id } = useParams();
-  const navigate = useNavigate();
+
 
   const [images, setImages] = useState([null, null, null, null]);
   const [previews, setPreviews] = useState([null, null, null, null]);
@@ -108,7 +108,7 @@ export default function VehiculeForm({
       ? await updateVehicule(selectedVehicule.id, formData)
       : await createVehicule(formData);
 
-    if (!result?.result) {
+    if (!result) {
       return;
     } else {
       onClose();
@@ -121,9 +121,7 @@ export default function VehiculeForm({
         <h2 className="text-2xl font-bold text-teal-700 mb-6 text-center">
           {isEdit ? "Modifier le véhicule" : "Ajouter un véhicule"}
         </h2>
-        {loading ? (
-          <GlobalLoader />
-        ) : (
+     
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <TextInput
@@ -241,7 +239,6 @@ export default function VehiculeForm({
               backErrors={errors}
             />
 
-            {/* Images */}
             <div>
               <label className="font-semibold mb-2 block">Images</label>
               <div className="flex gap-4 flex-wrap">
@@ -277,7 +274,6 @@ export default function VehiculeForm({
               </div>
             </div>
 
-            {/* Buttons */}
             <div className="flex gap-4 pt-4">
               <button
                 type="button"
@@ -288,14 +284,14 @@ export default function VehiculeForm({
               </button>
               <button
                 type="submit"
-                disabled={loading}
+                
                 className="w-1/2 bg-teal-600 text-white py-3 rounded-md"
               >
-                {loading ? "Enregistrement..." : "Valider"}
+                Valider
               </button>
             </div>
           </form>
-        )}
+        
       </div>
     </div>
   );

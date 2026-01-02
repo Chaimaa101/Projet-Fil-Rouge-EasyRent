@@ -22,8 +22,8 @@ class Avis extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function vehicule()
+    public function reservation()
     {
-        return $this->belongsTo(Vehicule::class);
+        return $this->belongsTo(Reservation::class);
     }
 }

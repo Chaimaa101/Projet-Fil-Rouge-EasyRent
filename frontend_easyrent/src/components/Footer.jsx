@@ -59,8 +59,8 @@ const Footer = () => {
           <div>
             <h2 className="font-bold mb-3">Informations de Contact</h2>
             <ul className="space-y-3 text-sm">
-              <li className="flex items-center gap-2"><FaPhone /> +1 (555) 123-4567</li>
-              <li className="flex items-center gap-2"><FaEnvelope /> info@carrental.com</li>
+              <li className="flex items-center gap-2"><FaPhone /> +212 56532677</li>
+              <li className="flex items-center gap-2"><FaEnvelope /> easyrent.service@example.com</li>
               <li className="flex items-center gap-2"><FaMapMarkerAlt /> 123 Main St, City, State 12345</li>
             </ul>
           </div>

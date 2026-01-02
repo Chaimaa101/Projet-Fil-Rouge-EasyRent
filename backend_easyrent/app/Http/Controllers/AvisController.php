@@ -30,7 +30,7 @@ class AvisController extends Controller
     {
 
         try {
-            $avis = $request->user()->avis()->with('user')->get();
+            $avis = $request->user()->avis()->with('user','reservation')->get();
             return response()->json($avis, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -43,7 +43,7 @@ class AvisController extends Controller
     public function store(StoreAvisRequest $request, Reservation $reservation)
     {
         try {
-             Gate::authorize('is-owner', $reservation);
+            //  Gate::authorize('is-owner', $reservation);
              
             $data = $request->validated();
              $data['reservation_id'] = $reservation->id;
@@ -82,7 +82,6 @@ class AvisController extends Controller
     public function update(UpdateAvisRequest $request, Avis $avis)
     {
          Gate::authorize('is-owner', $avis);
-
         try {
             $data = $request->validated();
             $avis->update($data);
@@ -103,8 +102,7 @@ class AvisController extends Controller
     public function destroy(Avis $avis)
     {
         try {
-             Gate::authorize('is-owner', $avis);
-                      Gate::authorize('is-admin', $avis);
+            //  Gate::authorize('is-owner', $avis);
             $avis->delete();
             return response()->json([
                 'message' => 'Avis supprimé avec succès.'

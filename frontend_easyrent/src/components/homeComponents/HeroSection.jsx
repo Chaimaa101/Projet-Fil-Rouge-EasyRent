@@ -6,11 +6,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 
 function HeroSection() {
-  const slides = ["/hero1.jpg", "/hero2.jpg", "/hero3.jpg", "/hero4.jpg"];
+  const slides = ["/hero/hero5.jpg", "/hero/hero1.jpg", "/hero/hero3.jpg", "/hero/hero4.jpg", "/hero/hero2.jpg", "/hero/hero6.jpg"];
 
   return (
-    <section className=" w-full h-[70vh] flex items-center justify-center overflow-hidden mb-6">
-      {/* Background Swiper */}
+    <section className=" w-full h-[70vh] flex items-center justify-center overflow-hidden ">
+
       <Swiper
         modules={[Navigation, A11y, Autoplay]}
         autoplay={{ delay: 4000, disableOnInteraction: false }}
@@ -30,10 +30,8 @@ function HeroSection() {
         ))}
       </Swiper>
 
-
-      {/* Foreground Content */}
       <motion.div
-        className=" relative z-10 text-center w-full h-full lg:text-left px-10 bg-gradient-to-b from-[#71C9CE] to-[#CBF1F5]"
+        className=" relative z-10 text-center w-full  h-full lg:text-left px-10 bg-gradient-to-b from-[#71C9CE] to-[#CBF1F5]"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
@@ -45,13 +43,13 @@ function HeroSection() {
           Des véhicules modernes, des prix compétitifs 
 Une réservation rapide en quelques clics.
         </p>
-        <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+        <div className="mt-2 mb-12 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
           <Link to="/listVehicule" className="px-6 py-3 bg-teal-700 rounded-xl text-white">
             Reserver maintenant
           </Link>
           <Link
             to="/contact"
-            className="px-6 py-3 border border-teal-500 rounded-xl text-teal-500"
+            className="px-6 py-3 border border-teal-500 rounded-xl  text-teal-500"
           >
             Contact Nous
           </Link>

@@ -21,6 +21,6 @@ class isAdmin
             return $next($request);
         }
          
-        return response()->json(['message' => 'Accès refusé. Seuls les administrateurs peuvent accéder à cette page.'], 403);
+        return response()->json(['error' => 'Accès refusé. Seuls les administrateurs peuvent accéder à cette page.'], 403);
     }
 }

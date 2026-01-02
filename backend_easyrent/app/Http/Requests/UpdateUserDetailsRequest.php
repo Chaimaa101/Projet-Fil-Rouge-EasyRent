@@ -22,8 +22,8 @@ class UpdateUserDetailsRequest extends FormRequest
             'CNI' => 'sometimes|string|max:100|unique:user_details,CNI',
             'tel' => 'sometimes|string|max:20',
             'photo_profil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'permi_licence' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'genre' => 'sometimes|string|in:male,female,other',
+            'permi_licence' => 'sometimes|string',
+            'genre' => 'sometimes|string|in:homme,femme,other',
             'date_naissance' => 'sometimes|date|before:today',
         ];
     }

@@ -23,11 +23,8 @@ export default function CommentModal({ reservation, onClose }) {
     const result = await createAvis(payload,reservation.id);
 
     if (result) {
-      toast.success("Commentaire ajouté avec succès");
       onClose();
-    } else {
-      toast.error("Erreur lors de l'envoi");
-    }
+    } 
   };
 
   return (

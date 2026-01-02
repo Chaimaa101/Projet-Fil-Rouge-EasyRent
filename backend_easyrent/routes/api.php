@@ -45,7 +45,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('logout', [AuthController::class, 'logout']);
     Route::get('/user', function (Request $request) {
-        return $request->user();
+        return $request->user()->load('details');
     });
 
     Route::apiResource('reservations', ReservationController::class)->except('store');
@@ -59,7 +59,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('avis', AvisController::class)->except([ 'store']); 
     Route::apiResource('users',UserController::class)->only('show');
 
-     Route::post('/profile', [AuthController::class, 'updateProfile']);
+     Route::put('/profile', [AuthController::class, 'updateProfile']);
     Route::post('/profile/password', [AuthController::class, 'updatePassword']);
 
      Route::get('/reservations/{reservation}/invoice', [InvoiceController::class, 'show']);
@@ -72,7 +72,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::middleware(['auth:sanctum', 'isAdmin'])->group(function () {
     Route::apiResource('users', UserController::class)->except('show');
-    Route::apiResource('brands', MarqueController::class)->except(['index']); 
+    Route::apiResource('brands', MarqueController::class)->except(['index','update']); 
+    Route::put('brands/{marque}',[ MarqueController::class, 'update']); 
     Route::apiResource('vehicules', VehiculeController::class)->except(['index', 'show']); 
     Route::get('admin/Allreservations', [AdminController::class,'reservations']); 
     Route::get('admin/paiments', [AdminController::class,'paiments']); 

@@ -16,7 +16,7 @@ class MarqueController extends Controller
     public function index()
     {
         try {
-            $marques = Marque::with('vehicules')->get();
+            $marques = Marque::with('vehicules')->latest()->get();
             return ['marques' =>  $marques];
 
         } catch (\Exception $e) {
@@ -76,6 +76,10 @@ class MarqueController extends Controller
     {
         try {
             $data = $request->validated();
+            if ($request->hasFile('image')) {
+            $cloudinary = Cloudinary::upload($request->file('image')->getRealPath());
+            $data['image'] = $cloudinary->getSecurePath(); 
+        }
             $marque->update($data);
           return ['message' =>'updated','marque' =>$marque ];
         } catch (\Exception $e) {

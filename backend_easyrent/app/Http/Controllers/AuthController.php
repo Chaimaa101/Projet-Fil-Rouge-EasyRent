@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\UserRegistered;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Mail\RegisterMail;
@@ -22,7 +21,6 @@ class AuthController extends Controller
             $user = User::create($infos);
             $token = $user->createToken($user->nom)->plainTextToken;
 
-            // event(new UserRegistered($user));
             $data = [
                 'title' => 'Bienvenue !',
                 'body' => '   Votre inscription a été effectuée avec succès. Nous sommes ravis de vous compter parmi nos utilisateurs !',
@@ -104,15 +102,12 @@ public function login(LoginRequest $request)
     public function updateProfile(Request $request)
     {
         $user = $request->user();
-
-        /* USER */
         $user->update($request->only([
             'nom',
             'prenom',
             'email'
         ]));
 
-        /* DETAILS */
         $details = $user->details()->updateOrCreate(
             ['user_id' => $user->id],
             $request->only([
@@ -120,7 +115,8 @@ public function login(LoginRequest $request)
                 'CNI',
                 'tel',
                 'genre',
-                'date_naissance'
+                'date_naissance',
+                'permi_licence'
             ])
         );
 
@@ -140,25 +136,7 @@ public function login(LoginRequest $request)
 
             $details->photo_profil = $uploadedPhoto->getSecurePath();
         }
-
-        /* PERMIS */
-        if ($request->hasFile('permi_licence')) {
-
-            $uploadedPermis = Cloudinary::upload(
-                $request->file('permi_licence')->getRealPath(),
-                [
-                    'folder' => 'permis',
-                    'resource_type' => 'auto' // image or pdf
-                ]
-            );
-
-            $details->permi_licence = $uploadedPermis->getSecurePath();
-        }
-        return response()->json(
-            $user->load('details')
-        );
     }
-
 
     public function updatePassword(Request $request)
     {
@@ -184,14 +162,14 @@ public function login(LoginRequest $request)
         ]);
     }
 
-    public function notifications()
+    public function notifications(Request $request)
     {
-        $notifications = auth()->user()->notifications()->orderBy('created_at', 'desc')->get();
+        $notifications = $request->user()->notifications()->orderBy('created_at', 'desc')->get();
         return response()->json(['notifs'=> $notifications]);
     }
        public function markAsRead($id)
     {
-        $notification = auth()->user()->notifications()->findOrFail($id);
+        $notification = $request->user()->notifications()->findOrFail($id);
         $notification->markAsRead();
         return response()->json(['success' => true]);
     }

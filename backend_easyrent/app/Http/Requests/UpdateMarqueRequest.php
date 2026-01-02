@@ -17,7 +17,7 @@ class UpdateMarqueRequest extends FormRequest
    public function rules(): array
     {
         return [
-            'nom' => 'sometimes|string|max:255|unique:marques,nom',
+            'nom' => 'sometimes|string|max:255',
             'image' => 'sometimes|image|mimes:jpg,jpeg,png,webp|max:2048',
         ];
     }

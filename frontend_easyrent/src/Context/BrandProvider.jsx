@@ -95,8 +95,8 @@ export const BrandProvider = ({ children }) => {
     try {
       await api.delete(`/brands/${id}`);
       toast.success("Brand deleted successfully");
-
-      return { result: truee };
+getBrands()
+      return { result: true };
     } catch (error) {
       setErrors(error.response?.data?.errors || {});
     } finally {
