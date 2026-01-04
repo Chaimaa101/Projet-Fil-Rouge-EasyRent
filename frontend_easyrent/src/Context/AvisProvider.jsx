@@ -7,13 +7,10 @@ export const AvisContext = createContext();
 
 export const AvisProvider = ({ children }) => {
   const [publicAvis, setPublicAvis] = useState([]);
-const [mesAvis, setMesAvis] = useState([]);
+  const [mesAvis, setMesAvis] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
-  const [successMessage, setSuccessMessage] = useState("");
   const [total, setTotal] = useState(0);
-
-
 
   const getPublicAvis = async () => {
     setLoading(true);
@@ -27,13 +24,13 @@ const [mesAvis, setMesAvis] = useState([]);
       setLoading(false);
     }
   };
-    const getMesAvis = async () => {
+  const getMesAvis = async () => {
     setLoading(true);
     setErrors(null);
     try {
       const res = await api.get("/avis");
       setMesAvis(res.data);
-      setTotal(res.data.total)
+      setTotal(res.data.total);
     } catch (error) {
       setErrors(error.response?.data || "Error fetching avis");
     } finally {
@@ -41,20 +38,17 @@ const [mesAvis, setMesAvis] = useState([]);
     }
   };
 
-
-
-
   const createAvis = async (data, id) => {
     setLoading(true);
     setErrors(null);
     try {
       const res = await api.post(`/avis/${id}`, data);
       toast.success("Avis ajouté avec succès");
-      getMesAvis()
-      return {result : true}
+      getMesAvis();
+      return { result: true };
     } catch (error) {
       toast.error(error?.response?.data?.error || "Error creating avis");
-      setErrors(error?.response?.data?.message)
+      setErrors(error?.response?.data?.message);
     } finally {
       setLoading(false);
     }
@@ -65,10 +59,8 @@ const [mesAvis, setMesAvis] = useState([]);
     setErrors(null);
     try {
       const res = await api.put(`/avis/${id}`, data);
-      setAvis((prev) =>
-        prev.map((a) => (a.id === id ? res.data : a))
-      );
-      toast.succes("Avis mis à jour avec succès");
+      setAvis((prev) => prev.map((a) => (a.id === id ? res.data : a)));
+      toast.success("Avis mis à jour avec succès");
     } catch (error) {
       setErrors(error.response?.data || "Error updating avis");
     } finally {
@@ -81,7 +73,7 @@ const [mesAvis, setMesAvis] = useState([]);
     setErrors(null);
     try {
       await api.delete(`/avis/${id}`);
-      setAvis((prev) => prev.filter((a) => a.id !== id));
+      setAvis((prev) => prev.map((a) => (a.id === id ? res.data : a)));
       toast.success("Avis supprimé avec succès");
     } catch (error) {
       setErrors(error.response?.data || "Error deleting avis");
@@ -89,14 +81,12 @@ const [mesAvis, setMesAvis] = useState([]);
       setLoading(false);
     }
   };
-  
 
   const values = {
     mesAvis,
     publicAvis,
     loading,
     errors,
-    successMessage,
     total,
     getMesAvis,
     getPublicAvis,
@@ -104,12 +94,7 @@ const [mesAvis, setMesAvis] = useState([]);
     updateAvis,
     deleteAvis,
     setErrors,
-    setSuccessMessage,
   };
 
-  return (
-    <AvisContext.Provider value={values}>
-      {children}
-    </AvisContext.Provider>
-  );
+  return <AvisContext.Provider value={values}>{children}</AvisContext.Provider>;
 };

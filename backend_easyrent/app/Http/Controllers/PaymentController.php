@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\ReservationPaid;
 use App\Models\Reservation;
-use App\Models\Payment; // Crée un modèle Payment si tu as une table séparée
+use App\Models\Payment; 
 use Illuminate\Http\Request;
 use Stripe\PaymentIntent;
 use Stripe\Stripe;
@@ -31,7 +31,7 @@ class PaymentController extends Controller
     $request->user()->paiments()->create([
         'reservation_id'    => $reservation->id,
         'payment_intent_id' => $paymentIntent->id,
-        'amount' => $reservation->total_price * 100,
+        'amount' => $reservation->total_price,
         'payment_method' => 'card',
         'status'            => 'pending',
     ]);

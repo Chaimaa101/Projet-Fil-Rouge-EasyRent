@@ -1,21 +1,17 @@
-import { BiTrash } from "react-icons/bi";
 import { motion } from "framer-motion";
 import PageHeader from "./common/PageHeader";
 import { useContext, useEffect } from "react";
 import { AdminContext } from "../../Context/AdminProvider";
-import Pagination from "../../components/common/Pagination";
-import { FaEye } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { FaCloudUploadAlt} from "react-icons/fa";
+import { PaymentContext } from "../../Context/PaymentProvider";
 
 function Paymentns() {
-  const { payments, getPayments, loading, errors, pagination, total } =
-    useContext(AdminContext);
+  const { payments, getPayments, loading, errors } = useContext(AdminContext);
+  const {  downloadInvoice } = useContext(PaymentContext);
 
   useEffect(() => {
     getPayments();
   }, []);
-
-  const navigate = useNavigate();
 
   const statusConfig = {
     pending: {
@@ -32,14 +28,13 @@ function Paymentns() {
     },
   };
 
-
   return (
     <>
       <div className="flex-1 relative overflow-auto z-10 min-h-screen bg-gray-100">
         <PageHeader
           title="Gestion des Paymentns"
-          subtitle="Consulter les payments effectués"
-          num={total}
+          subtitle="Consulter et télécharger les payments effectués"
+          num={payments.length}
         />
 
         <main className="container max-w-7xl mx-auto px-4 mt-8">
@@ -66,14 +61,14 @@ function Paymentns() {
                     <th scope="col" className="px-6 py-3">
                       Price
                     </th>
-                   
+
                     <th scope="col" className="px-6 py-3">
                       email
                     </th>
                     <th scope="col" className="px-6 py-3">
                       reservation #
                     </th>
-                     <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="px-6 py-3">
                       Status
                     </th>
                     <th scope="col" className="px-6 py-3">
@@ -94,7 +89,6 @@ function Paymentns() {
                         {reserv?.user?.nom} {reserv?.user?.prenom}
                       </td>
                       <td className="px-6 py-4 truncate">{reserv.amount}DH</td>
-                
 
                       <td className="px-6 py-4 truncate">
                         {reserv?.user?.email}
@@ -115,12 +109,12 @@ function Paymentns() {
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
                           className="text-purple-500 hover:text-purple-700 mr-2"
-                          onClick={() => navigate("/error")}
+                          onClick={() => downloadInvoice(reserv.reservation.id)}
                         >
                           {" "}
-                          <FaEye size={20} />
+                          <FaCloudUploadAlt/>
+
                         </motion.button>
-                
                       </td>
                     </motion.tr>
                   ))}
@@ -129,11 +123,6 @@ function Paymentns() {
             </motion.div>
           </div>
         </main>
-        <Pagination
-          currentPage={pagination.currentPage}
-          lastPage={pagination.lastPage}
-          onPageChange={(page) => getPayments(page)}
-        />
       </div>
     </>
   );

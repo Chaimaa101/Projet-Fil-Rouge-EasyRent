@@ -11,8 +11,6 @@ export const ReservationsProvider = ({ children }) => {
   const [errors, setErrors] = useState(null);
   const [total, setTotal] = useState(0);
 
-  const [successMessage, setSuccessMessage] = useState("");
-
   const getreservations = async () => {
     setLoading(true);
     setErrors(null);
@@ -63,12 +61,26 @@ export const ReservationsProvider = ({ children }) => {
     }
   };
 
+  const updatereservations = async (id,data) => {
+    setLoading(true);
+    setErrors(null);
+    try {
+      await api.put(`/reservations/${id}`,data);
+      toast.success("reservations modifié avec succès");
+      getreservations()
+      return {result :true}
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
   const deletereservations = async (id) => {
     setLoading(true);
     setErrors(null);
     try {
       await api.delete(`/reservations/${id}`);
       toast.success("reservations supprimé avec succès");
+      getreservations()
     } catch (error) {
       setLoading(false);
     }
@@ -79,14 +91,13 @@ export const ReservationsProvider = ({ children }) => {
     singlereservations,
     loading,
     errors,
-    successMessage,
     total,
     getreservations,
     getSinglereservations,
     createreservations,
     deletereservations,
+    updatereservations,
     setErrors,
-    setSuccessMessage,
   };
 
   return (

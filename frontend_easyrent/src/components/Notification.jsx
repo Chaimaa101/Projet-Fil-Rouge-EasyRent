@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FiBell } from "react-icons/fi";
+import api from "../Services/api";
 
 export default function NotificationDropdown() {
   const [notifications, setNotifications] = useState([]);
@@ -13,8 +14,8 @@ export default function NotificationDropdown() {
 
   const fetchNotifications = async () => {
     try {
-      const res = await axios.get("/api/notifications"); 
-      // setNotifications(res.data);
+      const res = await api.get("/notifications"); 
+      setNotifications(res.data.notifs);
     } catch (error) {
       console.error(error);
     }
@@ -22,7 +23,7 @@ export default function NotificationDropdown() {
 
   const markAsRead = async (id) => {
     try {
-      await axios.post(`/api/notifications/${id}/read`);
+      await api.post(`/api/notifications/${id}/read`);
      fetchNotifications()
     } catch (error) {
       console.error(error);
@@ -35,7 +36,7 @@ export default function NotificationDropdown() {
     <div className="relative inline-block text-left">
        <button
         onClick={() => setOpen(!open)}
-        className="relative py-2  px-1 rounded-full hover:bg-gray-200 transition"
+        className="relative py-2  px-1 rounded-full transition"
       >
     <FiBell size={22} className="hover:text-teal-600 transition" />
  
@@ -60,14 +61,14 @@ export default function NotificationDropdown() {
                 <div className="flex justify-between items-center">
                   <div>
                     <p className="text-sm font-medium">
-                      {notification.data.title || "Notification"}
+                      {notification.data.message || "Notification"}
                     </p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-sm text-gray-600">
                       {new Date(notification.created_at).toLocaleString()}
                     </p>
                   </div>
                   {!notification.read_at && (
-                    <span className="text-xs text-blue-500">  Noveau</span>
+                    <span className="text-xs text-red-500">  Noveau</span>
                   )}
                 </div>
               </li>

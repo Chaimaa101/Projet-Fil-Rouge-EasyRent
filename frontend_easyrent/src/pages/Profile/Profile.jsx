@@ -2,9 +2,13 @@ import { useState, useEffect, useContext } from "react";
 import { AuthContext } from '../../Context/AuthProvider';
 import ProfileCard from "./ProfileCard";
 import ProfileForm from "./ProfileForm";
+import { useAnimate } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
   const { user, updateProfile } = useContext(AuthContext);
+
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     nom: "",
     prenom: "",
@@ -69,6 +73,7 @@ export default function Profile() {
     }
 
     await updateProfile(formDataToSend);
+    navigate(-1)
   } catch (err) {
     console.error(err);
   } finally {

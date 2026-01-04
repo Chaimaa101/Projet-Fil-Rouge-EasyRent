@@ -10,13 +10,13 @@ const VehiculeList = ({
     <div className="lg:w-3/4">
       <div className="flex justify-between items-center mb-6">
         <p className="text-lg font-medium text-gray-700">
-          {filteredVehicules.length} 
-          {filteredVehicules.length === 1 ? " Vehicule" : " Vehicules"} 
+          {filteredVehicules.length } Vehicules
+         
         </p>
-        {/* Sort Dropdown */}
+
         <div className="flex items-center gap-3">
           <label htmlFor="sort" className="text-sm font-medium text-gray-700">
-            Sort by:
+            Trier par:
           </label>
           <div className="relative">
             <select
@@ -25,11 +25,11 @@ const VehiculeList = ({
               onChange={(e) => setSortOption(e.target.value)}
               className="pl-4 pr-10 py-2.5 text-sm border border-gray-300 rounded-lg cursor-pointer appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all hover:border-gray-400"
             >
-              <option value="default">Default</option>
+              <option value="default">Par défaut</option>
               <option value="A-Z">A-Z</option>
               <option value="Z-A">Z-A</option>
-              <option value="low-to-high">Price: Low to High</option>
-              <option value="high-to-low">Price: High to Low</option>
+              <option value="low-to-high">Prix: Du bas au élevé</option>
+              <option value="high-to-low">Prix: Du élevé au bas</option>
             </select>
             <span className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
               <svg

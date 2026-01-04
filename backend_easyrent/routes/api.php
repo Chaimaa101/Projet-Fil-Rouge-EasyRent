@@ -56,14 +56,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/getUserPaiments', [PaymentController::class, 'getUserPaiments']);
 
     Route::post('avis/{reservation}', [AvisController::class, 'store']);
-    Route::apiResource('avis', AvisController::class)->except([ 'store']); 
+    Route::get('avis', [AvisController::class,'index']); 
+    Route::get('avis/{avis}', [AvisController::class,'show']); 
+    Route::delete('avis/{avis}',[ AvisController::class,'destroy']); 
+    Route::put('avis/{avis}', [AvisController::class, 'update']); 
     Route::apiResource('users',UserController::class)->only('show');
 
      Route::put('/profile', [AuthController::class, 'updateProfile']);
     Route::post('/profile/password', [AuthController::class, 'updatePassword']);
 
-     Route::get('/reservations/{reservation}/invoice', [InvoiceController::class, 'show']);
-    Route::get('/reservations/{reservation}/invoice/download', [InvoiceController::class, 'download']);
+Route::get('/invoices/{reservation}/download', [InvoiceController::class, 'download']);
     
     Route::get('/notifications', [AuthController::class, 'notifications']);
      Route::post('/notifications/{id}/read', [AuthController::class, 'markAsRead']);
@@ -72,7 +74,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::middleware(['auth:sanctum', 'isAdmin'])->group(function () {
     Route::apiResource('users', UserController::class)->except('show');
-    Route::apiResource('brands', MarqueController::class)->except(['index','update']); 
+    Route::get('brands/{marque}', [MarqueController::class,'show']); 
+    Route::delete('brands/{marque}', [MarqueController::class,'destroy']); 
     Route::put('brands/{marque}',[ MarqueController::class, 'update']); 
     Route::apiResource('vehicules', VehiculeController::class)->except(['index', 'show']); 
     Route::get('admin/Allreservations', [AdminController::class,'reservations']); 
@@ -86,6 +89,7 @@ Route::middleware(['auth:sanctum', 'isAdmin'])->group(function () {
    Route::patch('/admin/avis/{avis}/toggle-public', 
     [AdminController::class, 'toggleAvisIsPublic']
 );
+     
 });
 
 Route::post('/test-confirm/{reservation}', function (Reservation $reservation) {

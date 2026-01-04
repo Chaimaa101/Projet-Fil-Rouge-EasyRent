@@ -35,7 +35,7 @@ export default function UpdateUserRoleModal({ user, onClose }) {
         </h2>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          {/* Role select */}
+        
           <div className="mb-4">
             <label className="block mb-1 font-medium">Rôle</label>
 
@@ -63,7 +63,6 @@ export default function UpdateUserRoleModal({ user, onClose }) {
             )}
           </div>
 
-          {/* Actions */}
           <div className="flex justify-end gap-2">
             <button
               type="button"

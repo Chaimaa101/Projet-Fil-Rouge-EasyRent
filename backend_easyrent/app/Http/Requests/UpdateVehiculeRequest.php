@@ -29,12 +29,12 @@ class UpdateVehiculeRequest extends FormRequest
             'description' => 'nullable|string',
             'registration_number' => 'sometimes|string|max:50',
             'seats' => 'sometimes|integer|min:1',
-            'transmission' => 'sometimes|string|in:manuel,automatique',
+            'transmission' => 'sometimes|string|in:manuelle,automatique',
             'carburant' => 'sometimes|string|in:essence,diesel,electronique,hybride',
             'status' => 'sometimes|string|in:disponible,loue,maintenance,indisponible',
             'immatriculation' => 'sometimes|string|max:100',
             'images' => 'nullable|array',
-            'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
+            'images.*' => 'image|mimes:jpg,jpeg,png,webp',
         ];
     }
 
@@ -56,7 +56,6 @@ class UpdateVehiculeRequest extends FormRequest
 
             'images.*.mimes' => 'Les images doivent être au format JPG, JPEG, PNG ou WEBP.',
 
-            'images.*.max' => 'Chaque image ne doit pas dépasser 2 Mo.',
 
         ];
     }

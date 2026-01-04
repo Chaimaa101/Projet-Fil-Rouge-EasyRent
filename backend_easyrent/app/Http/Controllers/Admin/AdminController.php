@@ -33,7 +33,7 @@ class AdminController extends Controller
 
      public function paiments(){
        try {
-         $paiments = Payment::with('reservation','user')->latest()->paginate(6);
+         $paiments = Payment::with('reservation','user')->latest()->get();
         return $paiments;
        } catch (\Throwable $th) {
         return $th->getMessage();
@@ -42,7 +42,7 @@ class AdminController extends Controller
 
       public function avis()
     {
-        $avis = Avis::with('user')->latest()->paginate(6);
+        $avis = Avis::with('user')->latest()->get();
         return response()->json($avis);
     }
 

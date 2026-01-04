@@ -165,7 +165,7 @@ export default function Navbar() {
         )}
 
         {user ? (
-          <div className="relative flex items-center gap-4" ref={userRef}>
+          <div className="hidden lg:flex md:flex sm:flex items-center gap-4" ref={userRef}>
             <NotificationDropdown />
             <Link to="/error">
               <FaHeart className="cursor-pointer hover:text-red-500 transition" />

@@ -16,8 +16,8 @@ export default function Testimonials() {
   if (!publicAvis.length) return null;
 
   return (
-    <section className="py-20 bg-gradient-to-b from-gray-50 to-blue-50">
-      {/* Section title */}
+    <section className="py-10 bg-gradient-to-b from-gray-50 to-blue-50">
+
       <div className="text-center mb-12">
         <h2 className="text-3xl font-bold text-gray-800">
           Avis de nos clients

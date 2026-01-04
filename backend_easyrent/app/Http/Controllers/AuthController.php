@@ -162,15 +162,29 @@ public function login(LoginRequest $request)
         ]);
     }
 
-    public function notifications(Request $request)
-    {
-        $notifications = $request->user()->notifications()->orderBy('created_at', 'desc')->get();
-        return response()->json(['notifs'=> $notifications]);
-    }
-       public function markAsRead($id)
-    {
-        $notification = $request->user()->notifications()->findOrFail($id);
-        $notification->markAsRead();
-        return response()->json(['success' => true]);
-    }
+
+
+public function notifications(Request $request)
+{
+    $notifications = $request->user()
+        ->notifications()
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    return response()->json([
+        'notifs' => $notifications
+    ]);
+}
+
+public function markAsRead(Request $request, $id)
+{
+    $notification = $request->user()
+        ->notifications()
+        ->findOrFail($id);
+
+    $notification->markAsRead();
+
+    return response()->json(['success' => true]);
+}
+
 }

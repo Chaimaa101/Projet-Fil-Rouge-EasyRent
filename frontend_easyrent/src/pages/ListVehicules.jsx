@@ -59,28 +59,27 @@ const ListVehicules = () => {
       );
     }
     
-    // Brand filter
+
     if (brandFilter) {
       filteredData = filteredData.filter((item) =>
         item.marque.nom && item.marque.nom.toString() === brandFilter
       );
     }
     
-    // Color filter
+
     if (colorFilter) {
       filteredData = filteredData.filter((item) =>
         item.color && item.color.toLowerCase().includes(colorFilter.toLowerCase())
       );
     }
-    
-    // Transmission filter
+  
     if (transmissionFilter) {
       filteredData = filteredData.filter((item) =>
         item.transmission && item.transmission.toLowerCase() === transmissionFilter.toLowerCase()
       );
     }
     
-    // Fuel type filter
+  
     if (fuelFilter) {
       filteredData = filteredData.filter((item) =>
         item.carburant && item.carburant.toLowerCase() === fuelFilter.toLowerCase()
@@ -93,27 +92,23 @@ const ListVehicules = () => {
         item.category.nom && item.category.nom.toLowerCase() === categoryFilter.toLowerCase()
       );
     }
-    
-    // Year filter
+
     if (yearFilter) {
       filteredData = filteredData.filter((item) =>
         item.annee && item.annee.toString() === yearFilter
       );
     }
     
-    // Seats filter
     if (seatsFilter) {
       filteredData = filteredData.filter((item) =>
         item.seats && item.seats.toString() === seatsFilter
       );
     }
     
-    // Price range filter
     filteredData = filteredData.filter((item) => 
       item.prix_day && item.prix_day <= priceRange
     );
 
-    // Sorting
     switch (sortOption) {
       case "A-Z":
         filteredData.sort((a, b) => a.nom.localeCompare(b.nom));
@@ -194,6 +189,7 @@ const ListVehicules = () => {
           resetFilters={resetFilters}
         />
 
+{loading && <GlobalLoader />}
           <VehiculeList
             filteredVehicules={filteredVehicules.length > 0 ? filteredVehicules : vehicules}
             sortOption={sortOption}

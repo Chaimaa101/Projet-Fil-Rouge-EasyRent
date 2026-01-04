@@ -22,7 +22,6 @@ class StoreVehiculeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'marque_id' => 'nullable|exists:marques,id',
             'nom' => 'required|string|max:100',
             'annee' => 'required|integer|min:1900|max:' . date('Y'),
             'color' => 'required|string|max:50',
@@ -34,9 +33,8 @@ class StoreVehiculeRequest extends FormRequest
             'carburant' => 'required|string|in:essence,diesel,electronique,hybride',
             'status' => 'required|string|in:disponible,loue,maintenance,indisponible',
             'immatriculation' => 'required|string|max:100|unique:vehicules,immatriculation',
-            'category_id' =>  'nullable|exists:categories,id',
              'images' => 'nullable|array',
-        'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
+             'images.*' => 'image|mimes:jpg,jpeg,png,webp',
         ];  
     }
 
@@ -66,8 +64,7 @@ class StoreVehiculeRequest extends FormRequest
     'images.*.image' => 'Chaque fichier doit être une image valide.',
     
     'images.*.mimes' => 'Les images doivent être au format JPG, JPEG, PNG ou WEBP.',
-    
-    'images.*.max' => 'Chaque image ne doit pas dépasser 2 Mo.',
+
             
         ];  
     }

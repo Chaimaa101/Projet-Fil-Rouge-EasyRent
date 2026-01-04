@@ -3,12 +3,10 @@ import { FaCloudUploadAlt, FaTrash } from "react-icons/fa";
 import { useContext, useEffect, useState } from "react";
 import { VehiculeContext } from "../../../Context/VehiculeProvider";
 import { BrandContext } from "../../../Context/BrandProvider";
-import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-hot-toast";
+import {  useParams } from "react-router-dom";
 import TextInput from "../../../components/formCompenents/TextInput";
 import SelectInput from "../../../components/formCompenents/SelectInput";
 import TextareaInput from "../../../components/formCompenents/TextareaInput";
-import GlobalLoader from "./../../../components/common/GlobalLoader";
 
 export default function VehiculeForm({
   vehicule: selectedVehicule,
@@ -41,7 +39,6 @@ export default function VehiculeForm({
     }
   }, [getBrands, getCategories, getVehicule, id, isEdit]);
 
-  // Remplir le formulaire si édition
   useEffect(() => {
     if (isEdit && selectedVehicule) {
       reset({
@@ -102,14 +99,12 @@ export default function VehiculeForm({
 const onSubmit = async (data) => {
   const formData = new FormData();
 
-  // Append normal fields safely
   Object.entries(data).forEach(([key, value]) => {
     if (value !== null && value !== undefined && value !== "") {
       formData.append(key, value);
     }
   });
 
-  // Append images only if added
   if (images && images.length > 0) {
     images.filter(Boolean).forEach((img) => {
       formData.append("images[]", img);
@@ -120,9 +115,9 @@ const onSubmit = async (data) => {
     ? await updateVehicule(selectedVehicule.id, formData)
     : await createVehicule(formData);
 
-  if (!result.result) return;
-
-  onClose();
+   if (result) {
+      onClose();
+    } 
 };
 
   return (
@@ -177,7 +172,7 @@ const onSubmit = async (data) => {
                 backErrors={errors}
               />
               <TextInput
-                label="Places"
+                label="Nombre de places"
                 name="seats"
                 type="number"
                 register={register}
@@ -219,9 +214,7 @@ const onSubmit = async (data) => {
                 frontErrors={frontErrors}
                 backErrors={errors}
               />
-            </div>
-
-            <SelectInput
+                <SelectInput
               label="Marque"
               name="marque_id"
               options={brands}
@@ -241,6 +234,7 @@ const onSubmit = async (data) => {
               frontErrors={frontErrors}
               backErrors={errors}
             />
+            </div>
 
             <TextareaInput
               label="Description"

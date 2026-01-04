@@ -1,4 +1,3 @@
-import { usePageInView } from "framer-motion";
 import { FaUsers, FaCogs, FaGasPump } from "react-icons/fa";
 import { Link } from "react-router-dom";
 

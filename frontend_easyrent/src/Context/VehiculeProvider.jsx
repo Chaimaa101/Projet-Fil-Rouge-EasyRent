@@ -10,7 +10,6 @@ export const VehiculeProvider = ({ children }) => {
   const [vehicule, setVehicule] = useState(null);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
-
   const [total, setTotal] = useState(0);
   const [pagination, setPagination] = useState({
     currentPage: 1,
@@ -18,23 +17,35 @@ export const VehiculeProvider = ({ children }) => {
   });
 
   //   get  all
-  const getVehicules = async (page = 1) => {
-    setLoading(true);
-    setErrors(null);
-    try {
-      const res = await api.get(`/vehicules/?page=${page}`);
+const getVehicules = async (page = 1) => {
+  setLoading(true);
+  setErrors(null);
+  
+  let isMounted = true; // Add this
+  
+  try {
+    const res = await api.get(`/vehicules/?page=${page}`);
+    
+    if (isMounted) { // Check before updating state
       setVehicules(res.data.data);
       setTotal(res.data.total);
       setPagination({
         currentPage: res.data.current_page,
         lastPage: res.data.last_page,
       });
-    } catch (error) {
+    }
+  } catch (error) {
+    if (isMounted) {
       setErrors("Erreur lors de la récupération des véhicules");
-    } finally {
+    }
+  } finally {
+    if (isMounted) {
       setLoading(false);
     }
-  };
+  }
+  
+  return () => { isMounted = false; }; // Cleanup function
+};
   // get top vehicule
   const getTopVehicules = async (page = 1) => {
     setLoading(true);
@@ -66,78 +77,93 @@ setErrors("Erreur lors de la récupération des véhicules");
     }
   };
 
-const createVehicule = async (data) => {
 
+const createVehicule = async (data) => {
+  setLoading(true);
+  setErrors(null);
+  
   try {
     const res = await api.post("/vehicules", data);
-
-   getVehicules()
+    
     toast.success("Véhicule créé avec succès");
 
+   getVehicules()
+    
     return { result: true };
   } catch (error) {
-    console.log(error)
+    console.error("Create vehicule error:", error);
+    
     if (error.response?.status === 422) {
       setErrors(error.response.data.errors);
       toast.error("Veuillez corriger les erreurs");
     } else {
       toast.error(error?.response?.data?.error || "Erreur serveur");
     }
-    return { result: false };
+    return { result: false, error };
   } finally {
     setLoading(false);
   }
 };
 
-
- const updateVehicule = async (id, data) => {
+const updateVehicule = async (id, data) => {
+  setLoading(true);
+  setErrors(null);
+  
   try {
-    data.append("_method", "PUT");
+
+    if (!data.get('_method')) {
+      data.append("_method", "PUT");
+    }
 
     const res = await api.post(`/vehicules/${id}`, data, {
       headers: { "Content-Type": "multipart/form-data" },
     });
 
-    getTopVehicules()
-
     toast.success("Véhicule modifié avec succès");
+    
+    getVehicules()
 
     return { result: true };
   } catch (error) {
+    console.error("Update vehicule error:", error);
+    
     if (error.response?.status === 422) {
       setErrors(error.response.data.errors);
       toast.error("Veuillez corriger les erreurs");
     } else {
       toast.error(error?.response?.data?.error || "Erreur serveur");
     }
-    return { result: false };
+    return { result: false, error };
   } finally {
     setLoading(false);
   }
 };
 
-
-  //   remove
-  const deleteVehicule = async (id) => {
-    setLoading(true);
-    setErrors(null);
-    try {
-      await api.delete(`/vehicules/${id}`);
-      getVehicules();
-      toast.success("Véhicule supprimé avec succès");
-      return { result: true };
-    } finally {
-      setLoading(false);
-    }
-  };
-
+const deleteVehicule = async (id) => {
+  setLoading(true);
+  setErrors(null);
+  
+  try {
+    await api.delete(`/vehicules/${id}`);
+    
+    toast.success("Véhicule supprimé avec succès");
+    
+    getVehicules()
+    
+    return { result: true };
+  } catch (error) {
+    toast.error(error?.response?.data?.error || "Erreur serveur");
+    return { result: false, error };
+  } finally {
+    setLoading(false);
+  }
+};
      const toggleVehiculeIsTop = async (id) => {
     setLoading(true);
     setErrors(null);
     try {
       const res = await api.patch(`/admin/vehicules/${id}/toggle-top`);
-      toast.success(" status updated");
-      getTopVehicules()
+      toast.success(" status modifié");
       getVehicules()
     } catch (error) {
       setErrors(error.response?.data || "Error updating reservation status");
@@ -161,7 +187,7 @@ const createVehicule = async (data) => {
     updateVehicule,
     deleteVehicule,
     setErrors,
-     toggleVehiculeIsTop,
+    toggleVehiculeIsTop,
   };
 
   return (

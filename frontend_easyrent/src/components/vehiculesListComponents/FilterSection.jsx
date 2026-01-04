@@ -21,13 +21,15 @@ const FilterSection = ({
   seatsFilter,
   setSeatsFilter,
   resetFilters,
-  colors = [], 
-  years = [], 
   transmissions = ["Manuelle", "Automatique"],
   fuels = ["Essence", "Diesel", "Électrique", "Hybride"],
   seatsOptions = [2, 4, 5, 7, 9]
 }) => {
   const {categories=[],brands=[],getBrands,getCategories}= useContext(BrandContext)
+
+  const colors = ["Noir", "Blanc", "Rouge", "Bleu", "Gris", "Vert", "Jaune", "Orange"];
+const currentYear = new Date().getFullYear();
+const years = Array.from({ length: currentYear - 1999 }, (_, i) => 2000 + i);
 
   useEffect(() =>{
     getBrands()
@@ -98,7 +100,7 @@ const FilterSection = ({
           >
             <option value="">Tous les categories</option>
             {categories.map((category, index) => (
-              <option key={index} value={category}>
+              <option key={index} value={category.id}>
                 {category.nom}
               </option>
             ))}
@@ -171,7 +173,7 @@ const FilterSection = ({
             <option value="">Toutes</option>
             {seatsOptions.map((seat, index) => (
               <option key={index} value={seat}>
-                {seat} places
+                {seat}
               </option>
             ))}
           </select>

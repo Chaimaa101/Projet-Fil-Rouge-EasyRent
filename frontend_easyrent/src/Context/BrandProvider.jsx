@@ -10,7 +10,6 @@ export const BrandProvider = ({ children }) => {
   const [brand, setBrand] = useState(null);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
-  const [successMessage, setSuccessMessage] = useState("");
   const [total, setTotal] = useState(0);
 
   const getBrands = async () => {
@@ -112,7 +111,6 @@ getBrands()
     loading,
     errors,
     categories,
-    successMessage,
     total,
     getBrands,
     getCategories,
@@ -121,7 +119,6 @@ getBrands()
     updateBrand,
     deleteBrand,
     setErrors,
-    setSuccessMessage,
   };
 
   return (

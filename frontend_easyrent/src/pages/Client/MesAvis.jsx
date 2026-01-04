@@ -1,8 +1,10 @@
 import { useContext, useEffect } from "react";
-import { FaStar } from "react-icons/fa";
+import { FaStar, FaTrash } from "react-icons/fa";
 import { AvisContext } from "../../Context/AvisProvider";
 import GlobalLoader from "../../components/common/GlobalLoader";
 import PageHeader from "../Admin/common/PageHeader";
+import { MdEdit } from "react-icons/md";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function MesAvis() {
   const { mesAvis = [], loading, errors, getMesAvis, deleteAvis } = useContext(AvisContext);
@@ -10,6 +12,9 @@ export default function MesAvis() {
   useEffect(() => {
     getMesAvis();
   }, []);
+
+
+  const navigate = useNavigate()
 
 
   return (
@@ -47,10 +52,16 @@ export default function MesAvis() {
           </p>
 
           <button
-            onClick={() => deleteAvis(avi.id)}
-            className="mt-2 bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 transition"
+            onClick={() => navigate('/error')}
+            className="mt-2 mx-6 bg-blue-400 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
           >
-            Delete
+            <MdEdit />
+          </button>
+           <button
+            onClick={() => deleteAvis(avi.id)}
+            className="mt-2 bg-red-400 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition"
+          >
+            <FaTrash/>
           </button>
         </div>
       ))}

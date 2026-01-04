@@ -4,7 +4,7 @@ const Collaboration = () => {
       <h1 className="text-4xl uppercase font-bold italic text-center my-12">
         Nos partenaires
       </h1>
-      <div className="container px-4 mx-auto my-10 text-stick flex justify-center items-center gap-5 flex-wrap">
+      <div className="container px-4 mx-auto my-10 text-stick flex justify-center items-center gap-19 flex-wrap">
         {[
          
           { image: "/collaborators/arfiquia.png" },

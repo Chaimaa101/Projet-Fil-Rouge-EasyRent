@@ -4,7 +4,7 @@ import PageHeader from "../Admin/common/PageHeader";
 import GlobalLoader from "../../components/common/GlobalLoader";
 
 export default function MesPayments() {
-  const { payments, getPayments, viewInvoice, loading ,downloadInvoice } =
+  const { payments, getPayments, loading ,downloadInvoice } =
     useContext(PaymentContext);
 
   useEffect(() => {
@@ -30,25 +30,19 @@ export default function MesPayments() {
               Payment #{payment.id}
             </h2>
 
-            <p className="text-sm text-gray-500">{payment.created_at}</p>
+            <p className=" text-gray-600">{new Date(payment.created_at).toDateString()}</p>
 
             <p className="text-xl font-semibold text-teal-700 mt-3">
               {payment.amount} DH
             </p>
 
             <div className="flex gap-2 mt-4">
-              <button
-                onClick={() => viewInvoice(payment.reservation_id)}
-                className="bg-gray-200 px-4 py-2 rounded-lg"
-              >
-                View Invoice
-              </button>
 
               <button
-                onClick={() => downloadInvoice(payment.reservation_id)}
-                className="bg-teal-600 text-white px-4 py-2 rounded-lg"
+                onClick={() => downloadInvoice(payment.reservation.id)}
+                className="bg-teal-600 text-white px-4 py-2 rounded-lg cursor-pointer"
               >
-                Download
+                Télécharger
               </button>
             </div>
           </div>

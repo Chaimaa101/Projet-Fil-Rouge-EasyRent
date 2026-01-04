@@ -22,12 +22,10 @@ class UpdateReservationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'sometimes|exists:users,id',
-            'vehicule_id' => 'sometimes|exists:vehicules,id',
             'start_date' => 'sometimes|date',
             'end_date' => 'sometimes|date|after:start_date',
             'total_price' => 'sometimes|numeric|min:0',
-            'status' => 'sometimes|string|in:pending,paid,cancelled',
+            'days' => 'sometimes|numeric',
         ];
     }
 

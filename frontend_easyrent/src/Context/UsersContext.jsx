@@ -9,7 +9,6 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
-  const [successMessage, setSuccessMessage] = useState("");
   const [total, setTotal] = useState(0);
   const [pagination, setPagination] = useState({
   currentPage: 1,
@@ -79,7 +78,7 @@ export const UserProvider = ({ children }) => {
     try {
       await api.delete(`/users/${id}`);
       setUsers((prev) => prev.filter((v) => v.id !== id));
-      setSuccessMessage("User deleted successfully");
+      toast.success("User deleted successfully");
     } catch (error) {
       setErrors(error.response?.data || "Error deleting User");
     } finally {
@@ -93,14 +92,12 @@ export const UserProvider = ({ children }) => {
     loading,
     errors,
     pagination,
-    successMessage,
     total,
     getUsers,
     getUser,
     updateUser,
     deleteUser,
     setErrors,
-    setSuccessMessage,
   };
 
   return (

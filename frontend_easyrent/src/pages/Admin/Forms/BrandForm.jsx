@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
 import { BrandContext } from "../../../Context/BrandProvider";
 import { FaCloudUploadAlt, FaTrash } from "react-icons/fa";
 
@@ -67,7 +66,7 @@ export default function BrandForm({ brand = null, onClose }) {
         </h2>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          {/* Nom */}
+         
           <div className="mb-4">
             <label className="block mb-1 font-medium">Nom de la marque</label>
             <input
@@ -87,7 +86,6 @@ export default function BrandForm({ brand = null, onClose }) {
             )}
           </div>
 
-          {/* Image */}
           <div className="mb-6">
             <label className="font-semibold mb-2 block">Image</label>
 
@@ -122,7 +120,7 @@ export default function BrandForm({ brand = null, onClose }) {
             </div>
           </div>
 
-          {/* Actions */}
+
           <div className="flex justify-end gap-2">
             <button
               type="button"

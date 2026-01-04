@@ -13,7 +13,8 @@ export default function ProfileCard({ user, previewImage }) {
         <h2 className="text-xl font-bold text-gray-800 mt-2">
           {user?.nom} {user?.prenom}
         </h2>
-        <p className="text-gray-500 text-sm">{user?.email}</p>
+        <p className="text-gray-500 ">{user?.email}</p>
+        <p className="text-green-700 ">{user?.role}</p>
 
         <div className="my-4 space-y-2 text-left">
           <InfoRow icon={Phone} value={user?.details?.tel} fallback="Non renseigné" />

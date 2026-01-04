@@ -37,7 +37,7 @@ function Vehicules() {
   const handleCloseModal = () => {
     setOpenModal(false);
     setSelectedVehicule(null);
-    getVehicules(); // Rafraîchir la liste après création/édition
+    getVehicules();
   };
 
   const filteredVehicules = vehicules.filter((v) =>
@@ -91,7 +91,7 @@ function Vehicules() {
               className="bg-neutral-600 hover:bg-neutral-700 text-white px-6 py-3 rounded-xl shadow-md transition-all duration-200 w-full sm:w-auto"
               onClick={() => handleOpenModal()}
             >
-              NEW Vehicule
+              Nouvelle Vehicule
             </motion.button>
           </motion.div>
 

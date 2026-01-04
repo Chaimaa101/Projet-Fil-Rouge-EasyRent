@@ -16,7 +16,6 @@ export const AdminProvider = ({ children }) => {
   currentPage: 1,
   lastPage: 1,
 });
-  const [successMessage, setSuccessMessage] = useState("");
 
   const getDashboardStats = async () => {
     setLoading(true);
@@ -32,17 +31,12 @@ export const AdminProvider = ({ children }) => {
     }
   };
 
-   const getAvis = async (page= 1) => {
+   const getAvis = async () => {
     setLoading(true);
     setErrors(null);
     try {
-      const res = await api.get(`/admin/avis?page=${page}`);
-      setAvis(res.data.data);
-      setTotal(res.data.total)
-       setPagination({
-  currentPage: res.data.current_page,
-  lastPage: res.data.last_page,
-});
+      const res = await api.get(`/admin/avis`);
+      setAvis(res.data);
     } catch (error) {
       setErrors(error.response?.data || "Error fetching avis");
     } finally {
@@ -51,17 +45,13 @@ export const AdminProvider = ({ children }) => {
   };
 
 
-  const getPayments = async (page = 1) => {
+  const getPayments = async () => {
     setLoading(true);
     setErrors(null);
     try {
-      const res = await api.get(`/admin/paiments?page=${page}`);
-        setPayments(res.data.data);
-      setTotal(res.data.total)
-      setPagination({
-  currentPage: response.data.current_page,
-  lastPage: response.data.last_page,
-});
+      const res = await api.get(`/admin/paiments`);
+        setPayments(res.data);
+     
     } catch (error) {
       setErrors(error.response?.data || "Error fetching Payments");
     } finally {
@@ -86,30 +76,17 @@ export const AdminProvider = ({ children }) => {
     }
   };
 
-  const updateVehiculeStatus = async (id, status) => {
-    setLoading(true);
-    setErrors(null);
-    try {
-      const res = await api.put(`/updateVehiculeStatus/${id}`, { status });
-      setSuccessMessage("Reservation status updated");
-      getAllReservations
-    } catch (error) {
-      setErrors(error.response?.data || "Error updating reservation status");
-    } finally {
-      setLoading(false);
-    }
-  };
-
 
    const toggleAvisIsPublic = async (id) => {
     setLoading(true);
     setErrors(null);
     try {
-      const res = await api.put(`/admin/avis/${id}/toggle-public`);
+      const res = await api.patch(`/admin/avis/${id}/toggle-public`);
       toast.success(" status updated");
       getAvis()
 
     } catch (error) {
+      console.log(error)
       setErrors(error.response?.data || "Error updating reservation status");
     } finally {
       setLoading(false);
@@ -130,14 +107,11 @@ export const AdminProvider = ({ children }) => {
     pagination,
     getAvis,
     getPayments,
-    successMessage,
     getDashboardStats,
     toggleAvisIsPublic,
-   
     getAllReservations,
-    updateVehiculeStatus,
     setErrors,
-    setSuccessMessage,
+
   };
 
   return (

@@ -1,11 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  FaCogs,
-  FaGasPump,
-  FaUsers,
-  FaCalendarAlt,
-} from "react-icons/fa";
+import { FaCogs, FaGasPump, FaUsers, FaCalendarAlt } from "react-icons/fa";
 import { VehiculeContext } from "../../Context/VehiculeProvider";
 import { ReservationsContext } from "../../Context/ReservationProvider";
 import { useNavigate, useParams } from "react-router-dom";
@@ -15,12 +10,11 @@ import { AuthContext } from "../../Context/AuthProvider";
 
 export default function VehicleDetails() {
   const { id } = useParams();
- 
-  const navigate =  useNavigate()
+
+  const navigate = useNavigate();
   const { vehicule, getVehicule } = useContext(VehiculeContext);
   const { user } = useContext(AuthContext);
-  const { createreservations, errors } =
-    useContext(ReservationsContext);
+  const { createreservations, errors } = useContext(ReservationsContext);
 
   useEffect(() => {
     getVehicule(id);
@@ -33,19 +27,15 @@ export default function VehicleDetails() {
     formState: { errors: frontErrors },
   } = useForm();
 
-    /* récupérer dates depuis react-hook-form */
   const start_date = watch("start_date");
   const end_date = watch("end_date");
-
-  /* calcul jours */
 
   const days =
     start_date && end_date
       ? Math.max(
           0,
           Math.ceil(
-            (new Date(end_date) - new Date(start_date)) /
-              (1000 * 60 * 60 * 24)
+            (new Date(end_date) - new Date(start_date)) / (1000 * 60 * 60 * 24)
           )
         )
       : 0;
@@ -62,48 +52,43 @@ export default function VehicleDetails() {
       days,
     };
 
-    if(!user?.details){
-      toast.error('Veuillez compléter votre profil pour continuer.')
-    }else{
-      
- const result = await createreservations(payload,id);
- if(result){
-  navigate('/client/myReserv')
-
-  }
+    if (vehicule?.status !== "disponible") {
+      toast.error("Cette vehicule n'est pas disponible!");
+      navigate(-1)
+    } else {
+      if (!user?.details) {
+        toast.error("Veuillez compléter votre profil pour continuer.");
+        navigate("/profile");
+      } else {
+        const result = await createreservations(payload, id);
+        if (result) {
+          navigate("/client/myReserv");
+        }
+      }
     }
-
-}
-
-
+  };
   return (
     <section className="bg-gray-100 min-h-screen py-10">
       <div className="max-w-7xl mx-auto px-4">
-
-        {/* TITRE */}
         <h1 className="text-2xl font-bold mb-6">
-          {vehicule?.nom} {vehicule?.marque?.nom} 
+          {vehicule?.nom} {vehicule?.marque?.nom}
         </h1>
 
         <div className="bg-white rounded-xl shadow-lg p-8 grid grid-cols-1 md:grid-cols-2 gap-10">
-
-          {/* LEFT SIDE */}
           <div>
             <p className="text-teal-500 font-bold text-xl mb-4">
               {vehicule?.prix_day} DH
               <span className="text-sm text-gray-500"> / jour</span>
             </p>
 
-            {/* Image principale */}
             {vehicule?.images?.length > 0 && (
               <img
-                src={vehicule.images[0].path}
+                src={vehicule?.images[0]?.path || "/car.jpg"}
                 alt="Véhicule"
                 className="h-50 object-contain mx-auto mb-4"
               />
             )}
 
-            {/* Miniatures */}
             <div className="flex gap-3 justify-center">
               {vehicule?.images?.map((img) => (
                 <img
@@ -114,19 +99,17 @@ export default function VehicleDetails() {
                 />
               ))}
             </div>
- {vehicule?.description && (
+            {vehicule?.description && (
               <p className="text-gray-600 text-sm mt-4">
                 {vehicule.description}
               </p>
             )}
           </div>
 
-          {/* RIGHT SIDE */}
           <div>
             <h3 className="font-semibold mb-4">Spécifications techniques</h3>
 
             <div className="grid grid-cols-2 gap-4 mb-6">
-
               {vehicule?.transmission && (
                 <Spec
                   icon={<FaCogs />}
@@ -159,11 +142,10 @@ export default function VehicleDetails() {
                 />
               )}
             </div>
-  <h3 className="font-semibold mb-3">Réservation</h3>
+            <h3 className="font-semibold mb-3">Réservation</h3>
 
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="grid grid-cols-2 gap-4">
-
                 <TextInput
                   label="Date de retrait"
                   name="start_date"
@@ -197,7 +179,7 @@ export default function VehicleDetails() {
                 <div>
                   <label>Total à payer</label>
                   <input
-                  name="total_price"
+                    name="total_price"
                     value={`${totalPrice} DH`}
                     readOnly
                     className="w-full border px-3 py-2 rounded bg-gray-100"
@@ -219,7 +201,6 @@ export default function VehicleDetails() {
   );
 }
 
-/* COMPONENT TECHNIQUE */
 const Spec = ({ icon, label, value }) => (
   <div className="flex items-center gap-3 bg-gray-50 p-3 rounded-lg">
     <span className="text-teal-500 text-lg">{icon}</span>

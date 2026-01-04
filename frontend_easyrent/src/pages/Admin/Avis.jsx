@@ -5,7 +5,6 @@ import { MdOutlineEmail, MdOutlinePhone, MdSearch } from "react-icons/md";
 import { HiOutlineSearch } from "react-icons/hi";
 import GlobalLoader from "../../components/common/GlobalLoader";
 import PageHeader from "./common/PageHeader";
-import Pagination from "../../components/common/Pagination";
 import { AdminContext } from "../../Context/AdminProvider";
 import { AvisContext } from "../../Context/AvisProvider";
 
@@ -16,21 +15,19 @@ export default function Avis() {
     getAvis,
     toggleAvisIsPublic,
     loading,
-    pagination,
-    total
   } = useContext(AdminContext);
   const { deleteAvis } = useContext(AvisContext);
 
-  const handleDelete = (id) => {
-    if (confirm("Are you sure you want to delete this message?")) {
-      router.delete(`/messages/${id}`, {
-        preserveScroll: true,
-      });
-    }
-  };
+ 
   useEffect(() => {
     getAvis();
   }, []);
+
+   const handleDelete = (id) => {
+    if (window.confirm("Voulez-vous vraiment supprimer cette marque ?")) {
+      deleteAvis(id);
+    }
+  };
 
   const filteredMessages = avis.filter((msg) => {
     const searchLower = searchQuery.toLowerCase();
@@ -47,7 +44,7 @@ export default function Avis() {
          <PageHeader
       title="Gestion des Avis"
       subtitle="Consultez, suprimmez et gérez l'ensemble des commentaires "
-            num={total}
+            num={avis.length}
           />
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -61,15 +58,14 @@ export default function Avis() {
             className="bg-transparent w-full outline-none text-gray-700 placeholder-gray-400"
             placeholder="Rechercher un Commentaire..."
             value={searchQuery}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
           <MdSearch size={25} className="text-gray-500" />
         </div>
       </motion.div>
-
-      {/* Messages Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 p-6">
         {loading && <GlobalLoader />}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 p-6">
         <AnimatePresence>
           {filteredMessages.map((msg, index) => (
             <motion.div
@@ -80,14 +76,13 @@ export default function Avis() {
               transition={{ duration: 0.5, delay: index * 0.05 }}
               className="bg-blue-50 p-6 rounded-2xl shadow-2xl"
             >
-              {/* Header Section */}
+          
               <div className="flex justify-between items-center">
                 <h3 className="text-xl font-semibold text-gray-800">
                   {msg.avis}
                 </h3>
               </div>
 
-              {/* Contact Info */}
               <div className="mt-3 text-gray-600 text-sm flex flex-wrap gap-3">
                 <span className="flex items-center gap-2">
                   <MdOutlineEmail size={18} className="text-gray-500" />
@@ -99,10 +94,8 @@ export default function Avis() {
                 </span>
               </div>
 
-              {/* Timestamp */}
               <p className="mt-2 text-xs text-gray-500">Rating: {msg.rating}</p>
 
-              {/* Action Buttons */}
               <div className="mt-5 flex gap-3">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -122,7 +115,7 @@ export default function Avis() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => deleteAvis(msg.id)}
+                  onClick={() => handleDelete(msg.id)}
                   className="flex items-center gap-2 px-4 py-2 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all"
                 >
                   <GoTrash size={16} />
@@ -134,11 +127,7 @@ export default function Avis() {
         </AnimatePresence>
        
       </div>
-       <Pagination
-          currentPage={pagination.currentPage}
-          lastPage={pagination.lastPage}
-          onPageChange={(page) => getAvis(page)}
-        />
+  
     </div>
   );
 }
