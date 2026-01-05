@@ -25,6 +25,7 @@
 <summary>Click to expand</summary>
 
 - [🎯 Project Overview](#-project-overview)
+- [Demo](#-Demo)
 - [✨ Key Features](#-key-features)
 - [🏗 System Architecture](#-system-architecture)
 - [🛠 Tech Stack](#-tech-stack)
@@ -43,6 +44,10 @@
 ## 🎯 Project Overview
 
 EasyRent is a modern car rental management system built with Laravel 11 backend and React 18 frontend. The platform features real-time availability tracking, secure payment processing with Stripe, automated invoicing, email notifications, and a comprehensive admin dashboard.
+
+##  Demo
+
+https://github.com/user-attachments/assets/60bdefd8-f1e2-4b72-93a9-b2ab42994a49
 
 ## ✨ Key Features
 
