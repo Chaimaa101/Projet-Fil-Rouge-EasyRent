@@ -14,24 +14,12 @@ export default function Navbar() {
   const [openManage, setOpenManage] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
-  const manageRef = useRef(null);
-  const userRef = useRef(null);
+    const closeAllMenus = () => {
+    setOpenUser(false);
+    setOpenManage(false);
+  };
 
   const isAdmin = user?.role === "admin";
-  const notificationsCount = 3;
-
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (manageRef.current && !manageRef.current.contains(e.target)) {
-        setOpenManage(false);
-      }
-      if (userRef.current && !userRef.current.contains(e.target)) {
-        setOpenUser(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
   return (
     <nav className="relative flex items-center justify-between px-6 lg:px-10 py-5 bg-white shadow-md text-gray-800 ">
@@ -64,7 +52,7 @@ export default function Navbar() {
         )}
       </div>
 
-      <div className="absolute left-1/2 -translate-x-1/2">
+      <div className="absolute left-1/2 ">
         <Link to="/">
           <motion.img
             src="/logo-bg.png"
@@ -85,9 +73,12 @@ export default function Navbar() {
         )}
 
         {(isAdmin || user) && (
-          <div className="relative" ref={manageRef}>
+          <div className="relative">
             <button
-              onClick={() => setOpenManage(!openManage)}
+                onClick={() => {
+              setOpenManage(!openManage);
+              setOpenUser(false);
+            }}
               className="flex items-center gap-1 font-medium hover:text-teal-600"
             >
               {isAdmin ? "Administration" : "Historique"}
@@ -105,17 +96,17 @@ export default function Navbar() {
                   {!isAdmin ? (
                     <>
                       <li>
-                        <Link to="/client/myReserv"  onClick={() => setOpenManage(!openManage)} className="dropdown-item">
+                        <Link to="/client/myReserv"   onClick={closeAllMenus} className="dropdown-item">
                           Mes réservations
                         </Link>
                       </li>
                       <li>
-                        <Link to="/client/avis" className="dropdown-item">
+                        <Link to="/client/avis"  onClick={closeAllMenus} className="dropdown-item">
                           Mes commentaires
                         </Link>
                       </li>
                       <li>
-                        <Link to="/client/payments" className="dropdown-item">
+                        <Link to="/client/payments"  onClick={closeAllMenus} className="dropdown-item">
                           Mes paiements
                         </Link>
                       </li>
@@ -123,12 +114,12 @@ export default function Navbar() {
                   ) : (
                     <>
                       <li>
-                        <Link to="/admin/vehicules"  onClick={() => setOpenManage(!openManage)} className="dropdown-item">
+                        <Link to="/admin/vehicules"   onClick={closeAllMenus} className="dropdown-item">
                           Gérer les véhicules
                         </Link>
                       </li>
                       <li>
-                        <Link to="/admin/users"  onClick={() => setOpenManage(!openManage)} className="dropdown-item">
+                        <Link to="/admin/users"   onClick={closeAllMenus} className="dropdown-item">
                           Gérer les utilisateurs
                         </Link>
                       </li>
@@ -136,23 +127,23 @@ export default function Navbar() {
                         <Link
                           to="/admin/reservations"
                           className="dropdown-item"
-                           onClick={() => setOpenManage(!openManage)}
+                            onClick={closeAllMenus}
                         >
                           Gérer les réservations
                         </Link>
                       </li>
                       <li>
-                        <Link to="/admin/avis" className="dropdown-item"  onClick={() => setOpenManage(!openManage)}>
+                        <Link to="/admin/avis" className="dropdown-item"   onClick={closeAllMenus}>
                           Gérer les commentaires
                         </Link>
                       </li>
                       <li>
-                        <Link to="/admin/brands" className="dropdown-item"  onClick={() => setOpenManage(!openManage)}>
+                        <Link to="/admin/brands" className="dropdown-item"   onClick={closeAllMenus}>
                           Gérer les marques
                         </Link>
                       </li>
                       <li>
-                        <Link to="/admin/payments"  onClick={() => setOpenManage(!openManage)} className="dropdown-item" >
+                        <Link to="/admin/payments"   onClick={closeAllMenus} className="dropdown-item" >
                           Gérer les paiements
                         </Link>
                       </li>
@@ -165,13 +156,16 @@ export default function Navbar() {
         )}
 
         {user ? (
-          <div className="hidden lg:flex md:flex sm:flex items-center gap-4" ref={userRef}>
+          <div className="flex items-center gap-4" >
             <NotificationDropdown />
             <Link to="/error">
               <FaHeart className="cursor-pointer hover:text-red-500 transition" />
             </Link>
 
-            <button onClick={() => setOpenUser(!openUser)}>
+            <button  onClick={() => {
+              setOpenUser(!openUser);
+              setOpenManage(false);
+            }}>
               <FaUser className="text-teal-600 hover:text-teal-800 transition" />
             </button>
 
@@ -184,7 +178,7 @@ export default function Navbar() {
                   className="absolute right-0 mt-40 bg-white shadow-lg rounded-lg w-52 p-2 z-50"
                 >
                   <li>
-                    <Link to="/profile" onClick={() => setOpenUser(!openUser)} className="dropdown-item">
+                    <Link to="/profile"  onClick={closeAllMenus} className="dropdown-item">
                       Mon profil
                     </Link>
                   </li>

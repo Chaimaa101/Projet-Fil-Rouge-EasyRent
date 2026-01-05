@@ -91,7 +91,6 @@ const createVehicule = async (data) => {
     
     return { result: true };
   } catch (error) {
-    console.error("Create vehicule error:", error);
     
     if (error.response?.status === 422) {
       setErrors(error.response.data.errors);
@@ -99,7 +98,7 @@ const createVehicule = async (data) => {
     } else {
       toast.error(error?.response?.data?.error || "Erreur serveur");
     }
-    return { result: false, error };
+
   } finally {
     setLoading(false);
   }
@@ -133,7 +132,6 @@ const updateVehicule = async (id, data) => {
     } else {
       toast.error(error?.response?.data?.error || "Erreur serveur");
     }
-    return { result: false, error };
   } finally {
     setLoading(false);
   }
@@ -153,7 +151,6 @@ const deleteVehicule = async (id) => {
     return { result: true };
   } catch (error) {
     toast.error(error?.response?.data?.error || "Erreur serveur");
-    return { result: false, error };
   } finally {
     setLoading(false);
   }

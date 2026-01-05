@@ -47,8 +47,14 @@ export const AvisProvider = ({ children }) => {
       getMesAvis();
       return { result: true };
     } catch (error) {
-      toast.error(error?.response?.data?.error || "Error creating avis");
-      setErrors(error?.response?.data?.message);
+       
+    if (error.response?.status === 422) {
+      setErrors(error.response.data.errors);
+      toast.error("Veuillez corriger les erreurs");
+    } else {
+      toast.error(error?.response?.data?.error || "Erreur serveur");
+    }
+  
     } finally {
       setLoading(false);
     }
@@ -59,10 +65,17 @@ export const AvisProvider = ({ children }) => {
     setErrors(null);
     try {
       const res = await api.put(`/avis/${id}`, data);
-      setAvis((prev) => prev.map((a) => (a.id === id ? res.data : a)));
       toast.success("Avis mis à jour avec succès");
+      getMesAvis();
+      return { result: true };
     } catch (error) {
-      setErrors(error.response?.data || "Error updating avis");
+       
+    if (error.response?.status === 422) {
+      setErrors(error.response.data.errors);
+      toast.error("Veuillez corriger les erreurs");
+    } else {
+      toast.error(error?.response?.data?.error || "Erreur serveur");
+    }
     } finally {
       setLoading(false);
     }
@@ -73,8 +86,8 @@ export const AvisProvider = ({ children }) => {
     setErrors(null);
     try {
       await api.delete(`/avis/${id}`);
-      setAvis((prev) => prev.map((a) => (a.id === id ? res.data : a)));
       toast.success("Avis supprimé avec succès");
+      getMesAvis()
     } catch (error) {
       setErrors(error.response?.data || "Error deleting avis");
     } finally {

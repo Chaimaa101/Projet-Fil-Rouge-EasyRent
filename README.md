@@ -112,7 +112,6 @@ EasyRent is a modern car rental management system built with Laravel 11 backend 
 Ensure you have the following installed:
 
 ```bash
-# Check installations
 php --version          # PHP >= 8.2
 composer --version     # Composer 2.x
 node --version         # Node >= 18

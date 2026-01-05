@@ -13,7 +13,7 @@ function Pagination({ currentPage, lastPage, onPageChange }) {
           disabled:opacity-50 disabled:cursor-not-allowed
           hover:bg-gray-100 transition"
       >
-        Prev
+        Précédent
       </motion.button>
 
       {Array.from({ length: lastPage }).map((_, index) => {
@@ -43,7 +43,7 @@ function Pagination({ currentPage, lastPage, onPageChange }) {
           disabled:opacity-50 disabled:cursor-not-allowed
           hover:bg-gray-100 transition"
       >
-        Next
+        Suivant
       </motion.button>
     </div>
   );

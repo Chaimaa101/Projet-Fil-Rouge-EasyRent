@@ -61,10 +61,10 @@ export const BrandProvider = ({ children }) => {
       toast.success("Brand created successfully");
       return { result: true };
     } catch (error) {
+  
       if (error.response?.status === 422) {
         setErrors(error.response.data.errors);
       }
-      return { result: false };
     } finally {
       setLoading(false);
     }
@@ -84,7 +84,7 @@ export const BrandProvider = ({ children }) => {
       if (error.response?.status === 422) {
         setErrors(error.response.data.errors);
       }
-      return { result: false };
+
     } finally {
       setLoading(false);
     }

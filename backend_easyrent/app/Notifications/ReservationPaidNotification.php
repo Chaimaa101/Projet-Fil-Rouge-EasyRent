@@ -31,7 +31,6 @@ class ReservationPaidNotification extends Notification
             'reservation_id' => $this->reservation->id,
             'vehicule' => $this->reservation->vehicule->nom,
             'message' => 'Votre réservation a été confirmée !',
-            'invoice_path' => $this->reservation->invoice_path
         ];
     }
 

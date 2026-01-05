@@ -74,6 +74,7 @@ Route::get('/invoices/{reservation}/download', [InvoiceController::class, 'downl
 
 Route::middleware(['auth:sanctum', 'isAdmin'])->group(function () {
     Route::apiResource('users', UserController::class)->except('show');
+    Route::post('brands', [MarqueController::class,'store']); 
     Route::get('brands/{marque}', [MarqueController::class,'show']); 
     Route::delete('brands/{marque}', [MarqueController::class,'destroy']); 
     Route::put('brands/{marque}',[ MarqueController::class, 'update']); 

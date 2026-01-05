@@ -133,7 +133,7 @@ export const AuthProvider = ({ children }) => {
       toast.error(error?.response?.data?.error || "Erreur serveur");
     }
     console.log(error);
-    return { success: false };
+    return { result: false };
   } finally {
     setLoading(false);
   }
@@ -148,14 +148,12 @@ export const AuthProvider = ({ children }) => {
       const { data } = await api.post("/change-password", formData);
       toast.success(data.message || "Mot de passe modifié");
 
-      return { success: true };
+      return { result: true };
     } catch (error) {
-      const message =
-        Object.values(error.response?.data?.errors || {})[0]?.[0] ||
-        "Échec du changement";
+       if (error.response?.status === 422) {
+        setErrors(error.response.data.errors);
+      }
 
-      toast.error(message);
-      return { success: false };
     } finally {
       setLoading(false);
     }
@@ -167,8 +165,15 @@ export const AuthProvider = ({ children }) => {
       setLoading(true);
       await api.post("/contact", dataContact);
       toast.success("Message envoyé avec succès");
-    } catch {
-      toast.error("Erreur lors de l'envoi");
+    } catch(error) {
+      console.log(error)
+     if (error.response?.status === 422) {
+      setErrors(error.response.data.errors);
+      toast.error("Veuillez corriger les erreurs");
+    } else {
+      toast.error(error?.response?.data?.error || "Erreur serveur");
+    }
+
     } finally {
       setLoading(false);
     }
