@@ -1,5 +1,5 @@
 // App.jsx
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
@@ -30,8 +30,11 @@ import AdminRoute from "./components/common/AdminRoute";
 import UserRoute from "./components/common/UserRoute";
 import Navbar from "./components/NavBar";
 import Profile from "./pages/Profile/Profile";
+import { AuthContext } from "./Context/AuthProvider";
 
 function App() {
+  const { user } = useContext(AuthContext);
+
   const [appLoading, setAppLoading] = useState(true);
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -47,12 +50,13 @@ function App() {
   return (
     <BrowserRouter>
       <Toaster position="top-center" />
-        <Navbar />
+      <Navbar />
 
       <Routes>
+        {user && <Route path="/login" element={<Profile />} />}
+        
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
 

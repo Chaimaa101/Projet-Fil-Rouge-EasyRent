@@ -27,6 +27,7 @@ return new class extends Migration
             $table->boolean('isTop')->default(false);
             $table->foreignId('marque_id')->constrained()->onDelete('cascade');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
+
             $table->timestamps();
         });
     }
