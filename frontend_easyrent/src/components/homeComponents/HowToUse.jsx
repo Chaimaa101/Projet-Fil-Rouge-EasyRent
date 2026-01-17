@@ -38,7 +38,7 @@ export default function HowItWorks() {
         Du choix de votre voiture à la prise de la route — notre processus simple et étape par étape rend la réservation rapide, claire et sans stress.
       </p>
       <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16">
-        {/* Image */}
+  
         <div className="flex-1">
           <img
             src="/brabus.jpg"
@@ -47,11 +47,11 @@ export default function HowItWorks() {
           />
         </div>
 
-        {/* Steps */}
+  
         <div className="flex-1 flex flex-col gap-8">
           {steps.map((step) => (
             <div key={step.number} className="flex items-start gap-4">
-              {/* Number Circle */}
+    
               <div className="flex-shrink-0 w-10 h-10 rounded-full bg-teal-600 text-white font-bold flex items-center justify-center text-lg">
                 {step.number}
               </div>

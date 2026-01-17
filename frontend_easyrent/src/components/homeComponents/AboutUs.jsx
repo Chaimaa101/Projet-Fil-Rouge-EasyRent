@@ -3,8 +3,7 @@ import { motion } from "framer-motion";
 export default function AboutUs() {
   return (
     <div className="min-h-screen bg-teal-50 text-gray-800">
-      {/* Header */}
-      <header className="bg-teal-500 text-white py-12 text-center">
+       <header className="bg-teal-500 text-white py-12 text-center">
         <motion.h1
           className="text-4xl font-bold mb-2"
           initial={{ y: -50, opacity: 0 }}
@@ -23,7 +22,7 @@ export default function AboutUs() {
         </motion.p>
       </header>
 
-      {/* Section Notre Mission */}
+
       <section className="py-16 px-6 max-w-5xl mx-auto">
         <motion.h2
           className="text-3xl font-semibold text-teal-600 mb-6"
@@ -45,7 +44,7 @@ export default function AboutUs() {
         </motion.p>
       </section>
 
-      {/* Section Nos Valeurs */}
+
       <section className="py-16 px-6 bg-teal-100">
         <motion.h2
           className="text-3xl font-semibold text-teal-700 mb-6 text-center"

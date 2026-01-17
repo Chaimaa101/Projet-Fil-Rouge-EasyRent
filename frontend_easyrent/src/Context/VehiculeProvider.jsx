@@ -21,30 +21,24 @@ const getVehicules = async (page = 1) => {
   setLoading(true);
   setErrors(null);
   
-  let isMounted = true; // Add this
   
   try {
     const res = await api.get(`/vehicules/?page=${page}`);
-    
-    if (isMounted) { // Check before updating state
+ 
       setVehicules(res.data.data);
       setTotal(res.data.total);
       setPagination({
         currentPage: res.data.current_page,
         lastPage: res.data.last_page,
       });
-    }
+    
   } catch (error) {
-    if (isMounted) {
       setErrors("Erreur lors de la récupération des véhicules");
-    }
   } finally {
-    if (isMounted) {
       setLoading(false);
-    }
+
   }
   
-  return () => { isMounted = false; }; // Cleanup function
 };
   // get top vehicule
   const getTopVehicules = async (page = 1) => {
@@ -110,10 +104,9 @@ const updateVehicule = async (id, data) => {
   
   try {
 
-    if (!data.get('_method')) {
-      data.append("_method", "PUT");
-    }
 
+      data.append("_method", "PUT");
+      
     const res = await api.post(`/vehicules/${id}`, data, {
       headers: { "Content-Type": "multipart/form-data" },
     });

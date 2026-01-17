@@ -107,20 +107,8 @@ public function login(LoginRequest $request)
             'prenom',
             'email'
         ]));
-
-        $details = $user->details()->updateOrCreate(
-            ['user_id' => $user->id],
-            $request->only([
-                'adresse',
-                'CNI',
-                'tel',
-                'genre',
-                'date_naissance',
-                'permi_licence'
-            ])
-        );
-
-        if ($request->hasFile('photo_profil')) {
+        $details = $user->details;
+         if ($request->hasFile('photo_profil')) {
 
             $uploadedPhoto = Cloudinary::upload(
                 $request->file('photo_profil')->getRealPath(),
@@ -136,6 +124,20 @@ public function login(LoginRequest $request)
 
             $details->photo_profil = $uploadedPhoto->getSecurePath();
         }
+
+        $details = $user->details()->updateOrCreate(
+            ['user_id' => $user->id],
+            $request->only([
+                'adresse',
+                'CNI',
+                'tel',
+                'genre',
+                'date_naissance',
+                'permi_licence'
+            ])
+        );
+
+       
     }
 
     public function updatePassword(Request $request)

@@ -16,14 +16,14 @@ const Footer = () => {
     <footer className="bg-teal-400 text-white mt-10 rounded-t-3xl bottom-0">
       <section className="container mx-auto py-10">
         <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 gap-8">
-          {/* Logo & Description */}
+         
           <div className="space-y-4">
             <img src="/logo.png" alt="EasyRent Logo" className="w-36" />
             <p className="text-sm">
            Votre partenaire de confiance pour la location de voitures haut de gamme.
             Découvrez la liberté de la route avec notre service exceptionnel.
             </p>
-            {/* Social icons */}
+
             <div className="flex items-center gap-4 mt-4">
               <a href="#"><FaFacebook className="text-xl hover:text-gray-200" /></a>
               <a href="#"><FaInstagram className="text-xl hover:text-gray-200" /></a>
@@ -67,7 +67,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-white mt-10 pt-4 text-center text-sm">
-          © 2026 EasyRent. All rights reserved.
+          © 2026 EasyRent.
         </div>
       </section>
     </footer>

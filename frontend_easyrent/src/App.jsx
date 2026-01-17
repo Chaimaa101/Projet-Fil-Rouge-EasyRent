@@ -1,5 +1,5 @@
 // App.jsx
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext} from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
@@ -13,7 +13,6 @@ import Dashboard from "./pages/Admin/Dashboard";
 import Vehicules from "./pages/Admin/Vehicules";
 import Reservations from "./pages/Admin/Reservations";
 import Brands from "./pages/Admin/Brands";
-import GlobalLoader from "./components/common/GlobalLoader";
 import Users from "./pages/Admin/Users";
 import Avis from "./pages/Admin/Avis";
 import CheckoutPage from "./pages/Client/CheckoutePage";
@@ -30,33 +29,23 @@ import AdminRoute from "./components/common/AdminRoute";
 import UserRoute from "./components/common/UserRoute";
 import Navbar from "./components/NavBar";
 import Profile from "./pages/Profile/Profile";
-import { AuthContext } from "./Context/AuthProvider";
+import PublicRoute from "./components/common/PublicRoute";
+
 
 function App() {
-  const { user } = useContext(AuthContext);
 
-  const [appLoading, setAppLoading] = useState(true);
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setAppLoading(false);
-    }, 1500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (appLoading) {
-    return <GlobalLoader />;
-  }
   return (
     <BrowserRouter>
       <Toaster position="top-center" />
       <Navbar />
 
       <Routes>
-        {user && <Route path="/login" element={<Profile />} />}
-        
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+     
+       <Route element={<PublicRoute />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Route>
+
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
 
@@ -66,6 +55,7 @@ function App() {
           <Route path="/listVehicule" element={<ListVehicules />} />
           <Route path="/error" element={<ErrorPage />} />
           <Route path="/vehicule/:id" element={<SingleVehicule />} />
+
         </Route>
         <Route element={<UserRoute />}>
           <Route path="/client/myReserv" element={<CarReservationCard />} />

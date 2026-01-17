@@ -1,8 +1,7 @@
 import { useState, useEffect, useContext } from "react";
-import { AuthContext } from '../../Context/AuthProvider';
+import { AuthContext } from "../../Context/AuthProvider";
 import ProfileCard from "./ProfileCard";
 import ProfileForm from "./ProfileForm";
-import { useAnimate } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
@@ -25,32 +24,30 @@ export default function Profile() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (user) {
-      setFormData({
-        nom: user.nom || "",
-        prenom: user.prenom || "",
-        tel: user.details?.tel || "",
-        adresse: user.details?.adresse || "",
-        CNI: user.details?.CNI || "",
-        permi_licence: user.details?.permi_licence || "",
-        genre: user.details?.genre || "",
-        date_naissance: user.details?.date_naissance || "",
-        photo_profil: null,
-      });
-      if (user.details?.photo_profil) setPreviewImage(user.details.photo_profil);
-    }
-  }, [user]);
+  if (!user) return;
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
+  setFormData({
+    nom: user.nom || "",
+    prenom: user.prenom || "",
+    tel: user.details?.tel || "",
+    adresse: user.details?.adresse || "",
+    CNI: user.details?.CNI || "",
+    permi_licence: user.details?.permi_licence || "",
+    genre: user.details?.genre || "",
+    date_naissance: user.details?.date_naissance || "",
+    photo_profil: null,
+  });
+
+  if (user.details?.photo_profil) {
+    setPreviewImage(user.details.photo_profil);
+  }
+}, [user]); 
 
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    setFormData(prev => ({ ...prev, photo_profil: file }));
+    setFormData((prev) => ({ ...prev, photo_profil: file }));
 
     const reader = new FileReader();
     reader.onload = (event) => setPreviewImage(event.target.result);
@@ -58,41 +55,39 @@ export default function Profile() {
   };
 
   const onSubmit = async (data) => {
-  setLoading(true);
-  try {
-    const formDataToSend = new FormData();
+    setLoading(true);
+    try {
+      const formDataToSend = new FormData();
 
-    Object.entries(data).forEach(([key, value]) => {
-      if (value !== undefined && value !== null && value !== "") {
-        formDataToSend.append(key, value);
+      Object.entries(data).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== "") {
+          formDataToSend.append(key, value);
+        }
+      });
+
+      if (data.photo_profil) {
+        formDataToSend.append("photo_profil", data.photo_profil);
       }
-    });
 
-    if (data.photo_profil) {
-      formDataToSend.append("photo_profil", data.photo_profil);
+      await updateProfile(formDataToSend);
+      navigate(-1);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
-
-    await updateProfile(formDataToSend);
-    navigate(-1)
-  } catch (err) {
-    console.error(err);
-  } finally {
-    setLoading(false);
-  }
-};
-
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
       <div className="flex flex-col lg:flex-row gap-6">
         <ProfileCard user={user} previewImage={previewImage} />
-       <ProfileForm
-  onSubmit={onSubmit}
-  handleFileChange={handleFileChange}
-  loading={loading}
-  user={user}
-/>
-
+        <ProfileForm
+          onSubmit={onSubmit}
+          handleFileChange={handleFileChange}
+          loading={loading}
+          user={user}
+        />
       </div>
     </div>
   );

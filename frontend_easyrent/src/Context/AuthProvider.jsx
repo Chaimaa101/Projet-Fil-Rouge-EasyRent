@@ -112,14 +112,12 @@ export const AuthProvider = ({ children }) => {
   setErrors(null);
 
   try {
-    // PUT method via FormData
+
     formData.append("_method", "PUT");
     const { data } = await api.post("/profile", formData);
 
-    // 1️⃣ Update React state
     setUser(data.user);
 
-    // 2️⃣ Update localStorage
     localStorage.setItem("user", JSON.stringify(data.user));
 
     toast.success("Profil mis à jour");

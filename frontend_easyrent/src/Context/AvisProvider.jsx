@@ -1,6 +1,5 @@
 import { createContext, useState } from "react";
 import api from "../Services/api";
-import { getEasingForSegment } from "framer-motion";
 import toast from "react-hot-toast";
 
 export const AvisContext = createContext();
@@ -24,6 +23,8 @@ export const AvisProvider = ({ children }) => {
       setLoading(false);
     }
   };
+
+
   const getMesAvis = async () => {
     setLoading(true);
     setErrors(null);

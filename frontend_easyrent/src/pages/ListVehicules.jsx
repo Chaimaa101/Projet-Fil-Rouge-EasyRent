@@ -189,7 +189,6 @@ const ListVehicules = () => {
           resetFilters={resetFilters}
         />
 
-{loading && <GlobalLoader />}
           <VehiculeList
             filteredVehicules={filteredVehicules.length > 0 ? filteredVehicules : vehicules}
             sortOption={sortOption}

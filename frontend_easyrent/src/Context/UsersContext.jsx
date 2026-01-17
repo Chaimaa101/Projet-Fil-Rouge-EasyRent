@@ -43,10 +43,7 @@ export const UserProvider = ({ children }) => {
     try {
       const res = await api.get(`/users/${id}`);
       console.log(res.data);
-      setPagination({
-  currentPage: res.data.current_page,
-  lastPage: res.data.last_page,
-});
+      setUser(res.data);
     } catch (error) {
       setErrors(error.response?.data || "Error fetching user");
     } finally {

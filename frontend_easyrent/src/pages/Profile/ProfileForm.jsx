@@ -3,14 +3,19 @@ import TextInput from "../../components/formCompenents/TextInput";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 
-export default function ProfileForm({ user,loading, handleFileChange, onSubmit }) {
+export default function ProfileForm({
+  user,
+  loading,
+  handleFileChange,
+  onSubmit,
+}) {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm();
-
+  
   useEffect(() => {
     if (!user) return;
 
@@ -25,6 +30,10 @@ export default function ProfileForm({ user,loading, handleFileChange, onSubmit }
       genre: user.details?.genre ?? "",
       date_naissance: user.details?.date_naissance ?? "",
     });
+
+    if (user.details?.photo_profil) {
+      setPreviewImage(user.details.photo_profil);
+    }
   }, [user, reset]);
 
   return (

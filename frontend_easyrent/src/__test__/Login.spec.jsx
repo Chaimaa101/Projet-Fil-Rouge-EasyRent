@@ -5,7 +5,6 @@ import { MemoryRouter } from "react-router-dom";
 import Login from "../pages/Auth/Login";
 import { AuthContext } from "../Context/AuthProvider";
 
-// Mock navigate
 const mockNavigate = vi.fn();
 vi.mock("react-router-dom", async () => {
   const actual = await vi.importActual("react-router-dom");

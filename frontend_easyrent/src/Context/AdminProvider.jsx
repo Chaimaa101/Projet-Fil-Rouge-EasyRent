@@ -9,7 +9,6 @@ export const AdminProvider = ({ children }) => {
   const [payments, setPayments] = useState([]);
   const [avis, setAvis] = useState([]);
   const [allReservations, setAllReservations] = useState([]);
-  const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null); 
   const [pagination, setPagination] = useState({
@@ -99,7 +98,6 @@ export const AdminProvider = ({ children }) => {
   const values = {
     stats,
     allReservations,
-    vehicles,
     loading,
     errors,
     avis,
